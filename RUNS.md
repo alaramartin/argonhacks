@@ -21,6 +21,7 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 10 | 13:13 | A | **Part 2 diff** (branch `part2`): after.mp4 vs #8's scene | `diff/diff.py --after ../fixtures/after.mp4` · gemini-4-argon, thinking high · survey + up to 3 re-check rounds | 4.8 min | All 3 changes right (laptop stolen, stool moved, trash can moved), **1 false theft** (small white vase) | `out/diff/` (overwritten by #11) |
 | 11 | 13:19 | A | **Part 2 diff, rerun** after adding the evidence-image confirmation (`73679b7`) | same as #10 + confirm step | 3.2 min | Laptop **stolen** (confirmed on its image), stool **moved**, trash can present, **0 false thefts** | `out/diff/` |
 | 12 | 13:25 | A | **Part 2 diff with generic prompt** (removed the room-specific examples "a slid laptop" and "six matching stools") | same as #11 | 4.9 min | Laptop **stolen**, stool **moved**, trash can moved, **0 false thefts**. The confirm step rejected the vase claim | `out/diff/` (prices from #9 copied in with `diff.py --reprice`) |
+| 13 | 13:31 | A | **Part 2 control: no changes** (before.mp4 given as the after video) | `diff/diff.py --after ../fixtures/before.mp4` | 1.5 min | **0 stolen, 0 moved, 38 in place**: no false thefts or false moves on an unchanged room | `out/diff_control/` |
 
 ## Notes per run
 

@@ -21,3 +21,6 @@ out/final2/frames/
 !out/diff/
 out/diff/frames_before/
 out/diff/frames_after/
+!out/diff_control/
+out/diff_control/frames_before/
+out/diff_control/frames_after/
