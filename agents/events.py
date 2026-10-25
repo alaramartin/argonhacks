@@ -10,10 +10,10 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = Path(__file__).resolve().parent.parent
-EVENTS_PATH = Path(os.environ.get("EVENTS_PATH", ROOT / "data" / "events.jsonl"))
+EVENTS_PATH = Path(os.environ.get("POL_EVENTS", ROOT / "out" / "events.jsonl"))  # same file as pipeline/events.py
 
 
-def emit(agent, action, status="ok", payload=None):
+def emit(agent, action, status="info", payload=None):
     ev = {"ts": time.strftime("%H:%M:%S"), "agent": agent, "action": action, "status": status}
     if payload is not None:
         ev["payload"] = payload

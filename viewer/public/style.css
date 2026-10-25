@@ -75,12 +75,13 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 .ev[data-item]:hover { background: #1c212a; }
 .ev .meta { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
 .ev .action { font-size: 13px; line-height: 1.4; overflow-wrap: anywhere; }
-.ev.running .action::after { content: " …"; color: var(--muted); }
-.ev.fix { border-left-color: var(--fix); background: rgba(245, 165, 36, 0.07); }
+/* contracts status enum: ok | info | warn | error. warn = a loop critique, the moment we want judges to see. */
+.ev.warn { border-left-color: var(--fix); background: rgba(245, 165, 36, 0.07); }
 .ev.ok { border-left-color: var(--ok); }
 .ev.error { border-left-color: var(--stolen); }
 .ev.reconstruct .agent { color: #b48cff; }
 .ev.loop .agent { color: var(--fix); }
+.ev.fidelity .agent { color: #5fd3e8; }
 .ev.pricing .agent { color: var(--ok); }
 .ev.diff .agent { color: var(--stolen); }
 .ev.claim .agent { color: var(--present); }

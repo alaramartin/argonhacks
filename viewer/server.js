@@ -7,12 +7,12 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const PUBLIC = path.join(__dirname, "public");
 const PORT = Number(process.env.PORT || 8080);
-const DATA = path.join(ROOT, "data");
+const OUT = path.join(ROOT, "out"); // A's pipeline writes here (pipeline/orchestrator.py --out)
 
 // Real scene from A once it exists, otherwise the fixture.
-const SCENE_PATH = process.env.SCENE_PATH || path.join(DATA, "scene.json");
+const SCENE_PATH = process.env.SCENE_PATH || path.join(OUT, "scene.json");
 const SCENE_FALLBACK = path.join(ROOT, "fixtures", "scene.sample.json");
-const EVENTS_PATH = process.env.EVENTS_PATH || path.join(DATA, "events.jsonl");
+const EVENTS_PATH = process.env.POL_EVENTS || path.join(OUT, "events.jsonl");
 const VIDEO_PATH = process.env.VIDEO_PATH || path.join(ROOT, "fixtures", "before.mp4");
 
 fs.mkdirSync(path.dirname(EVENTS_PATH), { recursive: true });

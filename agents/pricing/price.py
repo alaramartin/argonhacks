@@ -20,10 +20,12 @@ import env  # noqa: E402,F401  (loads .env so GEMINI_API_KEY reaches genai.Clien
 from events import emit  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_SCENE = ROOT / "data" / "scene.json"
+DEFAULT_SCENE = ROOT / "out" / "scene.json"
 FIXTURE_SCENE = ROOT / "fixtures" / "scene.sample.json"
 CACHE_PATH = Path(__file__).resolve().parent / "cache.json"
 AGENT = os.environ.get("PRICING_AGENT", "antigravity-preview-09-2026")
+# Browsing retailers is leaf work, so Flash is the default hands; set PRICING_MODEL=gemini-4-argon to run Argon in the sandbox.
+MODEL = os.environ.get("PRICING_MODEL", "gemini-3.8-flash")
 
 PROMPT = """You are pricing a household item for an insurance proof-of-loss claim.
 Item, as seen on video: "{label}"
@@ -81,17 +83,19 @@ def urls_in(obj):
 class ManagedPricer:
     """One Managed Agents sandbox, reused across items so we only provision once."""
 
-    def __init__(self, agent):
+    def __init__(self, agent, model):
         from google import genai
 
         self.client = genai.Client()
         self.agent = agent
+        self.model = model
         self.environment = "remote"
 
     def price(self, item):
         seen = set()
         stream = self.client.interactions.create(
             agent=self.agent,
+            agent_config={"type": "antigravity", "model": self.model},
             input=PROMPT.format(label=item["label"]),
             environment=self.environment,
             stream=True,
@@ -107,7 +111,7 @@ class ManagedPricer:
                 host = urlparse(url).netloc.removeprefix("www.")
                 if host and host not in seen and "googleapis" not in host and len(seen) < 6:
                     seen.add(host)
-                    emit("pricing", f"Browsing {host} for \"{item['label']}\"", "running", {"item": item["id"], "url": url})
+                    emit("pricing", f"Browsing {host} for \"{item['label']}\"", "info", {"item": item["id"], "url": url})
             text = getattr(event, "output_text", None)
             if text:
                 chunks.append(text)
@@ -136,6 +140,7 @@ def main():
     ap.add_argument("--refresh", action="store_true", help="ignore cache and existing prices")
     ap.add_argument("--cache-only", action="store_true", help="never call the live agent")
     ap.add_argument("--agent", default=AGENT)
+    ap.add_argument("--model", default=MODEL)
     args = ap.parse_args()
 
     if not args.scene.exists():
@@ -148,16 +153,16 @@ def main():
     cache = load_json(CACHE_PATH, {})
     pricer = None
 
-    emit("pricing", f"Pricing {len(todo)} items at like kind and quality", "running")
+    emit("pricing", f"Pricing {len(todo)} items at like kind and quality", "info")
     for n, item in enumerate(todo, 1):
         label, key = item["label"], cache_key(item["label"])
-        emit("pricing", f"Searching price {n}/{len(todo)}: \"{label}\"", "running", {"item": item["id"]})
+        emit("pricing", f"Searching price {n}/{len(todo)}: \"{label}\"", "info", {"item": item["id"]})
 
         result = None if args.refresh else cache.get(key)
         cached = result is not None
         if result is None and not args.cache_only:
             try:
-                pricer = pricer or ManagedPricer(args.agent)
+                pricer = pricer or ManagedPricer(args.agent, args.model)
                 result = pricer.price(item)
                 cache[key] = result
                 write_json(CACHE_PATH, cache)

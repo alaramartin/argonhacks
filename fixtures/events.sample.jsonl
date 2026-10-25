@@ -1,12 +1,12 @@
-{"ts": "10:31:02", "agent": "reconstruct", "action": "Watching before-video (2:14, 720p)", "status": "running"}
+{"ts": "10:31:02", "agent": "reconstruct", "action": "Watching before-video (2:14, 720p)", "status": "info"}
 {"ts": "10:31:40", "agent": "reconstruct", "action": "Indexing item 1/10: gray 2-seat fabric loveseat (back wall)", "status": "ok"}
 {"ts": "10:31:41", "agent": "reconstruct", "action": "Indexing item 2/10: 55\" OLED TV, wall-mounted (front wall)", "status": "ok"}
 {"ts": "10:31:43", "agent": "reconstruct", "action": "Indexing item 3/10: stand mixer, red (kitchen counter)", "status": "ok"}
-{"ts": "10:32:05", "agent": "loop", "action": "Loop iter 1: rendering scene from keyframe @0:42", "status": "running"}
-{"ts": "10:32:14", "agent": "loop", "action": "Loop iter 1: rendered view missing guitar present in real frame @1:32 → adding", "status": "fix", "payload": {"item": "item_011", "problem": "missing", "fix": "add"}}
-{"ts": "10:32:30", "agent": "loop", "action": "Loop iter 2: lamp box 0.6m too far right vs frame @0:35 → moving", "status": "fix", "payload": {"item": "item_004", "problem": "position", "fix": "move"}}
+{"ts": "10:32:05", "agent": "loop", "action": "Loop iter 1: rendering scene from keyframe @0:42", "status": "info"}
+{"ts": "10:32:14", "agent": "loop", "action": "Loop iter 1: rendered view missing guitar present in real frame @1:32 → adding", "status": "warn", "payload": {"target": "item_011", "problem": "missing", "fix": "add"}}
+{"ts": "10:32:30", "agent": "loop", "action": "Loop iter 2: lamp box 0.6m too far right vs frame @0:35 → moving", "status": "warn", "payload": {"target": "item_004", "problem": "position", "fix": "move"}}
 {"ts": "10:32:51", "agent": "loop", "action": "Loop iter 3: no critiques across 3 keyframes — converged", "status": "ok"}
-{"ts": "10:33:02", "agent": "pricing", "action": "Searching price: \"gray 2-seat fabric loveseat\"", "status": "running"}
+{"ts": "10:33:02", "agent": "pricing", "action": "Searching price: \"gray 2-seat fabric loveseat\"", "status": "info"}
 {"ts": "10:33:19", "agent": "pricing", "action": "Searching price: \"gray 2-seat fabric loveseat\" → $380–$520 (3 retailers)", "status": "ok", "payload": {"item": "item_001", "low": 380.0, "high": 520.0}}
-{"ts": "10:33:20", "agent": "pricing", "action": "Searching price: \"stand mixer, red\"", "status": "running"}
+{"ts": "10:33:20", "agent": "pricing", "action": "Searching price: \"stand mixer, red\"", "status": "info"}
 {"ts": "10:33:34", "agent": "pricing", "action": "Searching price: \"stand mixer, red\" → $379–$449 (3 retailers)", "status": "ok", "payload": {"item": "item_003", "low": 379.0, "high": 449.0}}

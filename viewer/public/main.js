@@ -233,14 +233,16 @@ function addEvent(ev) {
   action.className = "action";
   action.textContent = ev.action;
   li.append(meta, action);
-  if (ev.payload?.item) {
-    li.dataset.item = ev.payload.item;
-    li.addEventListener("click", () => openEvidence(ev.payload.item));
+  // Pricing names the item as payload.item; loop critiques/fixes name it as payload.target (may be a wall).
+  const itemId = ev.payload?.item || ev.payload?.target;
+  if (itemId) {
+    li.dataset.item = itemId;
+    li.addEventListener("click", () => openEvidence(itemId));
   }
   const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40;
   feed.append(li);
   if (atBottom) feed.scrollTop = feed.scrollHeight;
-  if (ev.payload?.item) pulse(ev.payload.item);
+  if (itemId) pulse(itemId);
 }
 
 function connect() {
@@ -252,7 +254,7 @@ function connect() {
     let ev;
     try { ev = JSON.parse(m.data); } catch { return; }
     addEvent(ev);
-    if (ev.status !== "running") scheduleReload(); // agents write scene.json, then report
+    if (ev.status !== "info") scheduleReload(); // agents write scene.json, then report ok/warn
   });
 }
 
