@@ -2,6 +2,7 @@
 
 import json
 import math
+import os
 from pathlib import Path
 
 import argon
@@ -13,6 +14,7 @@ from reconstruct import CONVENTIONS
 from render import render, side_by_side
 
 MAX_ITERATIONS = 4
+REPO = Path(__file__).resolve().parent.parent
 
 SYSTEM = f"""\
 You check a 3D room reconstruction against the real video, one viewpoint at a time.
@@ -157,7 +159,8 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
         for c in critiques:
             t = scene.keyframes[c.keyframe].t if 0 <= c.keyframe < len(scene.keyframes) else None
             where = f" @{int(t // 60)}:{t % 60:04.1f}" if t is not None else ""
-            pair = str(pairs[c.keyframe]) if 0 <= c.keyframe < len(pairs) else None
+            # repo-relative, so the viewer can serve it (e.g. out/loop/iter1_kf3.jpg)
+            pair = os.path.relpath(pairs[c.keyframe], REPO) if 0 <= c.keyframe < len(pairs) else None
             emit("loop", f"Loop iter {it}: {c.problem}{where}", "warn",
                  fix=c.fix, target=c.target, keyframe=c.keyframe, pair=pair)
             if c.fix == "add" and c.anchor and c.label and (dup := find_duplicate(scene, c.label, c.anchor)):
