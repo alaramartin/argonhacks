@@ -1,11 +1,16 @@
 """Completeness pass (find what's missing, segment by segment) and precision pass (drop hallucinations)."""
 
 import json
+import math
+import re
 from pathlib import Path
 
 import argon
 import frames
 from events import emit
+from fidelity import _tokens
+from pydantic import BaseModel
+
 from models import Item, MissingItems, Scene, Verdict, VerdictList
 from reconstruct import SYSTEM as RECON_SYSTEM
 
@@ -77,6 +82,73 @@ def verify(items: list[Item], video: str | Path, frame_dir: str | Path) -> dict[
     return out
 
 
+DEDUPE_PROMPT = """\
+An inventory lists the two items below as separate belongings. Their labels are similar and they are close
+together in the room, so they may be the same physical object counted twice. Look at each item's evidence frames.
+Answer per pair: same physical object, or two different objects? Identical items side by side (two matching chairs)
+are different objects. If you can't tell, say different: never merge real belongings away.
+"""
+DEDUPE_RADIUS = 1.0
+
+
+class PairVerdict(BaseModel):
+    pair: int
+    same_object: bool
+    reason: str
+
+
+class PairVerdictList(BaseModel):
+    verdicts: list[PairVerdict]
+
+
+def _object_words(label: str) -> set[str]:
+    """Words naming the object itself, without where it is: "plant on reception counter" → {plant}."""
+    head = re.split(r" on | near | behind | next to | in front of | by | at | under |\(|,", label.lower())[0]
+    return _tokens(head)
+
+
+def _candidate_pairs(scene: Scene) -> list[tuple[Item, Item]]:
+    pairs = []
+    for n, a in enumerate(scene.items):
+        for b in scene.items[n + 1:]:
+            wa, wb = _object_words(a.label), _object_words(b.label)
+            if not wa or not wb or len(wa & wb) / min(len(wa), len(wb)) <= 0.5:
+                continue
+            if math.dist((a.anchor.x, a.anchor.y, a.anchor.z), (b.anchor.x, b.anchor.y, b.anchor.z)) < DEDUPE_RADIUS:
+                pairs.append((a, b))
+    return pairs
+
+
+def dedupe(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
+    scene = scene.model_copy(deep=True)
+    pairs = _candidate_pairs(scene)
+    if not pairs:
+        return scene
+    emit("loop", f"Precision: checking {len(pairs)} pairs of similar items for double counting")
+    frame_dir = Path(out_dir) / "frames"
+    contents: list = [DEDUPE_PROMPT]
+    for n, (a, b) in enumerate(pairs):
+        contents.append(f"Pair {n}: {a.id} '{a.label}' vs {b.id} '{b.label}'.")
+        for item in (a, b):
+            ts = item.seen_at[:2]
+            contents.append(f"{item.id} evidence at " + ", ".join(_fmt(t) for t in ts) + ":")
+            contents += [argon.image_part(frames.extract(video, t, frame_dir)) for t in ts]
+    verdicts = argon.ask(contents, PairVerdictList, thinking="high").verdicts
+    removed = set()
+    for v in verdicts:
+        if not v.same_object or not 0 <= v.pair < len(pairs):
+            continue
+        a, b = pairs[v.pair]
+        if a.id in removed or b.id in removed:
+            continue
+        keep, drop = (a, b) if a.confidence >= b.confidence else (b, a)
+        removed.add(drop.id)
+        emit("loop", f"Precision: {drop.id} {drop.label} is the same object as {keep.id} → removing the double count",
+             "warn", id=drop.id, duplicate_of=keep.id, reason=v.reason)
+    scene.items = [i for i in scene.items if i.id not in removed]
+    return scene
+
+
 def precision(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
     scene = scene.model_copy(deep=True)
     checkable = [i for i in scene.items if i.seen_at]
@@ -88,5 +160,6 @@ def precision(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
             scene.items = [i for i in scene.items if i.id != item.id]
             emit("loop", f"Precision: {item.label} not in any of its frames → removing {item.id}",
                  "warn", id=item.id, reason=v.reason)
+    scene = dedupe(scene, video, out_dir)
     emit("loop", f"Precision: {len(scene.items)} items confirmed", "ok")
     return scene
