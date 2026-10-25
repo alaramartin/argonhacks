@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "event.schema.json",
+  "title": "one line of events.jsonl",
+  "type": "object",
+  "required": ["ts", "agent", "action", "status"],
+  "properties": {
+    "ts": { "type": "string", "pattern": "^\\d{2}:\\d{2}:\\d{2}$" },
+    "agent": { "enum": ["reconstruct", "loop", "fidelity", "pricing", "diff", "claim"] },
+    "action": { "type": "string", "description": "the line the Activity panel shows" },
+    "status": { "enum": ["ok", "info", "warn", "error"] },
+    "payload": { "type": "object" }
+  }
+}
