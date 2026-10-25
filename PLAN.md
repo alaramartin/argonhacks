@@ -147,12 +147,22 @@ Parallelism depends entirely on both of these being frozen early. Commit them to
 /agents        B       pricing/ , claim/ (Part 2)
 /integration   both    thin glue, touched only at integration milestones
 README.md      shared  includes "Built at the hackathon" section (see §10)
+RUNS.md        shared  log of every test run (see rules below)
 PLAN.md
 ```
 
 Rules:
 - You only edit your own dirs. `/contracts`, `/sandbox`, `/integration` changes are announced before committing.
 - **Commit small and often** (at least every ~30 min). Timestamped history is our evidence that everything was built today.
+- **Log every run in `RUNS.md`.** Any pipeline or agent run that produced output, failed, or was aborted gets a row, appended at the bottom (never edit someone else's row; add a note instead). A row has:
+    - **#, time started, who** (A/B)
+    - **What** was run, and on which input (video, scene)
+    - **Command and settings:** model, iterations, sandbox or local, flags like `--skip-passes`
+    - **Duration**
+    - **Result:** fidelity as `found/35 (precision%)` for single pass → final, loop catches, items priced, or the failure
+    - **Output** location (`out/`, `out/<run>/`, cache)
+    - Anything surprising (a wrong fix, a duplicate, a bug found) goes under "Notes per run" with the commit that fixed it. Comparisons still to run go under "Open comparisons".
+- Commit `RUNS.md` together with the run's output, so the row and the files share a timestamp.
 
 ## 7. THE GATE — Part 1 acceptance test
 

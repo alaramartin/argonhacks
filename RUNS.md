@@ -1,0 +1,33 @@
+# RUNS.md — test run log
+
+Every pipeline or agent run that produced output, failed, or taught us something gets a row here. This is our evidence for judges ("how do you know it works?") and for the "Built at the hackathon" section. How to log a run is in PLAN.md §6.
+
+**Video:** `fixtures/before.mp4` is the lobby before-walkthrough (120.8 s, not committed). **Ground truth:** `fixtures/ground_truth.json`, 35 items.
+**Scores:** recall = ground-truth items we found ÷ 35. Precision = our listed items that match the ground truth ÷ items listed. See `pipeline/README.md` for the matching rule.
+
+## Log
+
+| # | Time | Who | What | Command / settings | Duration | Result | Output |
+|---|------|-----|------|--------------------|----------|--------|--------|
+| 1 | 11:58 | B | Pricing, 1 item (sample scene), live | `price.py --only item_003` · flash | 3 min | **Failed** at the last step: agent browsed 4 retailers, but the parser couldn't read the streamed reply | — |
+| 2 | 12:01 | B | Same, after the fix | `price.py --only item_003` · flash | 1.5 min | Stand mixer → $300–$500 (Walmart, Target, Best Buy) | cache |
+| 3 | 12:14 | B | Parallel pricing test, 4 sample items (1 cached) | `price.py --only …` · 3 sandboxes · flash | 4.5 min | 4/4 priced | cache |
+| 4 | 12:28 | A | **Full Part 1 pipeline, local loop** | `orchestrator.py run --video ../fixtures/before.mp4` · gemini-4-argon · 4 loop iterations + completeness + precision | 14.5 min | Single pass **30/35 (97%)** → final **34/35 (87%)**, 39 items, 17 loop catches | `out/` (published) |
+| 5 | 12:43 | B | Rerun of #4 on B's machine (integration check) | same as #4 | — | **Aborted**: no API key found (pipeline reads `pipeline/.env`, agents read root `.env`); stopped the retry because it writes over the published `out/` | — |
+| 6 | 12:44 | A | Loop in a Managed Agents sandbox | `run --sandbox` · gemini-4-argon in Antigravity agent · 1 loop iteration, reuses #4's single pass, no passes | 5.5 min | Single pass 30/35 (97%) → **31/35 (94%)**, 33 items, 6 critiques | `out/sandbox_demo/` |
+| 7 | 12:48 | B | **Price every item in #4's scene** | `price.py --sandboxes 8` · flash | 11 min | **39/39 priced**, all with sources, 0 failures. Total $7,426–$11,971 | `out/scene.json`, cache |
+
+## Notes per run
+
+**#1.** The final answer arrives in fragments across streamed events. Fixed by fetching the finished interaction with `interactions.get` once the stream ends and reading `output_text` (commit `9524443`).
+
+**#4.** Loop iteration 3 removed `item_008` (iMac on the reception desk), judging it "not present" from keyframe 0 at 0:03, where the desk is too far away to make it out (`out/loop/iter3_kf0.jpg`). The completeness pass re-added it as `item_036` from 0:19. Fixed afterwards in `58b40cd` (the loop checks an item's evidence frames before removing it). The 5 extras include a duplicate check-in phone (`item_034`, `item_035`); the duplicate check (`dd01544`) landed after this run. Render camera alignment with real frames is loose on some keyframes, so pick a well-aligned pair for the demo's loop-catch moment.
+
+**#6.** Not comparable to #4: one loop iteration and no completeness/precision passes. For a fair local-vs-sandbox comparison, run the local loop with `--skip-passes --max-iter 1` from the same single pass.
+
+**#7.** 6 items have ranges wider than 2.5× because the agent mixed models or tiers, e.g. MacBook $700–$1,837 and longboard $144–$486. Candidate for the deferred "review" flag. Re-running is instant from `agents/pricing/cache.json` whenever A republishes the scene.
+
+## Open comparisons
+
+- Local loop vs sandbox loop, same single pass, same iteration count (see #6).
+- Rerun #4 with the evidence-frame and duplicate fixes to see whether precision recovers above 87%.
