@@ -18,7 +18,7 @@ const VIDEO_PATH = process.env.VIDEO_PATH || path.join(ROOT, "fixtures", "before
 fs.mkdirSync(path.dirname(EVENTS_PATH), { recursive: true });
 if (!fs.existsSync(EVENTS_PATH)) fs.writeFileSync(EVENTS_PATH, "");
 
-const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".mp4": "video/mp4" };
+const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".mp4": "video/mp4", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png" };
 
 function scenePath() {
   return fs.existsSync(SCENE_PATH) ? SCENE_PATH : SCENE_FALLBACK;
@@ -82,6 +82,13 @@ http.createServer((req, res) => {
     return fs.createReadStream(scenePath()).pipe(res);
   }
   if (url.pathname === "/video") return serveVideo(req, res);
+  // Loop evidence images (REAL | RENDER composites) the pipeline writes under out/, e.g. /out/loop/iter1_kf3.jpg
+  if (url.pathname.startsWith("/out/")) {
+    const file = path.join(OUT, path.normalize(decodeURIComponent(url.pathname.slice(5))));
+    if (!file.startsWith(OUT + path.sep) || !fs.existsSync(file)) { res.writeHead(404); return res.end("not found"); }
+    res.writeHead(200, { "Content-Type": MIME[path.extname(file).toLowerCase()] || "application/octet-stream" });
+    return fs.createReadStream(file).pipe(res);
+  }
 
   const file = path.join(PUBLIC, url.pathname === "/" ? "index.html" : path.normalize(url.pathname));
   if (!file.startsWith(PUBLIC) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end("not found"); }

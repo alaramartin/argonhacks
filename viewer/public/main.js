@@ -233,6 +233,18 @@ function addEvent(ev) {
   action.className = "action";
   action.textContent = ev.action;
   li.append(meta, action);
+  // Loop critiques carry payload.pair: a repo-relative REAL | RENDER composite (backslashes if written on Windows).
+  const pair = ev.payload?.pair && "/" + ev.payload.pair.replace(/\\/g, "/");
+  if (pair) {
+    const img = document.createElement("img");
+    img.className = "pair";
+    img.src = pair;
+    img.alt = "Real frame vs rendered scene";
+    img.addEventListener("click", (e) => { e.stopPropagation(); showCatch(ev, pair); });
+    img.addEventListener("error", () => img.remove());
+    li.append(img);
+    if (ev.agent === "loop" && ev.status === "warn") showCatch(ev, pair);
+  }
   // Pricing names the item as payload.item; loop critiques/fixes name it as payload.target (may be a wall).
   const itemId = ev.payload?.item || ev.payload?.target;
   if (itemId) {
@@ -256,6 +268,17 @@ function connect() {
     addEvent(ev);
     if (ev.status !== "info") scheduleReload(); // agents write scene.json, then report ok/warn
   });
+}
+
+// ---------- loop catch card: the real frame next to our render, over the 3D scene ----------
+
+const catchCard = document.getElementById("catch");
+catchCard.querySelector("button").addEventListener("click", () => { catchCard.hidden = true; });
+
+function showCatch(ev, src) {
+  catchCard.querySelector("img").src = src;
+  catchCard.querySelector("p").textContent = ev.action;
+  catchCard.hidden = false;
 }
 
 // ---------- evidence ----------
