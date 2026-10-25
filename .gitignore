@@ -13,3 +13,6 @@ out/*
 .argon_uploads.json
 *.mp4
 *.mov
+!out/sandbox_demo/
+out/sandbox_demo/frames/
+out/sandbox_demo/.sandbox_env.json

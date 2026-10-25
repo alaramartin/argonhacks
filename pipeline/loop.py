@@ -76,13 +76,19 @@ def _scene_for_prompt(scene: Scene) -> str:
 
 DUPLICATE_PAD = 1.2
 DUPLICATE_MIN_DIST = 0.25
+DUPLICATE_SIZE_RATIO = 2.5
 
 
-def find_duplicate(scene: Scene, label: str, anchor) -> Item | None:
-    """An existing item that is probably the same object: shares a label word and the new center falls inside its
-    (slightly padded) box. Identical items side by side don't overlap, so they're kept."""
+def find_duplicate(scene: Scene, label: str, anchor, size: Size | None = None) -> Item | None:
+    """An existing item that is probably the same object: similar label, similar size, and the new center falls
+    inside its (slightly padded) box. Identical items side by side don't overlap, and a small vase split out of a
+    "flowers in a vase" entry is much smaller than it, so both are kept."""
     words = _tokens(label)
     for item in scene.items:
+        if size is not None:
+            big, small = sorted([max(size.w, size.h, size.d), max(item.size.w, item.size.h, item.size.d)], reverse=True)
+            if small <= 0 or big / small > DUPLICATE_SIZE_RATIO:
+                continue
         other = _tokens(item.label)
         # "snack basket" vs "snack bar sign" share a word but aren't the same kind of thing
         if not words or not other or len(words & other) / min(len(words), len(other)) <= 0.5:
@@ -214,7 +220,7 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
             pair = os.path.relpath(pairs[c.keyframe], REPO) if 0 <= c.keyframe < len(pairs) else None
             emit("loop", f"Loop iter {it}: {c.problem}{where}", "warn",
                  fix=c.fix, target=c.target, keyframe=c.keyframe, pair=pair)
-            if c.fix == "add" and c.anchor and c.label and (dup := find_duplicate(scene, c.label, c.anchor)):
+            if c.fix == "add" and c.anchor and c.label and (dup := find_duplicate(scene, c.label, c.anchor, c.size)):
                 emit("loop", f"Loop iter {it}: already have {dup.id} {dup.label} there, not adding a duplicate", "info",
                      duplicate_of=dup.id)
                 continue

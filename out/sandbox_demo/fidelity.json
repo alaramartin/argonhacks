@@ -1,0 +1,493 @@
+{
+  "single_pass": {
+    "matches": [
+      {
+        "item": "item_015",
+        "item_label": "fiddle leaf fig plant in round gray planter",
+        "gt": "g17",
+        "gt_label": "fiddle-leaf fig in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_025",
+        "item_label": "fiddle leaf fig plant in round gray planter",
+        "gt": "g18",
+        "gt_label": "fiddle-leaf fig in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_001",
+        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
+        "gt": "g01",
+        "gt_label": "hand sanitizer dispenser on stand",
+        "score": 1.0
+      },
+      {
+        "item": "item_010",
+        "item_label": "black compact folding electric bike",
+        "gt": "g11",
+        "gt_label": "folding electric bike",
+        "score": 1.0
+      },
+      {
+        "item": "item_016",
+        "item_label": "black upright electric kick scooter near corner plant",
+        "gt": "g19",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_017",
+        "item_label": "black folded electric kick scooter on floor",
+        "gt": "g20",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_018",
+        "item_label": "black upright electric kick scooter in middle of seating area",
+        "gt": "g21",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_021",
+        "item_label": "round light-wood pedestal coffee table",
+        "gt": "g24",
+        "gt_label": "round coffee table",
+        "score": 1.0
+      },
+      {
+        "item": "item_023",
+        "item_label": "large white hardcover art book (Annie Leibovitz Wonderland) on coffee table",
+        "gt": "g26",
+        "gt_label": "coffee table book",
+        "score": 1.0
+      },
+      {
+        "item": "item_002",
+        "item_label": "white plastic rectangular trash can",
+        "gt": "g02",
+        "gt_label": "trash can",
+        "score": 1.0
+      },
+      {
+        "item": "item_005",
+        "item_label": "gray mesh ergonomic office chair",
+        "gt": "g06",
+        "gt_label": "office chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_008",
+        "item_label": "silver Apple iMac desktop computer on reception desk",
+        "gt": "g08",
+        "gt_label": "iMac",
+        "score": 1.0
+      },
+      {
+        "item": "item_009",
+        "item_label": "white floor-standing tablet kiosk stand with tablet",
+        "gt": "g10",
+        "gt_label": "tablet kiosk stand",
+        "score": 1.0
+      },
+      {
+        "item": "item_012",
+        "item_label": "black road bicycle leaning against wall",
+        "gt": "g13",
+        "gt_label": "road bicycle",
+        "score": 1.0
+      },
+      {
+        "item": "item_013",
+        "item_label": "black electric longboard skateboard leaning against wall",
+        "gt": "g14",
+        "gt_label": "electric longboard",
+        "score": 1.0
+      },
+      {
+        "item": "item_014",
+        "item_label": "tall decorative light-wood ladder leaning against wall",
+        "gt": "g15",
+        "gt_label": "decorative ladder",
+        "score": 1.0
+      },
+      {
+        "item": "item_024",
+        "item_label": "floral arrangement in round cream ceramic vase with two small decorative vases on coffee table",
+        "gt": "g27",
+        "gt_label": "flower arrangement in bowl vase",
+        "score": 1.0
+      },
+      {
+        "item": "item_026",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g30",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_027",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g31",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_028",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g32",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_029",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g33",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_030",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g34",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_031",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g35",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_003",
+        "item_label": "tall green dracaena plant in round gray planter",
+        "gt": "g03",
+        "gt_label": "dracaena tree in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_004",
+        "item_label": "small pink and green aglaonema plant in round gray pot on reception counter",
+        "gt": "g04",
+        "gt_label": "small potted plant on counter",
+        "score": 1.0
+      },
+      {
+        "item": "item_006",
+        "item_label": "gray mesh ergonomic office chair",
+        "gt": "g22",
+        "gt_label": "lounge chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_007",
+        "item_label": "laptop with stickers on reception desk",
+        "gt": "g07",
+        "gt_label": "sticker-covered laptop",
+        "score": 1.0
+      },
+      {
+        "item": "item_011",
+        "item_label": "white bicycle helmet hanging on handlebar",
+        "gt": "g12",
+        "gt_label": "bike helmet",
+        "score": 1.0
+      },
+      {
+        "item": "item_019",
+        "item_label": "cream round upholstered lounge armchair",
+        "gt": "g23",
+        "gt_label": "lounge chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_022",
+        "item_label": "space gray Apple MacBook laptop on coffee table",
+        "gt": "g25",
+        "gt_label": "laptop",
+        "score": 1.0
+      }
+    ],
+    "missed": [
+      {
+        "gt": "g05",
+        "label": "QR code stand"
+      },
+      {
+        "gt": "g09",
+        "label": "black tablet or monitor"
+      },
+      {
+        "gt": "g16",
+        "label": "driftwood sculpture"
+      },
+      {
+        "gt": "g28",
+        "label": "copper vase"
+      },
+      {
+        "gt": "g29",
+        "label": "white ceramic vase"
+      }
+    ],
+    "extra": [
+      {
+        "item": "item_020",
+        "label": "cream round upholstered lounge armchair"
+      }
+    ]
+  },
+  "after_loop": {
+    "matches": [
+      {
+        "item": "item_015",
+        "item_label": "fiddle leaf fig plant in round gray planter",
+        "gt": "g17",
+        "gt_label": "fiddle-leaf fig in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_025",
+        "item_label": "fiddle leaf fig plant in round gray planter",
+        "gt": "g18",
+        "gt_label": "fiddle-leaf fig in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_001",
+        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
+        "gt": "g01",
+        "gt_label": "hand sanitizer dispenser on stand",
+        "score": 1.0
+      },
+      {
+        "item": "item_010",
+        "item_label": "black compact folding electric bike",
+        "gt": "g11",
+        "gt_label": "folding electric bike",
+        "score": 1.0
+      },
+      {
+        "item": "item_016",
+        "item_label": "black upright electric kick scooter near corner plant",
+        "gt": "g19",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_017",
+        "item_label": "black folded electric kick scooter on floor",
+        "gt": "g20",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_018",
+        "item_label": "black upright electric kick scooter in middle of seating area",
+        "gt": "g21",
+        "gt_label": "electric kick scooter",
+        "score": 1.0
+      },
+      {
+        "item": "item_021",
+        "item_label": "round light-wood pedestal coffee table",
+        "gt": "g24",
+        "gt_label": "round coffee table",
+        "score": 1.0
+      },
+      {
+        "item": "item_023",
+        "item_label": "large white hardcover art book (Annie Leibovitz Wonderland) on coffee table",
+        "gt": "g26",
+        "gt_label": "coffee table book",
+        "score": 1.0
+      },
+      {
+        "item": "item_002",
+        "item_label": "white plastic rectangular trash can",
+        "gt": "g02",
+        "gt_label": "trash can",
+        "score": 1.0
+      },
+      {
+        "item": "item_005",
+        "item_label": "gray mesh ergonomic office chair",
+        "gt": "g06",
+        "gt_label": "office chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_008",
+        "item_label": "silver Apple iMac desktop computer on reception desk",
+        "gt": "g08",
+        "gt_label": "iMac",
+        "score": 1.0
+      },
+      {
+        "item": "item_009",
+        "item_label": "white floor-standing tablet kiosk stand with tablet",
+        "gt": "g10",
+        "gt_label": "tablet kiosk stand",
+        "score": 1.0
+      },
+      {
+        "item": "item_012",
+        "item_label": "black road bicycle leaning against wall",
+        "gt": "g13",
+        "gt_label": "road bicycle",
+        "score": 1.0
+      },
+      {
+        "item": "item_013",
+        "item_label": "black electric longboard skateboard leaning against wall",
+        "gt": "g14",
+        "gt_label": "electric longboard",
+        "score": 1.0
+      },
+      {
+        "item": "item_014",
+        "item_label": "tall decorative light-wood ladder leaning against wall",
+        "gt": "g15",
+        "gt_label": "decorative ladder",
+        "score": 1.0
+      },
+      {
+        "item": "item_024",
+        "item_label": "floral arrangement in round cream ceramic vase on coffee table",
+        "gt": "g27",
+        "gt_label": "flower arrangement in bowl vase",
+        "score": 1.0
+      },
+      {
+        "item": "item_026",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g30",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_027",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g31",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_028",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g32",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_029",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g33",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_030",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g34",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_031",
+        "item_label": "light-wood 4-legged counter stool",
+        "gt": "g35",
+        "gt_label": "counter stool",
+        "score": 1.0
+      },
+      {
+        "item": "item_003",
+        "item_label": "tall green dracaena plant in round gray planter",
+        "gt": "g03",
+        "gt_label": "dracaena tree in planter",
+        "score": 1.0
+      },
+      {
+        "item": "item_004",
+        "item_label": "small pink and green aglaonema plant in round gray pot on reception counter",
+        "gt": "g04",
+        "gt_label": "small potted plant on counter",
+        "score": 1.0
+      },
+      {
+        "item": "item_006",
+        "item_label": "gray mesh ergonomic office chair",
+        "gt": "g22",
+        "gt_label": "lounge chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_007",
+        "item_label": "laptop with stickers on reception desk",
+        "gt": "g07",
+        "gt_label": "sticker-covered laptop",
+        "score": 1.0
+      },
+      {
+        "item": "item_011",
+        "item_label": "white bicycle helmet hanging on handlebar",
+        "gt": "g12",
+        "gt_label": "bike helmet",
+        "score": 1.0
+      },
+      {
+        "item": "item_019",
+        "item_label": "cream round upholstered lounge armchair",
+        "gt": "g23",
+        "gt_label": "lounge chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_022",
+        "item_label": "space gray Apple MacBook laptop on coffee table",
+        "gt": "g25",
+        "gt_label": "laptop",
+        "score": 1.0
+      },
+      {
+        "item": "item_033",
+        "item_label": "gold tablet on desktop stand on reception counter",
+        "gt": "g09",
+        "gt_label": "black tablet or monitor",
+        "score": 1.0
+      }
+    ],
+    "missed": [
+      {
+        "gt": "g05",
+        "label": "QR code stand"
+      },
+      {
+        "gt": "g16",
+        "label": "driftwood sculpture"
+      },
+      {
+        "gt": "g28",
+        "label": "copper vase"
+      },
+      {
+        "gt": "g29",
+        "label": "white ceramic vase"
+      }
+    ],
+    "extra": [
+      {
+        "item": "item_020",
+        "label": "cream round upholstered lounge armchair"
+      },
+      {
+        "item": "item_032",
+        "label": "tan countertop card reader on reception desk"
+      }
+    ]
+  }
+}
