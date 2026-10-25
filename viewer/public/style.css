@@ -20,7 +20,8 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 /* ---------- 3D stage (the centerpiece) ---------- */
 #stage { position: relative; min-width: 0; }
 #scene { position: absolute; inset: 0; }
-#scene canvas { display: block; }
+#scene canvas { display: block; touch-action: none; cursor: grab; }
+#scene canvas:active { cursor: grabbing; }
 .labels { position: absolute; inset: 0; pointer-events: none; }
 
 #title { position: absolute; top: 20px; left: 24px; pointer-events: none; }

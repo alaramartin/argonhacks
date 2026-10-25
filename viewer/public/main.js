@@ -24,7 +24,8 @@ sun.position.set(4, 8, 6);
 scene.add(sun);
 
 const camera = new THREE.PerspectiveCamera(50, 1, 0.05, 100);
-const controls = new OrbitControls(camera, labels.domElement);
+// The label overlay is pointer-events:none (only tags take clicks), so drags must land on the canvas.
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
 let world = new THREE.Group();
