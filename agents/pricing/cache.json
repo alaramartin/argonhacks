@@ -882,5 +882,681 @@
         "url": "https://www.target.com/p/linsay-10-1-octa-core-256gb-storage-android-15-tablet-dual-camera-android-with-golden-keyboard/-/A-1003920849"
       }
     ]
+  },
+  "silver apple imac desktop computer": {
+    "low": 1455.99,
+    "high": 1499.0,
+    "currency": "USD",
+    "query": "silver Apple iMac desktop computer",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Apple iMac 24\" All-In-One Computer, Apple M4, 16GB RAM, 256GB SSD, MacOS Sequoia, MWUC3LL/A",
+        "price": 1455.99,
+        "url": "https://www.walmart.com/ip/Apple-24-inch-iMac-with-Retina-4-5K-display-M4-chip-w-8C-CPU-8C-GPU-256GB-SSD-16GB-Memory-Silver-MWUC3LL-A-Fall-2024/13702717994"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "Apple - iMac 24-inch All-in-One - M4 chip - Built for Apple Intelligence - 8 Core CPU - 8 Core GPU - 16GB Memory - 256GB SSD - Silver",
+        "price": 1499.0,
+        "url": "https://www.bestbuy.com/site/apple-imac-24-inch-all-in-one-m4-chip-built-for-apple-intelligence-8-core-cpu-8-core-gpu-16gb-memory-256gb-ssd-silver/6467298.p?skuId=6467298"
+      },
+      {
+        "retailer": "B&H Photo Video",
+        "title": "Apple 24\" iMac with M4 Chip (Silver)",
+        "price": 1499.0,
+        "url": "https://www.bhphotovideo.com/c/product/1858924-REG/apple_mwuc3ll_a_imac_8_core_16gb_256gb_silver_24.html"
+      }
+    ]
+  },
+  "sticker-covered laptop on reception counter": {
+    "low": 398.99,
+    "high": 567.99,
+    "currency": "USD",
+    "query": "15.6 laptop",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "HP 15.6\" HD Notebook Intel N100 4GB RAM 128GB UFS Spring Iridescence + HP Wireless Mouse + One Year M365 Subscription",
+        "price": 398.99,
+        "url": "https://www.target.com/p/hp-15-6-hd-notebook-intel-n100-4gb-ram-128gb-ufs-spring-iridescence-hp-wireless-mouse/-/A-1010391837"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Acer Aspire Go 15.6\" FHD IPS Touch Screen Laptop, AMD Ryzen 5-7520U, 8GB RAM, 512GB SSD, Pure Silver",
+        "price": 467.0,
+        "url": "https://www.walmart.com/ip/Acer-Aspire-Go-15-6-Touch-Screen-Windows-Laptop-AMD-Ryzen-5-7520U-8GB-RAM-512GB-SSD-Pure-Silver/16462216617"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "Dell - Inspiron - 15.6\" 2K Touchscreen Laptop - Intel Core i5 1334U 2023 - 8GB Memory - 512GB Storage - Carbon Black",
+        "price": 567.99,
+        "url": "https://www.bestbuy.com/site/dell-inspiron-15-6-2k-touchscreen-laptop-intel-core-i5-1334u-2023-8gb-memory-512gb-storage-carbon-black/6610570.p?skuId=6610570"
+      }
+    ]
+  },
+  "white rectangular plastic trash can": {
+    "low": 15.0,
+    "high": 78.0,
+    "currency": "USD",
+    "query": "white rectangular plastic trash can",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "11gal Slim Step Trash Can - Brightroom™: White Pedal-Operated Lid, Textured Indoor Kitchen Trashcan, 11 Gallon Capacity",
+        "price": 15.0,
+        "url": "https://www.target.com/p/11gal-slim-step-trash-can-brightroom-8482/-/A-87299521"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "10 Gallon / 40 Quart White Plastic Rectangular Trash Can, Slim Space-Saving Wastebasket for Kitchen, Bathroom, Office or Garage - No Lid",
+        "price": 26.99,
+        "url": "https://www.walmart.com/ip/10-Gallon-40-Quart-White-Plastic-Rectangular-Trash-Can-Slim-Space-Saving-Wastebasket-for-Kitchen-Bathroom-Office-or-Garage-No-Lid/20033519844"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "9 Gal. White Rectangular Plastic Trash Can",
+        "price": 78.0,
+        "url": "https://www.homedepot.com/p/9-Gal-White-Rectangular-Plastic-Trash-Can-YY044UP39U/327676848"
+      }
+    ]
+  },
+  "tall green dracaena floor plant in gray cylindrical planter": {
+    "low": 143.98,
+    "high": 246.99,
+    "currency": "USD",
+    "query": "tall dracaena plant in gray planter",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Artificial Dracaena Tree with Gray Tall Planter 5 Feet",
+        "price": 143.98,
+        "url": "https://www.walmart.com/ip/Artificial-Dracaena-Tree-with-Gray-Tall-Planter-5-Feet/20930065928"
+      },
+      {
+        "retailer": "Wayfair",
+        "title": "Cornstalk Dracaena Artificial Plant in Slate Planter",
+        "price": 226.99,
+        "url": "https://www.wayfair.com/home/pdp/wade-logan-5025-artificial-dracaena-plant-in-planter-ornl5024.html"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "6 ft. Artificial Dracaena Tree in Gray Tall Planter",
+        "price": 246.99,
+        "url": "https://www.homedepot.com/p/6-ft-Artificial-Dracaena-Tree-in-Gray-Tall-Planter-Z0DHQKWFLR/339298974"
+      }
+    ]
+  },
+  "gray ergonomic office chair": {
+    "low": 178.99,
+    "high": 363.99,
+    "currency": "USD",
+    "query": "gray ergonomic office chair",
+    "sources": [
+      {
+        "retailer": "Wayfair",
+        "title": "Upper Square Casden Ergonomic Mesh Task Chair",
+        "price": 178.99,
+        "url": "https://www.wayfair.com/furniture/pdp/upper-square-casden-ergonomic-mesh-task-chair-w000700528.html"
+      },
+      {
+        "retailer": "Staples",
+        "title": "Staples Ergonomic Task Chair, Mesh, Ergonomic, Lumbar Support, Swivel, Gray",
+        "price": 299.99,
+        "url": "https://www.staples.com/union-scale-flexfit-hyken-ergonomic-mesh-swivel-task-chair-charcoal-gray-un59464/product_24328579"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "La-Z-Boy - Noelin Ergonomic Fabric Swivel Task Chair, (52703-GRY) - Gray",
+        "price": 363.99,
+        "url": "https://www.bestbuy.com/product/la-z-boy-noelin-ergonomic-fabric-swivel-task-chair-52703-gry-gray/JJ85S45QK6"
+      }
+    ]
+  },
+  "black road bicycle": {
+    "low": 209.49,
+    "high": 375.36,
+    "currency": "USD",
+    "query": "black road bike",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "700C Road Bike for Adult Men and Women, 16 Speed Road Bicycle, Lightweight Aluminum Frame, Dual Disc Brake, Racing Bike, Adult City Commuter Bicycle, Black",
+        "price": 209.49,
+        "url": "https://www.walmart.com/ip/700C-Road-Bike-Adult-Men-Women-16-Speed-Road-Bicycle-Lightweight-Aluminum-Frame-Dual-Disc-Brake-Racing-Bike-Adult-City-Commuter-Bicycle-Black/20580755451"
+      },
+      {
+        "retailer": "Target",
+        "title": "HILAND Road Bike, Black, L",
+        "price": 329.99,
+        "url": "https://www.target.com/p/hiland-road-bike-black-l/-/A-1001819385"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "Tenleaf 27.5 in. Black Adult Shimano 16 Speed L-TWOO Disc Brakes Aluminum Alloy Frame Road City Bicycle",
+        "price": 375.36,
+        "url": "https://www.homedepot.com/p/Tenleaf-27-5-in-Black-Adult-Shimano-16-Speed-L-TWOO-Disc-Brakes-Aluminum-Alloy-Frame-Road-City-Bicycle-FCBF13-233/331443320"
+      }
+    ]
+  },
+  "black purell automatic hand sanitizer dispenser on floor stand": {
+    "low": 116.06,
+    "high": 177.79,
+    "currency": "USD",
+    "query": "black Purell automatic hand sanitizer dispenser on floor stand",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Purell CS6 Touch-Free Dispenser Floor Stand, For Hand Sanitizer, Graphite, 7416-DS",
+        "price": 116.06,
+        "url": "https://www.walmart.com/ip/Purell-CS6-Touch-Free-Dispenser-Floor-Stand-For-Hand-Sanitizer-Graphite-7416-DS/124210324"
+      },
+      {
+        "retailer": "Office Depot",
+        "title": "Purell CS6 Touch-Free Dispenser Floor Stand, For Hand Sanitizer, Graphite, 7416-DS",
+        "price": 120.69,
+        "url": "https://www.officedepot.com/a/products/8491242/Purell-CS6-Touch-Free-Dispenser-Floor/"
+      },
+      {
+        "retailer": "Staples",
+        "title": "PURELL ES6 Automatic Floor Stand Hand Sanitizer Dispenser, Graphite/Black (7216-DS)",
+        "price": 177.79,
+        "url": "https://www.staples.com/purell-es-6-automatic-floor-stand-hand-sanitizer-dispenser-graphite-black-7216-ds/product_24475192"
+      }
+    ]
+  },
+  "small leafy plant in gray cylindrical pot on white faux fur mat": {
+    "low": 14.97,
+    "high": 19.34,
+    "currency": "USD",
+    "query": "artificial leafy plant in gray pot",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Mainstays Indoor Artificial Trailing Plant in Cement Pot, 6.25 in H x 9.5 in W x 9.5 in D",
+        "price": 14.97,
+        "url": "https://www.walmart.com/ip/6-25-in-H-x-9-5-in-W-x-9-5-in-D-Mainstays-Faux-Greenery-in-Cement-Pot-6-125-6-125-4-75/17462756367"
+      },
+      {
+        "retailer": "Target",
+        "title": "Northlight Real Touch Artificial Thyme Plant in Gray Ceramic Pot - 15\"",
+        "price": 17.99,
+        "url": "https://www.target.com/p/northlight-real-touch-artificial-thyme-plant-in-gray-ceramic-pot-15/-/A-89795145"
+      },
+      {
+        "retailer": "Home Depot",
+        "title": "Oumilen 5 in. Green 3-Pack Small Artificial Plant in Gray Planters - Lifelike Indoor Greenery for Desk Shelf or Home Decor",
+        "price": 19.34,
+        "url": "https://www.homedepot.com/p/Oumilen-5-in-Green-3-Pack-Small-Artificial-Plant-in-Gray-Planters-Lifelike-Indoor-Greenery-for-Desk-Shelf-or-Home-Decor-HD-937-WELA/335573792"
+      }
+    ]
+  },
+  "black electric longboard skateboard": {
+    "low": 144.0,
+    "high": 485.99,
+    "currency": "USD",
+    "query": "black electric longboard skateboard",
+    "sources": [
+      {
+        "retailer": "The Home Depot",
+        "title": "VEVOR Electric Skateboard with Remote 9.3 Mph Top Speed and 5 Miles Maximum Range Skateboard Longboard",
+        "price": 144.0,
+        "url": "https://www.homedepot.com/p/VEVOR-Electric-Skateboard-with-Remote-9-3-Mph-Top-Speed-and-5-Miles-Maximum-Range-Skateboard-Longboard-DDYB20002500TT92QV1/328541771"
+      },
+      {
+        "retailer": "Amazon",
+        "title": "Backfire G2 Black/ G2Z Electric Skateboard Longboard, Suitable for Adults & Teens Beginners, 5.2Ah/187Wh Battery, 11 to 12.5 Miles Range, 24 mph top Speed, 180 Days Warranty",
+        "price": 379.0,
+        "url": "https://www.amazon.com/dp/B08KSM367Z"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Wowgo 3E Electric Longboard Portable lightweight E Skateboard with Dual Motors Belt, Black, 330ib",
+        "price": 485.99,
+        "url": "https://www.walmart.com/ip/Wowgo-3E-Electric-Longboard-Portable-lightweight-E-Skateboard-with-Dual-Motors-Belt-Black-330ib/5375634078"
+      }
+    ]
+  },
+  "white and black bicycle helmet": {
+    "low": 34.99,
+    "high": 49.99,
+    "currency": "USD",
+    "query": "white and black bicycle helmet",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Bell Peak Adult Bike Helmet L - Black/White",
+        "price": 34.99,
+        "url": "https://www.target.com/p/bell-peak-adult-bike-helmet-l-black-white/-/A-95218895"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Bell Lynk White Black and Bike Helmet with MIPS Technology",
+        "price": 39.96,
+        "url": "https://www.walmart.com/ip/BK-HLMT-WMNS-LYNK-WHT-BLK-MIPS-3LR/17502106331"
+      },
+      {
+        "retailer": "DICK'S Sporting Goods",
+        "title": "Giro Adult Revel Bike Helmet",
+        "price": 49.99,
+        "url": "https://www.dickssportinggoods.com/p/giro-adult-revel-bike-helmet-16girarvlxxxxxxxxdlt/16girarvlxxxxxxxxdlt"
+      }
+    ]
+  },
+  "fiddle leaf fig tree in gray cylindrical planter": {
+    "low": 68.56,
+    "high": 190.66,
+    "currency": "USD",
+    "query": "fiddle leaf fig tree in gray cylindrical planter",
+    "sources": [
+      {
+        "retailer": "Home Depot",
+        "title": "MOVECOM 4.9 ft. Fiddle Leaf Fig Tree Artificial with 77 Leaves - Realistic Faux Ficus Lyrata Trees in 7.8 in. Grey Planter Pot",
+        "price": 68.56,
+        "url": "https://www.homedepot.com/p/MOVECOM-4-9-ft-Fiddle-Leaf-Fig-Tree-Artificial-with-77-Leaves-Realistic-Faux-Ficus-Lyrata-Trees-in-7-8-in-Grey-Planter-Pot-PHK-359K5AYM-WLS/338623780"
+      },
+      {
+        "retailer": "Target",
+        "title": "5FT Fiddle Leaf Fig Tree Artificial with 77 Leaves, With Grey Planter, Indoor Floor Plant for Home Office Living Room Decor, Housewarming Gift",
+        "price": 79.99,
+        "url": "https://www.target.com/p/5ft-fiddle-leaf-fig-tree-artificial-with-77-leaves-with-grey-planter-indoor-floor-plant-for-home-office-living-room-decor-housewarming-gift/-/A-1014618204"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Nearly Natural 5.5ft. Fiddle Leaf Artificial Tree in Gray Cylinder Planter, Green",
+        "price": 190.66,
+        "url": "https://www.walmart.com/ip/Nearly-Natural-5-5ft-Fiddle-Leaf-Artificial-Tree-in-Gray-Cylinder-Planter-Green/581447574"
+      }
+    ]
+  },
+  "light wood decorative wall ladder": {
+    "low": 63.7,
+    "high": 137.99,
+    "currency": "USD",
+    "query": "light wood decorative wall ladder",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Creative Co-Op Wood Blanket Ladder",
+        "price": 63.7,
+        "url": "https://www.walmart.com/ip/Creative-Co-Op-Wood-Blanket-Ladder/514587208"
+      },
+      {
+        "retailer": "Home Depot",
+        "title": "Storied Home 19.75 in. x 72 in. x 1.625 in. Wide Wood Blanket Ladder in Brown",
+        "price": 97.99,
+        "url": "https://www.homedepot.com/p/Storied-Home-19-75-in-x-72-in-x-1-625-in-Wide-Wood-Blanket-Ladder-in-Brown-EC0468/323988061"
+      },
+      {
+        "retailer": "Target",
+        "title": "Blanket Storage Decorative Ladder Natural Maple - Flora Home: Solid American Hardwood, No Assembly, 5 Rungs",
+        "price": 137.99,
+        "url": "https://www.target.com/p/blanket-storage-decorative-ladder-natural-maple-flora-home/-/A-54617225"
+      }
+    ]
+  },
+  "wooden desk phone/intercom unit": {
+    "low": 53.99,
+    "high": 159.0,
+    "currency": "USD",
+    "query": "wooden desk telephone",
+    "sources": [
+      {
+        "retailer": "Wayfair",
+        "title": "Rosdorf Park Vintage Corded Telephone Luxury Retro European Antique Phone",
+        "price": 53.99,
+        "url": "https://www.wayfair.com/decor-pillows/pdp/rosdorf-park-vintage-corded-telephone-luxury-retro-european-antique-phone-w008487565.html"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Decor Antique Wooden Telephone, Tabletop, Rotary Dial, Corded Phone, Bronze, 1 Count, Brown",
+        "price": 79.0,
+        "url": "https://www.walmart.com/ip/Decorative-Victorian-Old-Classic-Telephone-Wooden-Carving-Works-Copper-Finish-Brown-Vintage-Brass-Telephone-Non-Working/16017151441"
+      },
+      {
+        "retailer": "Amazon",
+        "title": "1921 Cable Model A Real Wood Rotary Desktop Telephone",
+        "price": 159.0,
+        "url": "https://www.amazon.com/dp/B0130QKP5U"
+      }
+    ]
+  },
+  "black fluid electric kick scooter": {
+    "low": 499.99,
+    "high": 499.99,
+    "currency": "USD",
+    "query": "black electric kick scooter",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Segway E2 Pro Adult Electric Scooter - Black: 500W Motor, 21.7 Mile Range, 18.6 MPH",
+        "price": 499.99,
+        "url": "https://www.target.com/p/segway-e2-pro-adult-electric-scooter-black/-/A-89807920"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Segway E2 Pro Electric Scooter, 18.6 mph Max Speed, 21.7 Miles Max Range, Teens and Adults, Black",
+        "price": 499.99,
+        "url": "https://www.walmart.com/ip/Segway-E2-Pro-Electric-Scooter-18-6-mph-Max-Speed-21-7-Miles-Max-Range-Teens-and-Adults-Black/10598000075"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "Segway - E2 Pro Electric Scooter - Efficient Commuter Scooter w/ 21.7 Mile Range, 18.6 MPH Speed & Apple Find My Integration - Black",
+        "price": 499.99,
+        "url": "https://www.bestbuy.com/site/segway-e2-pro-electric-scooter-efficient-commuter-scooter-w-21-7-mile-range-18-6-mph-speed-apple-find-my-integration-black/6583822.p?skuId=6583822"
+      }
+    ]
+  },
+  "cream upholstered rounded low lounge chair": {
+    "low": 178.0,
+    "high": 420.0,
+    "currency": "USD",
+    "query": "cream upholstered rounded lounge chair",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Mainstays Swivel Accent Chair with Rolled Arms, Cream Fabric Upholstery",
+        "price": 178.0,
+        "url": "https://www.walmart.com/ip/Mainstays-Rolled-Arm-Swivel-Accent-Chair-Cream-Fabric-Upholstery/15570269031"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "Spruce & Spring Noah Cream Performance Fabric Swivel Accent Chair Modern Upholstered Round Barrel Armchair for Bedroom or Living Room",
+        "price": 350.09,
+        "url": "https://www.homedepot.com/p/Spruce-Spring-Noah-Cream-Performance-Fabric-Swivel-Accent-Chair-Modern-Upholstered-Round-Barrel-Armchair-for-Bedroom-or-Living-Room-SS72950-HT80913-3-VC/330811077"
+      },
+      {
+        "retailer": "Target",
+        "title": "Pacific Palisades Accent Chair: Boucle Upholstery, Rounded Legs - Threshold designed w/Studio McGee",
+        "price": 420.0,
+        "url": "https://www.target.com/p/pacific-palisades-fully-upholstered-accent-chair-tan-cream-boucle-threshold-8482-designed-with-studio-mcgee/-/A-85029706"
+      }
+    ]
+  },
+  "black folded electric kick scooter": {
+    "low": 127.84,
+    "high": 749.0,
+    "currency": "USD",
+    "query": "black foldable electric kick scooter",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "MOCRXO Electric Scooter for Adults, 350W Motor, 19 mph Max Speed, 21 Miles Range, 8.5 in Solid Tires, Foldable E-Scooter",
+        "price": 127.84,
+        "url": "https://www.walmart.com/ip/Electric-Scooter-for-Adults-350W-Motor-19-mph-Max-Speed-21-Miles-Range-8-5-in-Solid-Tires-Foldable-E-Scooter/20142767117"
+      },
+      {
+        "retailer": "Target",
+        "title": "Windhorse T1 Adult Electric Scooter - 350W Brushless Motor Foldable Electric Kick Scooter, 15.5 MPH Top Speed with 8.5\" Solid Tire",
+        "price": 299.99,
+        "url": "https://www.target.com/p/windhorse-t1-adult-electric-scooter-350w-brushless-motor-foldable-electric-kick-scooter-15-5-mph-top-speed-with-8-5-solid-tire/-/A-1013549790"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "NIU - KQi 300P Foldable Electric Kick Scooter w/ 40 mi Max Range & 20 mph Max Speed - Black",
+        "price": 749.0,
+        "url": "https://www.bestbuy.com/site/niu-kqi-300p-foldable-electric-kick-scooter-w-40-mi-max-range-20-mph-max-speed-black/6577234.p?skuId=6577234"
+      }
+    ]
+  },
+  "round light-wood pedestal low coffee table": {
+    "low": 279.99,
+    "high": 346.99,
+    "currency": "USD",
+    "query": "round light wood pedestal low coffee table",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Wooden Round Pedestal Coffee Table - Natural - Hearth & Hand™ with Magnolia",
+        "price": 279.99,
+        "url": "https://www.target.com/p/wooden-round-pedestal-coffee-table-natural-hearth-38-hand-8482-with-magnolia/-/A-84826258"
+      },
+      {
+        "retailer": "Home Depot",
+        "title": "Manhattan Comfort Alure 36 in. W Contemporary Natural Oak Round MDF Coffee Table",
+        "price": 318.67,
+        "url": "https://www.homedepot.com/p/Manhattan-Comfort-Alure-36-in-W-Contemporary-Natural-Oak-Round-MDF-Coffee-Table-CT1800-2/342010602"
+      },
+      {
+        "retailer": "Wayfair",
+        "title": "Latitude Run Sharna Pedestal Round Coffee Table, Handcrafted Solid Wood Fluted Design",
+        "price": 346.99,
+        "url": "https://www.wayfair.com/furniture/pdp/latitude-run-sharna-pedestal-round-coffee-table-handcrafted-solid-wood-fluted-design-w112031520.html"
+      }
+    ]
+  },
+  "large hardcover coffee table book": {
+    "low": 82.24,
+    "high": 108.19,
+    "currency": "USD",
+    "query": "large hardcover coffee table book",
+    "sources": [
+      {
+        "retailer": "Amazon",
+        "title": "Tom Ford",
+        "price": 82.24,
+        "url": "https://www.amazon.com/dp/0847826694"
+      },
+      {
+        "retailer": "Target",
+        "title": "Tom Ford - by Tom Ford & Bridget Foley (Hardcover)",
+        "price": 99.34,
+        "url": "https://www.target.com/p/tom-ford-by-tom-ford-bridget-foley-hardcover/-/A-53743140"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Tom Ford (Hardcover)",
+        "price": 108.19,
+        "url": "https://www.walmart.com/ip/Tom-Ford-Hardcover-9780847826698/2627900"
+      }
+    ]
+  },
+  "large floral arrangement in cream ceramic vase": {
+    "low": 35.99,
+    "high": 219.99,
+    "currency": "USD",
+    "query": "artificial floral arrangement ceramic vase",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Artificial White Rose Silk Flower Table Centerpiece in Ceramic Vase Faux Floral Arrangement with Pot Wedding Birthday Baptism Baby Shower 10\"",
+        "price": 35.99,
+        "url": "https://www.target.com/p/artificial-white-rose-silk-flower-table-centerpiece-in-ceramic-vase-faux-floral-arrangement-with-pot-wedding-birthday-baptism-baby-shower-10/-/A-1009570478"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "12.5 in. White Indoor Artificial Mixed Flower in White Vase",
+        "price": 77.99,
+        "url": "https://www.homedepot.com/p/Unbranded-12-5-in-White-Indoor-Artificial-Mixed-Flower-in-White-Vase-Z0C1JL5MMK/700484661"
+      },
+      {
+        "retailer": "Wayfair",
+        "title": "Artificial Flowers Arrangement in a Large Ceramic Vase",
+        "price": 219.99,
+        "url": "https://www.wayfair.com/decor-pillows/pdp/rix-artificial-flowers-arrangement-in-a-large-ceramic-vase-zzty1069.html"
+      }
+    ]
+  },
+  "natural wood 4-legged bar stool": {
+    "low": 52.42,
+    "high": 65,
+    "currency": "USD",
+    "query": "natural wood 4-legged bar stool",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Winsome Satori Saddle Seat Bar Stool, 29\", Natural Finish",
+        "price": 52.42,
+        "url": "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Bar-Stool-29-Natural-Finish/10749589"
+      },
+      {
+        "retailer": "IKEA",
+        "title": "RÄVSTEN Bar stool - counter height rubberwood 24 3/8 \"",
+        "price": 55,
+        "url": "https://www.ikea.com/us/en/p/raevsten-bar-stool-counter-height-rubberwood-10602067/"
+      },
+      {
+        "retailer": "Target",
+        "title": "Halifax 23.81\" Farmhouse Wood Counter Height Barstool with Footrest Natural Wood - Threshold™",
+        "price": 65,
+        "url": "https://www.target.com/p/halifax-farmhouse-wood-counter-height-barstool-natural-wood-threshold-8482/-/A-54598212"
+      }
+    ]
+  },
+  "small white ribbed ceramic vase": {
+    "low": 4.99,
+    "high": 17.49,
+    "currency": "USD",
+    "query": "small white ribbed ceramic vase",
+    "sources": [
+      {
+        "retailer": "IKEA",
+        "title": "STILREN Vase, white, 4 ¾ \"",
+        "price": 4.99,
+        "url": "https://www.ikea.com/us/en/p/stilren-vase-white-10592365/"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Better Homes & Gardens White Textured Ribbed Ceramic Vase, 8 in",
+        "price": 10.87,
+        "url": "https://www.walmart.com/ip/Better-Homes-Gardens-8-Textured-White-Ribbed-Ceramic-Vase/5352547624"
+      },
+      {
+        "retailer": "Target",
+        "title": "REGALWOVEN Small Ceramic Vase, Matte Ribbed Decorative Flower Vase for Desktop, Bathroom, Minimalist Boho Home Decor 2.4\"L x 2.4\"W x 5.1\"H White",
+        "price": 17.49,
+        "url": "https://www.target.com/p/regalwoven-small-ceramic-vase-matte-ribbed-decorative-flower-vase-for-desktop-bathroom-minimalist-boho-home-decor-2-4-l-x-2-4-w-x-5-1-h-white/-/A-1011453933"
+      }
+    ]
+  },
+  "space gray apple macbook laptop": {
+    "low": 859.0,
+    "high": 1099.0,
+    "currency": "USD",
+    "query": "space gray Apple MacBook laptop",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "Apple 13-inch MacBook Air: Apple M3 chip with 8-core CPU and 8-core GPU, 16GB, 256GB SSD - Space Gray",
+        "price": 859.0,
+        "url": "https://www.walmart.com/ip/Apple-13-inch-MacBook-Air-Apple-M3-chip-with-8-core-CPU-and-8-core-GPU-16GB-256GB-SSD-Space-Gray/13741815546"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "Apple - MacBook Air 13-inch Laptop - M3 chip Built for Apple Intelligence - 8GB Memory - 256GB SSD - Space Gray",
+        "price": 1099.0,
+        "url": "https://www.bestbuy.com/site/apple-macbook-air-13-inch-laptop-m3-chip-built-for-apple-intelligence-8gb-memory-256gb-ssd-space-gray/6565830.p?skuId=6565830"
+      },
+      {
+        "retailer": "B&H Photo Video",
+        "title": "Apple 13\" MacBook Air (M3, Space Gray)",
+        "price": 1099.0,
+        "url": "https://www.bhphotovideo.com/c/product/1860123-REG/apple_mc8g4ll_a_13_macbook_air_m3.html"
+      }
+    ]
+  },
+  "black countertop qr scanner stand": {
+    "low": 9.69,
+    "high": 20.11,
+    "currency": "USD",
+    "query": "barcode scanner stand black",
+    "sources": [
+      {
+        "retailer": "Amazon",
+        "title": "NETUM Adjustable Barcode Scanner Stand Hands Free Barcode Scanning",
+        "price": 9.69,
+        "url": "https://www.amazon.com/dp/B07VX3VGYK"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Universal Scanner Holder, Adjustable Barcode Scanner Stand, No Assembly Barcode Reader Bracket Compatible with 1900 1950 DS3678 DS2278 LS2208 Most Barcode Scanner",
+        "price": 14.99,
+        "url": "https://www.walmart.com/ip/Universal-Scanner-Holder-Adjustable-Barcode-Scanner-Stand-No-Assembly-Barcode-Reader-Bracket-Compatible-1900-1950-DS3678-DS2278-LS2208-Barcode-Scanne/19255406241"
+      },
+      {
+        "retailer": "Staples",
+        "title": "Adesso NuScan 8HB Barcode Scanner Holder, Compatible with Nuscan 1600U, Nuscan 2600U, Nuscan 2700R (NUSCAN8HB)",
+        "price": 20.11,
+        "url": "https://www.staples.com/adesso-nuscan-8hb-barcode-scanner-holder-compatible-with-nuscan-1600u-nuscan-2600u-nuscan-2700r-nuscan8hb/product_IM16VC101"
+      }
+    ]
+  },
+  "decorative natural driftwood sculpture in wall niche": {
+    "low": 27.49,
+    "high": 264.0,
+    "currency": "USD",
+    "query": "natural driftwood sculpture",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Driftwood Pineapple Decorative Sculpture (7.75\"x16.5\") - Storied Home: Unique Bohemian Style, Indoor Summer Accent",
+        "price": 27.49,
+        "url": "https://www.target.com/p/driftwood-pineapple-decorative-sculpture-7-75-34-x16-5-34-storied-home/-/A-52163791"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "Litton Lane Brown Teak Wood Floating Leaf Sculpture with Black Stand and Base",
+        "price": 67.22,
+        "url": "https://www.homedepot.com/p/Litton-Lane-Brown-Teak-Wood-Floating-Leaf-Sculpture-with-Black-Stand-and-Base-045577/329446050"
+      },
+      {
+        "retailer": "Wayfair",
+        "title": "Millwood Pines Gemmalynn Natural Sculpture",
+        "price": 264.0,
+        "url": "https://www.wayfair.com/decor-pillows/pdp/millwood-pines-gemmalynn-natural-sculpture-w112890295.html"
+      }
+    ]
+  },
+  "small white round ceramic vase": {
+    "low": 4.99,
+    "high": 35.98,
+    "currency": "USD",
+    "query": "small white round ceramic vase",
+    "sources": [
+      {
+        "retailer": "IKEA",
+        "title": "STILREN Vase, white, 4 ¾ \"",
+        "price": 4.99,
+        "url": "https://www.ikea.com/us/en/p/stilren-vase-white-10592365/"
+      },
+      {
+        "retailer": "Target",
+        "title": "Modern Textured Ceramic Bud Vase White - Threshold™",
+        "price": 10.0,
+        "url": "https://www.target.com/p/modern-textured-ceramic-bud-vase-white-threshold-8482/-/A-94686812"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "5.8\" Small White Round Ceramic Vase, Coffee Table Shelf Decor",
+        "price": 35.98,
+        "url": "https://www.walmart.com/ip/5-8-Small-White-Round-Ceramic-Vase-Coffee-Table-Shelf-Decor/21000063019"
+      }
+    ]
+  },
+  "small bronze ribbed cylindrical vase": {
+    "low": 132.71,
+    "high": 172.5,
+    "currency": "USD",
+    "query": "bronze ribbed cylindrical vase",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "HomeRoots 14\" Bronze And Clear Glass And Metal Cylinder Table Vase",
+        "price": 132.71,
+        "url": "https://www.target.com/p/homeroots-14-bronze-and-clear-glass-and-metal-cylinder-table-vase/-/A-1011362171"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "HomeRoots 14 in. Bronze And Clear Glass And Metal Cylinder Table Vase",
+        "price": 152.09,
+        "url": "https://www.homedepot.com/p/HomeRoots-14-in-Bronze-And-Clear-Glass-And-Metal-Cylinder-Table-Vase-2000574259/343637944"
+      },
+      {
+        "retailer": "Wayfair",
+        "title": "Cyan Design Atacama Bronze Porcelain Table Vase",
+        "price": 172.5,
+        "url": "https://www.wayfair.com/decor-pillows/pdp/cyan-design-atacama-bronze-procelain-table-vase-vyq10817.html"
+      }
+    ]
   }
 }
