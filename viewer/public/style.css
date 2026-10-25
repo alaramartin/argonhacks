@@ -19,7 +19,9 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 
 /* ---------- 3D stage (the centerpiece) ---------- */
 #stage { position: relative; min-width: 0; }
-#scene { position: absolute; inset: 0; }
+/* #scene is its own stacking context, so no tag (even a hovered one) can draw over the overlays below */
+#scene { position: absolute; inset: 0; z-index: 0; }
+#title, #legend, #fidelity, #catch { z-index: 1; }
 #scene canvas { display: block; touch-action: none; cursor: grab; }
 #scene canvas:active { cursor: grabbing; }
 .labels { position: absolute; inset: 0; pointer-events: none; }
@@ -29,10 +31,13 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 #title p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
 
 #legend { position: absolute; bottom: 18px; left: 24px; display: flex; gap: 14px; font-size: 12px; color: var(--muted); }
-.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
-.dot.present { background: var(--present); }
-.dot.moved { background: var(--moved); }
-.dot.stolen { background: var(--stolen); }
+.swatch { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.swatch.present { background: var(--present); }
+.swatch.moved { background: var(--moved); }
+.swatch.stolen { background: var(--stolen); }
+#legend { align-items: center; }
+#reset-view { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+#reset-view:hover { border-color: var(--muted); }
 
 #fidelity { position: absolute; top: 20px; right: 20px; display: flex; gap: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 #fidelity div { padding: 10px 14px; display: grid; gap: 2px; }
@@ -69,12 +74,29 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 .tag.stolen { border-left-color: var(--stolen); }
 .tag.stolen .price { color: var(--stolen); }
 .tag:hover { border-color: var(--muted); z-index: 10; }
-/* collapsed = overlaps a nearer tag: price only, full label on hover */
-.tag.collapsed { padding: 3px 7px; opacity: 0.85; }
-.tag.collapsed .name { display: none; }
-.tag.collapsed .price { font-size: 11px; }
-.tag.collapsed:hover { opacity: 1; }
-.tag.collapsed:hover .name { display: block; }
+/* hot = the box under the mouse */
+.tag.hot { border-color: var(--text); z-index: 20; }
+
+/* dot = would overlap a nearer tag: a small marker, full tag on hover */
+.tag.dot { width: 12px; height: 12px; padding: 0; border-radius: 50%; border: 2px solid var(--bg); background: var(--present); opacity: 0.9; }
+.tag.dot.stolen { background: var(--stolen); }
+.tag.dot.moved { background: var(--moved); }
+.tag.dot > * { display: none; }
+.tag.dot:hover { width: auto; height: auto; padding: 5px 9px; border-radius: 8px; border: 1px solid var(--line); border-left: 3px solid var(--present); background: rgba(22, 26, 33, 0.95); z-index: 20; }
+.tag.dot:hover > .name, .tag.dot:hover > .price, .tag.dot:hover > .ghead { display: flex; }
+
+/* group = items sharing a spot; click the header to list them */
+.tag.group { padding: 0; border-left-color: var(--fix); }
+.tag.group .ghead { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 5px 9px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; text-align: left; }
+.tag.group .ghead .name::before { content: "▸ "; color: var(--fix); }
+.tag.group.expanded .ghead .name::before { content: "▾ "; }
+.tag.group .gitems { display: none; list-style: none; margin: 0; padding: 0 4px 4px; min-width: 240px; border-top: 1px solid var(--line); }
+.tag.group.expanded { z-index: 15; }
+.tag.group.expanded .gitems { display: block; }
+.tag.group .gitems button { display: flex; justify-content: space-between; gap: 12px; width: 100%; padding: 4px 6px; background: none; border: 0; border-radius: 4px; color: var(--text); font: inherit; font-size: 12px; cursor: pointer; text-align: left; }
+.tag.group .gitems button:hover { background: #222833; }
+.tag.group .gitems button span { max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+.tag.group .gitems button.stolen b { color: var(--stolen); }
 .tag.pulse { animation: pulse 1.2s ease-out; }
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(245, 165, 36, 0.8); }
