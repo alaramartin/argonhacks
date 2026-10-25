@@ -46,6 +46,11 @@ def _score(out: Path, gt_path: Path, iterations: int | None = None) -> None:
                               iterations=iterations if iterations is not None else prev)
     _save(final, out / "scene.json")
     (out / "fidelity.json").write_text(json.dumps({"single_pass": r1, "after_loop": r2}, indent=2))
+    # a rescore replaces the previous score lines instead of stacking under them
+    ev = out / "events.jsonl"
+    if ev.exists():
+        lines = [l for l in ev.read_text().splitlines() if l and json.loads(l).get("agent") != "fidelity"]
+        ev.write_text("".join(l + "\n" for l in lines))
     n = len(gt.items)
     emit("fidelity", f"Single pass found {round(s1.recall * n)} of {n} items (precision {s1.precision:.0%})", "info",
          recall=s1.recall, precision=s1.precision)

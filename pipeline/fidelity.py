@@ -13,6 +13,8 @@ STOP = {
     "tall", "short", "black", "white", "gray", "grey", "red", "blue", "green", "yellow", "brown", "beige", "silver",
     "gold", "pink", "purple", "orange", "dark", "light", "wood", "wooden", "metal", "fabric", "plastic", "glass",
     "leather", "inch", "in", "mounted", "wall", "style", "modern", "set",
+    # generic words that say nothing about what the object is; "phone on a desk stand" is not a "QR code stand"
+    "stand", "holder", "device", "unit", "piece", "item", "decorative", "electronic", "base",
 }
 MATCH_THRESHOLD = 0.5
 

@@ -2,13 +2,6 @@
   "single_pass": {
     "matches": [
       {
-        "item": "item_001",
-        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
-        "gt": "g01",
-        "gt_label": "hand sanitizer dispenser on stand",
-        "score": 1.0
-      },
-      {
         "item": "item_015",
         "item_label": "fiddle leaf fig plant in round gray planter",
         "gt": "g17",
@@ -23,10 +16,10 @@
         "score": 1.0
       },
       {
-        "item": "item_009",
-        "item_label": "white floor-standing tablet kiosk stand with tablet",
-        "gt": "g10",
-        "gt_label": "tablet kiosk stand",
+        "item": "item_001",
+        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
+        "gt": "g01",
+        "gt_label": "hand sanitizer dispenser on stand",
         "score": 1.0
       },
       {
@@ -90,6 +83,13 @@
         "item_label": "silver Apple iMac desktop computer on reception desk",
         "gt": "g08",
         "gt_label": "iMac",
+        "score": 1.0
+      },
+      {
+        "item": "item_009",
+        "item_label": "white floor-standing tablet kiosk stand with tablet",
+        "gt": "g10",
+        "gt_label": "tablet kiosk stand",
         "score": 1.0
       },
       {
@@ -244,13 +244,6 @@
   "after_loop": {
     "matches": [
       {
-        "item": "item_001",
-        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
-        "gt": "g01",
-        "gt_label": "hand sanitizer dispenser on stand",
-        "score": 1.0
-      },
-      {
         "item": "item_015",
         "item_label": "fiddle leaf fig plant in round gray planter",
         "gt": "g17",
@@ -265,10 +258,10 @@
         "score": 1.0
       },
       {
-        "item": "item_009",
-        "item_label": "white floor-standing tablet kiosk stand with tablet",
-        "gt": "g10",
-        "gt_label": "tablet kiosk stand",
+        "item": "item_001",
+        "item_label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
+        "gt": "g01",
+        "gt_label": "hand sanitizer dispenser on stand",
         "score": 1.0
       },
       {
@@ -332,6 +325,13 @@
         "item_label": "gray mesh ergonomic office chair",
         "gt": "g06",
         "gt_label": "office chair",
+        "score": 1.0
+      },
+      {
+        "item": "item_009",
+        "item_label": "white floor-standing tablet kiosk stand with tablet",
+        "gt": "g10",
+        "gt_label": "tablet kiosk stand",
         "score": 1.0
       },
       {
@@ -480,16 +480,14 @@
         "gt": "g09",
         "gt_label": "black tablet or monitor",
         "score": 1.0
-      },
-      {
-        "item": "item_034",
-        "item_label": "black check-in phone on angled desk stand on reception counter",
-        "gt": "g05",
-        "gt_label": "QR code stand",
-        "score": 0.5
       }
     ],
-    "missed": [],
+    "missed": [
+      {
+        "gt": "g05",
+        "label": "QR code stand"
+      }
+    ],
     "extra": [
       {
         "item": "item_020",
@@ -498,6 +496,10 @@
       {
         "item": "item_033",
         "label": "small gold electronic reader device on reception counter"
+      },
+      {
+        "item": "item_034",
+        "label": "black check-in phone on angled desk stand on reception counter"
       },
       {
         "item": "item_035",
