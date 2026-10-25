@@ -133,6 +133,32 @@ def recheck(items: list[Item], after_file, before_video: Path, frame_dir: Path, 
     return out
 
 
+class Confirmation(BaseModel):
+    id: str
+    proves_removal: bool
+    reason: str = Field(description="one short sentence a person can read")
+
+
+class ConfirmationList(BaseModel):
+    items: list[Confirmation]
+
+
+CONFIRM_PROMPT = """\
+Each image below is the evidence a theft claim will carry for one item: BEFORE frame on the left, AFTER frame of
+the same spot on the right. Judge each image on its own. It proves removal only if the item is clearly visible on
+the left AND the same spot is clearly visible and empty on the right. If the item could be hidden behind something,
+out of frame, or lost in blur on the right, it does not prove removal. An adjuster will see only this image.
+"""
+
+
+def confirm(scene: Scene, images: dict[str, tuple[Path, float]]) -> dict[str, Confirmation]:
+    emit("diff", f"Checking that each of {len(images)} theft claims is proven by its own BEFORE | AFTER image")
+    contents: list = [CONFIRM_PROMPT]
+    for item_id, (img, _) in images.items():
+        contents += [f"{item_id}: {scene.item(item_id).label}", argon.image_part(img)]
+    return {c.id: c for c in argon.ask(contents, ConfirmationList, system=SYSTEM, thinking="high").items}
+
+
 def evidence_image(before: Path, after: Path, label: str, before_t: float, after_t: float, out: Path) -> Path:
     """BEFORE | AFTER composite for the claim: the item at before_t, its empty spot at after_t."""
     b, a = Image.open(before).convert("RGB"), Image.open(after).convert("RGB")
@@ -191,20 +217,38 @@ def run(scene: Scene, after_video: Path, before_video: Path, out_dir: Path) -> t
         previous = stolen_now
     stolen_ids = previous or set()
 
-    scene = scene.model_copy(deep=True)
-    stolen = []
+    # The claim has to stand on its own evidence: build the BEFORE | AFTER image it will carry and have Argon
+    # confirm on that image alone. Anything it can't confirm stays "present".
+    images: dict[str, tuple[Path, float]] = {}
     for it in scene.items:
-        it.status = "stolen" if it.id in stolen_ids else status[it.id]
-        if it.status != "stolen":
+        if it.id not in stolen_ids:
             continue
         r = evidence[it.id]
         after_t = r.spot_t if r.spot_t is not None else 0.0
         img = evidence_image(frames.extract(before_video, it.seen_at[0], frame_dir_before),
                              frames.extract(after_video, after_t, frame_dir_after),
                              it.label, it.seen_at[0], after_t, out_dir / f"stolen_{it.id}.jpg")
+        images[it.id] = (img, after_t)
+    confirmed = confirm(scene, images) if images else {}
+
+    scene = scene.model_copy(deep=True)
+    stolen = []
+    for it in scene.items:
+        it.status = status[it.id]
+        if it.id not in images:
+            continue
+        img, after_t = images[it.id]
+        c = confirmed.get(it.id)
+        if c is None or not c.proves_removal:
+            reason = c.reason if c else "no verdict"
+            emit("diff", f"Can't prove {it.label} was taken from its evidence image ({reason}); keeping it as present",
+                 "info", id=it.id, evidence=os.path.relpath(img, REPO))
+            img.unlink(missing_ok=True)
+            continue
+        it.status = "stolen"
         price = it.price.model_dump() if it.price else None
         stolen.append({"id": it.id, "label": it.label, "price": price, "before_t": it.seen_at[0],
-                       "after_t": after_t, "evidence": os.path.relpath(img, REPO), "reason": r.reason})
+                       "after_t": after_t, "evidence": os.path.relpath(img, REPO), "reason": c.reason})
         emit("diff", f"Stolen: {it.label}, seen @{_fmt(it.seen_at[0])} before, spot empty @{_fmt(after_t)} after",
              "warn", id=it.id, evidence=os.path.relpath(img, REPO), price=price)
 
