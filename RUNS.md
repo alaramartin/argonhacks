@@ -22,6 +22,7 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 11 | 13:19 | A | **Part 2 diff, rerun** after adding the evidence-image confirmation (`73679b7`) | same as #10 + confirm step | 3.2 min | Laptop **stolen** (confirmed on its image), stool **moved**, trash can present, **0 false thefts** | `out/diff/` |
 | 12 | 13:25 | A | **Part 2 diff with generic prompt** (removed the room-specific examples "a slid laptop" and "six matching stools") | same as #11 | 4.9 min | Laptop **stolen**, stool **moved**, trash can moved, **0 false thefts**. The confirm step rejected the vase claim | `out/diff/` (prices from #9 copied in with `diff.py --reprice`) |
 | 13 | 13:31 | A | **Part 2 control: no changes** (before.mp4 given as the after video) | `diff/diff.py --after ../fixtures/before.mp4` | 1.5 min | **0 stolen, 0 moved, 38 in place**: no false thefts or false moves on an unchanged room | `out/diff_control/` |
+| 14 | 13:47 | A | **Part 2 end-to-end, local**: #12's `out/diff/stolen.json` into B's claim agent and Mock Mutual portal | `claim.py --local` · throwaway PORTAL_TOKEN · events to a scratch file | 4 s | 1 claim line, MacBook **$1,099.00** (median of 3 listings), evidence text with before/after times and image path, stopped **not submitted** for review | none (scratch) |
 
 ## Notes per run
 
@@ -42,6 +43,8 @@ Every pipeline or agent run that produced output, failed, or taught us something
 **#11.** The re-check found the vase by itself this time, so the confirmation step only confirmed the laptop. Scored with `diff/score.py` against `fixtures/after_truth.json` (written by the person who removed and moved the items).
 
 **#12.** Same verdicts with the room-specific examples gone from the survey prompt. The re-check called the small vase stolen again, and this time the confirmation step blocked it on its own evidence image ("all of the small white ceramic vases on top of the book are still present"). That's the first end-to-end run where the confirm step prevented a false theft (in #11 the re-check found the vase on its own).
+
+**#14.** Every `stolen.json` field reached the claim line (`before_t`, `after_t`, `evidence`, sources). The evidence image is referenced by its repo path, which an adjuster outside our machine can't open; it needs a public URL before the live (sandbox) run is shown as a real filing.
 
 ## Open comparisons
 
