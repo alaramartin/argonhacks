@@ -155,7 +155,7 @@ out of frame, or lost in blur on the right, it does not prove removal. An adjust
 
 
 def confirm(scene: Scene, images: dict[str, tuple[Path, float]]) -> dict[str, Confirmation]:
-    emit("diff", f"Checking that each of {len(images)} theft claims is proven by its own BEFORE | AFTER image")
+    emit("diff", f"Checking that each of {len(images)} missing items is proven gone by its own BEFORE | AFTER image")
     contents: list = [CONFIRM_PROMPT]
     for item_id, (img, _) in images.items():
         contents += [f"{item_id}: {scene.item(item_id).label}", argon.image_part(img)]
@@ -215,7 +215,7 @@ def run(scene: Scene, after_video: Path, before_video: Path, out_dir: Path) -> t
         # anything found or unverifiable drops out; only stolen candidates get looked at again
         pending = [it for it in pending if it.id in stolen_now]
         if previous is not None and stolen_now == previous:
-            emit("diff", f"Re-check round {rnd}: stolen list unchanged, done", "ok")
+            emit("diff", f"Re-check round {rnd}: missing list unchanged, done", "ok")
             break
         previous = stolen_now
     stolen_ids = previous or set()
@@ -244,7 +244,7 @@ def run(scene: Scene, after_video: Path, before_video: Path, out_dir: Path) -> t
         c = confirmed.get(it.id)
         if c is None or not c.proves_removal:
             reason = c.reason if c else "no verdict"
-            emit("diff", f"Can't prove {it.label} was taken from its evidence image ({reason}); keeping it as present",
+            emit("diff", f"Can't prove {it.label} is gone from its evidence image ({reason}); keeping it as present",
                  "info", id=it.id, evidence=os.path.relpath(img, REPO))
             img.unlink(missing_ok=True)
             continue
@@ -252,11 +252,11 @@ def run(scene: Scene, after_video: Path, before_video: Path, out_dir: Path) -> t
         price = it.price.model_dump() if it.price else None
         stolen.append({"id": it.id, "label": it.label, "price": price, "before_t": it.seen_at[0],
                        "after_t": after_t, "evidence": os.path.relpath(img, REPO), "reason": c.reason})
-        emit("diff", f"Stolen: {it.label}, seen @{_fmt(it.seen_at[0])} before, spot empty @{_fmt(after_t)} after",
+        emit("diff", f"Missing: {it.label}, seen @{_fmt(it.seen_at[0])} before, spot empty @{_fmt(after_t)} after",
              "warn", id=it.id, evidence=os.path.relpath(img, REPO), price=price)
 
     moved = sum(1 for i in scene.items if i.status == "moved")
-    emit("diff", f"After walkthrough: {len(stolen)} stolen, {moved} moved, "
+    emit("diff", f"After walkthrough: {len(stolen)} missing, {moved} moved, "
          f"{len(scene.items) - len(stolen) - moved} in place", "ok")
     return scene, stolen
 

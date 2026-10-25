@@ -251,7 +251,7 @@ def main():
     stolen = load_json(args.stolen, [])
     profile = load_json(args.profile, {})
     cache = load_json(CACHE_PATH, {})
-    emit("claim", f"Assembling contents claim: {len(stolen)} stolen item{'s' if len(stolen) != 1 else ''} from the after-video diff", "info")
+    emit("claim", f"Assembling contents claim: {len(stolen)} missing item{'s' if len(stolen) != 1 else ''} from the after-video diff", "info")
     packet, total = build_packet(stolen, profile, cache)
     if not packet["items"]:
         emit("claim", "Nothing to claim", "warn")

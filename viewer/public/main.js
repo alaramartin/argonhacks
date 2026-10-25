@@ -365,7 +365,7 @@ function renderSummary(s) {
   const sum = (list, k) => list.reduce((t, i) => t + (i.price?.[k] || 0), 0);
   const total = priced.length ? ` · total ${fmtPrice({ low: sum(priced, "low"), high: sum(priced, "high") })}` : "";
   let text = `${items.length} items · ${priced.length} priced${total}`;
-  if (stolen.length) text += ` · ${stolen.length} stolen (${fmtPrice({ low: sum(stolen, "low"), high: sum(stolen, "high") }) || "unpriced"})`;
+  if (stolen.length) text += ` · ${stolen.length} missing (${fmtPrice({ low: sum(stolen, "low"), high: sum(stolen, "high") }) || "unpriced"})`;
   document.getElementById("summary").textContent = text;
 
   const fid = s.fidelity, el = document.getElementById("fidelity");
@@ -597,7 +597,7 @@ function renderStolen(s) {
         img.src = src;
         img.alt = `Before and after: ${it.label}`;
         img.title = it.reason || "";
-        img.addEventListener("click", () => showCatch({ action: it.reason || it.label }, src, "Before | after: why this is a theft"));
+        img.addEventListener("click", () => showCatch({ action: it.reason || it.label }, src, "Before | after: why this item is missing"));
         img.addEventListener("error", () => img.remove());
         li.append(img);
       }

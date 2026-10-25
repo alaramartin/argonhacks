@@ -168,7 +168,7 @@ http.createServer((req, res) => {
   if (url.pathname === "/api/after/upload" && req.method === "POST") return receiveUpload(req, res);
   if (url.pathname === "/api/claim/start" && req.method === "POST") {
     if (jobs.claim.state === "running") return sendJson(res, 409, { error: "the claim agent is already running" });
-    if (!readJson(STOLEN, []).length) return sendJson(res, 400, { error: "no stolen items to claim" });
+    if (!readJson(STOLEN, []).length) return sendJson(res, 400, { error: "no missing items to claim" });
     startClaim();
     return sendJson(res, 202, { ok: true });
   }
