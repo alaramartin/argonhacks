@@ -39,7 +39,7 @@ STOLEN_PATH = ROOT / "out" / "diff" / "stolen.json"
 PROFILE_PATH = Path(__file__).resolve().parent / "profile.sample.json"
 CACHE_PATH = ROOT / "agents" / "pricing" / "cache.json"
 ENV_PATH = ROOT / ".env"
-LOCAL_PORTAL = "http://localhost:8090"
+LOCAL_PORTAL = "http://127.0.0.1:8090"
 CREDENTIAL_ID = "pol-mock-portal"
 AGENT = os.environ.get("CLAIM_AGENT", "antigravity-preview-09-2026")
 MODEL = os.environ.get("CLAIM_MODEL", "gemini-3.8-flash")
@@ -115,7 +115,7 @@ def value_item(item, cache):
     if item.get("after_t") is not None:
         evidence += f"; its spot is empty at {mmss(item['after_t'])} in the post-loss video"
     if item.get("evidence"):
-        evidence += f" (BEFORE|AFTER image {item['evidence']})"
+        evidence += "; before/after photo attached"
     return {
         "item_id": item["id"],
         "description": item["label"],
@@ -164,6 +164,17 @@ def http(method, url, body=None, token=None):
         req.add_header("Authorization", f"Bearer {token}")
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read() or b"{}")
+
+
+def upload_evidence(stolen, base):
+    """BEFORE|AFTER images go to the portal from this device, so the claim carries the photo, not a path on our disk."""
+    for item in stolen:
+        img = ROOT / (item.get("evidence") or "")
+        if not item.get("evidence") or not img.is_file():
+            continue
+        req = urllib.request.Request(f"{base}/api/claim/attachments/{item['id']}", method="POST", data=img.read_bytes(),
+                                     headers={"Content-Type": "image/jpeg"})
+        urllib.request.urlopen(req, timeout=30).read()
 
 
 def fill_locally(packet, base):
@@ -243,6 +254,7 @@ def main():
         return
     emit("claim", f"Claim packet ready: {len(packet['items'])} lines, total ${total:,.2f} at replacement cost", "ok")
 
+    upload_evidence(stolen, LOCAL_PORTAL)
     if args.local:
         portal_token()
         draft = fill_locally(packet, LOCAL_PORTAL)

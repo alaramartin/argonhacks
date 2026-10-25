@@ -111,6 +111,12 @@
         ev.append(document.createTextNode(it.evidence));
         const basis = document.createElement("small"); basis.textContent = it.valuation_basis; ev.append(basis);
         if (it.notes) { const n = document.createElement("small"); n.textContent = "Note: " + it.notes; ev.append(n); }
+        if (it.attachment) {
+          const img = document.createElement("img");
+          img.src = it.attachment; img.alt = "Before and after evidence photo";
+          img.style.cssText = "display:block;max-width:100%;width:320px;margin-top:6px;border-radius:6px;border:1px solid var(--line)";
+          ev.append(img);
+        }
         for (const u of String(it.sources || "").split(/[\s,]+/).filter((s) => s.startsWith("http"))) {
           const a = document.createElement("a"); a.href = u; a.target = "_blank"; a.rel = "noopener";
           try { a.textContent = new URL(u).hostname.replace(/^www\./, ""); } catch { a.textContent = u; }

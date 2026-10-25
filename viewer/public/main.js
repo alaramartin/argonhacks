@@ -342,8 +342,9 @@ renderer.domElement.addEventListener("pointerup", (e) => {
 // ---------- data ----------
 
 let lastSceneText = "";
+let view = "before"; // "after" = A's diff scene, with items[].status set
 async function loadScene() {
-  const res = await fetch("/scene.json", { cache: "no-store" });
+  const res = await fetch(`/scene.json?view=${view}`, { cache: "no-store" });
   const text = await res.text();
   if (text === lastSceneText) return;
   lastSceneText = text;
@@ -415,10 +416,105 @@ function connect() {
 const catchCard = document.getElementById("catch");
 catchCard.querySelector("button").addEventListener("click", () => { catchCard.hidden = true; });
 
-function showCatch(ev, src) {
+function showCatch(ev, src, caption = "Loop caught a reconstruction error") {
   catchCard.querySelector("img").src = src;
+  catchCard.querySelector("figcaption").textContent = caption;
   catchCard.querySelector("p").textContent = ev.action;
   catchCard.hidden = false;
+}
+
+// ---------- after the loss: upload, before/after, stolen list, file claim ----------
+
+const afterEl = document.getElementById("after");
+const afterStatus = document.getElementById("after-status");
+const viewButtons = afterEl.querySelectorAll(".views button");
+let afterState = null;
+
+function setView(v) {
+  if (v === view) return;
+  view = v;
+  for (const b of viewButtons) b.classList.toggle("on", b.dataset.view === v);
+  lastSceneText = ""; // force a rebuild even if the file didn't change
+  loadScene();
+}
+for (const b of viewButtons) b.addEventListener("click", () => setView(b.dataset.view));
+
+afterEl.querySelector("input[type=file]").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  afterStatus.textContent = `Uploading ${file.name}…`;
+  const r = await fetch("/api/after/upload", { method: "POST", headers: { "X-Filename": file.name }, body: file });
+  afterStatus.textContent = r.ok ? "Comparing with the before scene. Watch the Activity panel." : (await r.json()).error;
+  pollAfter();
+});
+
+document.getElementById("file-claim").addEventListener("click", async () => {
+  const r = await fetch("/api/claim/start", { method: "POST" });
+  if (!r.ok) afterStatus.textContent = (await r.json()).error;
+  pollAfter();
+});
+
+async function pollAfter() {
+  let s;
+  try { s = await (await fetch("/api/after", { cache: "no-store" })).json(); } catch { return; }
+  const was = afterState;
+  afterState = s;
+  viewButtons[1].disabled = !s.available;
+
+  // A diff that just finished: show its result.
+  if (was?.diff.state === "running" && s.diff.state === "done") setView("after");
+  if (s.diff.state === "running") afterStatus.textContent = "Comparing with the before scene. Watch the Activity panel.";
+  else if (s.diff.state === "error") afterStatus.textContent = `Diff failed: ${s.diff.error}`;
+  else if (s.claim.state === "running") afterStatus.textContent = s.claim.live ? "Claim agent is filling the portal from a Managed Agents sandbox." : "Filling the claim portal.";
+  else if (s.claim.state === "done") afterStatus.textContent = "Claim filled and waiting for your review. It has not been submitted.";
+  else if (s.claim.state === "error") afterStatus.textContent = `Claim agent failed: ${s.claim.error}`;
+  else if (was?.diff.state !== s.diff.state) afterStatus.textContent = "";
+
+  renderStolen(s);
+}
+
+function renderStolen(s) {
+  const box = document.getElementById("stolen");
+  box.hidden = view !== "after" || !s.stolen.length;
+  if (box.hidden) return;
+  const list = document.getElementById("stolen-list");
+  const key = JSON.stringify(s.stolen.map((i) => [i.id, i.price?.low, i.price?.high]));
+  if (list.dataset.key !== key) {
+    list.dataset.key = key;
+    list.innerHTML = "";
+    for (const it of s.stolen) {
+      const li = document.createElement("li");
+      const head = document.createElement("button");
+      head.type = "button";
+      const name = document.createElement("span");
+      name.textContent = it.label;
+      const price = document.createElement("b");
+      price.textContent = fmtPrice(it.price) || "unpriced";
+      head.append(name, price);
+      head.addEventListener("click", () => openEvidence(it.id));
+      head.addEventListener("pointerenter", () => setHover(it.id, true));
+      head.addEventListener("pointerleave", () => setHover(it.id, false));
+      li.append(head);
+      if (it.evidence) {
+        const src = "/" + it.evidence.replace(/\\/g, "/");
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `Before and after: ${it.label}`;
+        img.title = it.reason || "";
+        img.addEventListener("click", () => showCatch({ action: it.reason || it.label }, src, "Before | after: why this is a theft"));
+        img.addEventListener("error", () => img.remove());
+        li.append(img);
+      }
+      list.append(li);
+    }
+  }
+  const sum = sumPrice(s.stolen);
+  document.getElementById("stolen-total").textContent = `· ${s.stolen.length} item${s.stolen.length > 1 ? "s" : ""}${sum ? " · " + fmtPrice(sum) : ""}`;
+  const fileBtn = document.getElementById("file-claim");
+  fileBtn.disabled = s.claim.state === "running";
+  fileBtn.textContent = s.claim.state === "running" ? "Filing…" : s.claim.state === "done" ? "File again" : "File claim";
+  document.getElementById("portal-link").href = s.portal;
 }
 
 // ---------- evidence ----------
@@ -515,4 +611,6 @@ resize();
 await loadScene();
 connect();
 setInterval(loadScene, 5000); // safety net if an agent writes without emitting an event
+pollAfter();
+setInterval(pollAfter, 2000);
 requestAnimationFrame(tick);

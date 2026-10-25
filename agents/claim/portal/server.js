@@ -19,6 +19,7 @@ const ROOT = path.resolve(__dirname, "..", "..", "..");
 const PORT = Number(process.env.PORTAL_PORT || 8090);
 const EVENTS_PATH = process.env.POL_EVENTS || path.join(ROOT, "out", "events.jsonl");
 const CLAIM_PATH = path.join(ROOT, "out", "claim", "claim.json");
+const ATTACH_DIR = path.join(ROOT, "out", "claim", "attachments");
 
 function loadEnv() {
   const p = path.join(ROOT, ".env");
@@ -102,6 +103,14 @@ http.createServer(async (req, res) => {
     return fs.createReadStream(path.join(__dirname, "index.html")).pipe(res);
   }
 
+  if (p.startsWith("/attachments/") && req.method === "GET") {
+    if (viaTunnel(req) && !authorized(req)) return send(res, 401, { error: "missing or invalid credentials" });
+    const file = path.join(ATTACH_DIR, path.basename(p));
+    if (!fs.existsSync(file)) return send(res, 404, { error: "not found" });
+    res.writeHead(200, { "Content-Type": "image/jpeg" });
+    return fs.createReadStream(file).pipe(res);
+  }
+
   if (!p.startsWith("/api/")) return send(res, 404, { error: "not found" });
 
   // The local page reads the draft and submits without a token; anything through the tunnel needs one.
@@ -135,7 +144,8 @@ http.createServer(async (req, res) => {
     if (!(Number(body.replacement_cost) > 0)) return send(res, 400, { error: "replacement_cost must be a positive number" });
     if (claim.status !== "draft") return send(res, 409, { error: "claim already submitted" });
     const row = Object.fromEntries(FORM.item_fields.map((f) => [f.name, body[f.name] ?? ""]));
-    if (body.item_id) row.item_id = String(body.item_id);
+    if (body.item_id) row.item_id = String(body.item_id).replace(/[^\w\-]/g, "");
+    if (row.item_id && fs.existsSync(path.join(ATTACH_DIR, `${row.item_id}.jpg`))) row.attachment = `/attachments/${row.item_id}.jpg`;
     // Re-sending the same item replaces its line instead of claiming it twice.
     const dup = row.item_id ? claim.items.findIndex((i) => i.item_id === row.item_id) : -1;
     if (dup >= 0) claim.items[dup] = row; else claim.items.push(row);
@@ -159,6 +169,21 @@ http.createServer(async (req, res) => {
     return send(res, 200, { ok: true });
   }
 
+  // Evidence photos: uploaded from this device by claim.py, attached to the claim line with the same item_id.
+  if (p.startsWith("/api/claim/attachments/") && req.method === "POST") {
+    if (viaTunnel(req)) return send(res, 403, { error: "attachments are uploaded by the policyholder's device" });
+    const id = p.slice("/api/claim/attachments/".length).replace(/[^\w\-]/g, "");
+    if (!id) return send(res, 400, { error: "item id required" });
+    fs.mkdirSync(ATTACH_DIR, { recursive: true });
+    const out = fs.createWriteStream(path.join(ATTACH_DIR, `${id}.jpg`));
+    req.pipe(out);
+    out.on("finish", () => {
+      emit(`Evidence photo attached for ${id}`, "ok", { item: id });
+      send(res, 200, { ok: true, url: `/attachments/${id}.jpg` });
+    });
+    return;
+  }
+
   if (p === "/api/claim/reset" && req.method === "POST") {
     if (viaTunnel(req)) return send(res, 403, { error: "forbidden" });
     claim = fresh();
@@ -168,4 +193,5 @@ http.createServer(async (req, res) => {
   }
 
   send(res, 404, { error: "not found" });
-}).listen(PORT, () => console.log(`Mock Mutual portal: http://localhost:${PORT}  (events → ${path.relative(ROOT, EVENTS_PATH)})`));
+  // Bound to this device only: anything not via the tunnel is treated as the policyholder, so the LAN must not reach it.
+}).listen(PORT, "127.0.0.1", () => console.log(`Mock Mutual portal: http://127.0.0.1:${PORT}  (events → ${path.relative(ROOT, EVENTS_PATH)})`));

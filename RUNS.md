@@ -26,6 +26,7 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 15 | 13:49 | A | **Part 2 upload path**: raw `IMG_6922.MOV` (HEVC 1080p) straight into `diff.py` | `diff.py --after IMG_6922.MOV` · full settings | 5.7 min | Correct (laptop stolen, stool and trash can moved, 0 false thefts); confirm step blocked the vase again. Time: convert 45 s, upload 19 s, survey 131 s, re-check 71 s + 65 s, confirm 8 s | `out/diff_upload/` |
 | 16 | 13:56 | A | **Part 2 fast setting** on the raw MOV | `diff.py --fast` · medium thinking, 1 re-check round, VideoToolbox conversion, confirm at high | 2.8 min | Correct, 0 false thefts; one harmless extra "moved" (kiosk "turned slightly"). Time: convert 19 s, upload 57 s (Wi-Fi, shared with #17), survey 68 s, re-check 17 s, confirm 5 s | `out/diff_fast/` |
 | 17 | 13:57 | A | **Live loop setting**: one iteration on keyframes 0 and 5 from #8's single pass | `run --from loop --max-iter 1 --skip-passes --keyframes 0,5 --thinking medium` | 24 s | Unbundled the coffee-table book, added the white vase, both check-in stands and the black monitor (#8's only final miss). Brown vase refused as a duplicate of the white one | `out/live_loop/` |
+| 18 | 13:58 | B | **Part 2 live claim agent** through a public tunnel to Mock Mutual | `claim.py --portal https://…trycloudflare.com` · gemini-3.8-flash in Antigravity sandbox · allowlist = portal host only · Credentials API bearer token | 1.5 min | 6/6 claim fields + 1 line (MacBook **$1,099.00**) accepted by the portal with the proxy-injected token; evidence photo attached; **not submitted** | portal `out/claim/` (ignored) |
 
 ## Notes per run
 
@@ -50,6 +51,8 @@ Every pipeline or agent run that produced output, failed, or taught us something
 **#14.** Every `stolen.json` field reached the claim line (`before_t`, `after_t`, `evidence`, sources). The evidence image is referenced by its repo path, which an adjuster outside our machine can't open; it needs a public URL before the live (sandbox) run is shown as a real filing.
 
 **#16-#17.** Demo timing: with the after video uploaded during setup (cache hit), the live diff is about 90-110 s, and the live loop iteration (24 s) fits inside it. **#17**'s refused brown vase is a limit of the duplicate rule: two small same-kind objects side by side overlap each other's padded box.
+
+**#18.** First live run of the claim agent. The portal (not the agent) wrote every accepted field to the Activity panel. The token never entered the sandbox: it is a Credentials API credential bound to the tunnel host, and the allowlist had no other host. Through the tunnel: API without token → 401, policyholder page → 403, submit → refused. Addresses #14's note: the BEFORE|AFTER image is now uploaded to the portal and attached to the claim line instead of referenced by repo path.
 
 ## Open comparisons
 
