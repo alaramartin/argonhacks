@@ -20,6 +20,7 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 9 | 13:08 | B | **Price #8's published scene** (35 unpriced, labels changed so none cached) | `price.py --sandboxes 8` · flash | 13 min | 34/35, 1 failure (bar stool: malformed URL crashed the host filter, fixed); rerun from cache → **38/38 priced**. Total $7,253–$11,612 | `out/scene.json`, cache |
 | 10 | 13:13 | A | **Part 2 diff** (branch `part2`): after.mp4 vs #8's scene | `diff/diff.py --after ../fixtures/after.mp4` · gemini-4-argon, thinking high · survey + up to 3 re-check rounds | 4.8 min | All 3 changes right (laptop stolen, stool moved, trash can moved), **1 false theft** (small white vase) | `out/diff/` (overwritten by #11) |
 | 11 | 13:19 | A | **Part 2 diff, rerun** after adding the evidence-image confirmation (`73679b7`) | same as #10 + confirm step | 3.2 min | Laptop **stolen** (confirmed on its image), stool **moved**, trash can present, **0 false thefts** | `out/diff/` |
+| 12 | 13:25 | A | **Part 2 diff with generic prompt** (removed the room-specific examples "a slid laptop" and "six matching stools") | same as #11 | 4.9 min | Laptop **stolen**, stool **moved**, trash can moved, **0 false thefts**. The confirm step rejected the vase claim | `out/diff/` (prices from #9 copied in with `diff.py --reprice`) |
 
 ## Notes per run
 
@@ -38,6 +39,8 @@ Every pipeline or agent run that produced output, failed, or taught us something
 **#10.** The false theft was `item_038`, a small vase that #8 had already listed as an extra (the ground truth has two small vases, #8 listed three). Its spot was "clearly in view" because the table was, but the vase sat behind another vase (`out/diff/stolen_item_038.jpg` in #10). Part 1 precision errors become false thefts in Part 2. Fixed in `73679b7`: every claim is confirmed on the BEFORE | AFTER image it will carry; on #10's two images Argon confirmed the laptop and rejected the vase.
 
 **#11.** The re-check found the vase by itself this time, so the confirmation step only confirmed the laptop. Scored with `diff/score.py` against `fixtures/after_truth.json` (written by the person who removed and moved the items).
+
+**#12.** Same verdicts with the room-specific examples gone from the survey prompt. The re-check called the small vase stolen again, and this time the confirmation step blocked it on its own evidence image ("all of the small white ceramic vases on top of the book are still present"). That's the first end-to-end run where the confirm step prevented a false theft (in #11 the re-check found the vase on its own).
 
 ## Open comparisons
 

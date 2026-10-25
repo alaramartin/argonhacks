@@ -72,11 +72,11 @@ Here is the AFTER walkthrough video, then the inventory from BEFORE: each item's
 (meters), and the BEFORE frame it was seen in.
 
 For EVERY inventory item, say where it is in the AFTER video:
-- "same_place": visible roughly where it was (small shifts, a turned chair or a slid laptop all count as same place).
+- "same_place": visible roughly where it was (small shifts, a turned chair or a book slid along a shelf all count as same place).
 - "moved": clearly visible, but somewhere else in the room.
 - "not_seen": you can't find it anywhere in the AFTER video.
-Identical items (six matching stools) are judged by count in the area: if one of six is gone, mark one of them
-not_seen. Give the after timestamps where you saw each item.
+Sets of matching items (dining chairs, a row of identical lamps) are judged by count in the area: if one of a set
+is gone, mark one of them not_seen; if one turns up elsewhere, mark one of them moved. Give the after timestamps where you saw each item.
 
 Inventory:
 """
@@ -258,17 +258,38 @@ def run(scene: Scene, after_video: Path, before_video: Path, out_dir: Path) -> t
     return scene, stolen
 
 
+def reprice(out_dir: Path, scene_path: Path) -> int:
+    """Copy current prices from the baseline into an existing diff result, by item id. Verdicts are untouched."""
+    prices = {i["id"]: i.get("price") for i in json.loads(scene_path.read_text())["items"]}
+    diff_scene = json.loads((out_dir / "scene.json").read_text())
+    for it in diff_scene["items"]:
+        if prices.get(it["id"]):
+            it["price"] = prices[it["id"]]
+    (out_dir / "scene.json").write_text(json.dumps(diff_scene, indent=2))
+    stolen = json.loads((out_dir / "stolen.json").read_text())
+    for s in stolen:
+        s["price"] = prices.get(s["id"]) or s["price"]
+    (out_dir / "stolen.json").write_text(json.dumps(stolen, indent=2))
+    return sum(1 for s in stolen if s["price"])
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--after", required=True, help="after-walkthrough video")
+    p.add_argument("--after", help="after-walkthrough video (required unless --reprice)")
     p.add_argument("--before-video", default=str(REPO / "fixtures" / "before.mp4"))
     p.add_argument("--scene", default=str(REPO / "out" / "scene.json"), help="baseline scene")
     p.add_argument("--out", default=str(REPO / "out" / "diff"))
+    p.add_argument("--reprice", action="store_true", help="only refresh prices in an existing diff from --scene")
     args = p.parse_args()
 
     out_dir = Path(args.out)
+    if args.reprice:
+        print(f"{reprice(out_dir, Path(args.scene))} stolen items priced")
+        return
     out_dir.mkdir(parents=True, exist_ok=True)
     events.set_path(out_dir / "events.jsonl")
+    if not args.after:
+        p.error("--after is required")
     scene = Scene.model_validate_json(Path(args.scene).read_text())
     result, stolen = run(scene, Path(args.after), Path(args.before_video), out_dir)
     (out_dir / "scene.json").write_text(json.dumps(result.dump(), indent=2))
