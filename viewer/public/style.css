@@ -21,7 +21,7 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 #stage { position: relative; min-width: 0; }
 /* #scene is its own stacking context, so no tag (even a hovered one) can draw over the overlays below */
 #scene { position: absolute; inset: 0; z-index: 0; }
-#title, #legend, #fidelity, #catch, #after { z-index: 1; }
+#title, #legend, #fidelity, #catch, #after, #nav { z-index: 1; }
 #scene canvas { display: block; touch-action: none; cursor: grab; }
 #scene canvas:active { cursor: grabbing; }
 .labels { position: absolute; inset: 0; pointer-events: none; }
@@ -36,8 +36,6 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 .swatch.moved { background: var(--moved); }
 .swatch.stolen { background: var(--stolen); }
 #legend { align-items: center; }
-#reset-view { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
-#reset-view:hover { border-color: var(--muted); }
 
 #fidelity { position: absolute; top: 20px; right: 20px; display: flex; gap: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 #fidelity div { padding: 10px 14px; display: grid; gap: 2px; }
@@ -144,7 +142,7 @@ dialog video { width: 100%; border-radius: 8px; background: #000; }
 }
 
 /* ---------- after the loss ---------- */
-#after { position: absolute; top: 112px; right: 20px; width: 300px; max-height: calc(100% - 180px); overflow-y: auto;
+#after { position: absolute; top: 112px; right: 20px; width: 300px; max-height: calc(100% - 272px); overflow-y: auto;
   background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
 #after .views { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 #after .views button { background: none; border: 0; color: var(--muted); padding: 7px; font: inherit; font-size: 13px; cursor: pointer; }
@@ -166,3 +164,13 @@ dialog video { width: 100%; border-radius: 8px; background: #000; }
 #file-claim:disabled { opacity: 0.6; cursor: progress; }
 #portal-link { display: block; text-align: center; margin-top: 6px; font-size: 12px; color: var(--present); }
 @media (max-width: 860px) { #after { position: static; width: auto; max-height: none; margin: 8px; } }
+
+/* ---------- camera pad ---------- */
+#nav { position: absolute; right: 20px; bottom: 18px; display: flex; gap: 8px; align-items: stretch; user-select: none; }
+#nav .pad { display: grid; grid-template-columns: repeat(3, 38px); grid-auto-rows: 38px; gap: 4px; }
+#nav .zoom { display: grid; grid-auto-rows: 1fr; gap: 4px; width: 38px; }
+#nav button { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 16px; line-height: 1; cursor: pointer; touch-action: none; }
+#nav button:hover { border-color: var(--muted); }
+#nav button:active { background: #222833; border-color: var(--text); }
+#nav .zoom button { font-size: 20px; }
+@media (max-width: 860px) { #nav { right: 8px; bottom: 8px; } #nav .pad { grid-template-columns: repeat(3, 34px); grid-auto-rows: 34px; } #nav .zoom { width: 34px; } }
