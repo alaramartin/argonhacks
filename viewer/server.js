@@ -59,7 +59,7 @@ function runJob(name, cmd, args, opts) {
 
 function startDiff(file) {
   // diff.py converts phone .MOV to 720p itself and streams `diff` events into the panel's file.
-  runJob("diff", "uv", ["run", "python", "../diff/diff.py", "--after", file, "--events", EVENTS_PATH], { cwd: path.join(ROOT, "pipeline") });
+  runJob("diff", "uv", ["run", "python", "../diff/diff.py", "--fast", "--after", file, "--events", EVENTS_PATH], { cwd: path.join(ROOT, "pipeline") });
 }
 
 function startClaim() {
