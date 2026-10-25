@@ -86,7 +86,10 @@ NOISE_HOSTS = ("google.com", "googleapis.com", "gstatic.com", "w3.org", "schema.
 
 def site_of(url):
     """Retailer site for a URL seen in the agent trace (redsky.target.com → target.com), or None for noise."""
-    host = urlparse(url).netloc.lower().split(":")[0]
+    try:
+        host = urlparse(url).netloc.lower().split(":")[0]
+    except ValueError:  # malformed URLs in agent traces, e.g. "Invalid IPv6 URL"
+        return None
     labels = host.split(".")
     if len(labels) < 2 or not labels[-1].isalpha():
         return None  # truncated URLs like "https://www"
