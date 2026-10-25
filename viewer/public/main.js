@@ -289,12 +289,45 @@ function openEvidence(id) {
 }
 dlg.addEventListener("close", () => video.pause());
 
+// ---------- tag declutter ----------
+// Nearest tags keep their full label; a tag that would overlap a nearer one collapses to just its price.
+// Overlap is tested with each tag's full-size box (cached), so collapsing never flips it back and forth.
+
+const _v = new THREE.Vector3();
+let lastDeclutter = 0;
+
+function declutter(now) {
+  if (now - lastDeclutter < 120) return;
+  lastDeclutter = now;
+  const tags = [];
+  for (const { mesh, tagEl } of itemMeshes.values()) {
+    if (tagEl.style.display === "none") continue; // behind the camera
+    if (!tagEl.dataset.w) { // tags are rebuilt on every scene reload, so this is measured at full size
+      const r = tagEl.getBoundingClientRect();
+      tagEl.dataset.w = r.width; tagEl.dataset.h = r.height;
+    }
+    const r = tagEl.getBoundingClientRect();
+    const w = +tagEl.dataset.w, h = +tagEl.dataset.h;
+    const box = { x: r.left, y: r.top + r.height / 2 - h / 2, w, h };
+    tags.push({ tagEl, box, dist: camera.position.distanceTo(mesh.getWorldPosition(_v)) });
+  }
+  tags.sort((a, b) => a.dist - b.dist);
+  const kept = [];
+  const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+  for (const t of tags) {
+    const collapse = kept.some((k) => hit(t.box, k.box));
+    t.tagEl.classList.toggle("collapsed", collapse);
+    if (!collapse) kept.push(t);
+  }
+}
+
 // ---------- go ----------
 
-function tick() {
+function tick(now) {
   controls.update();
   renderer.render(scene, camera);
   labels.render(scene, camera);
+  declutter(now);
   requestAnimationFrame(tick);
 }
 
@@ -302,4 +335,4 @@ resize();
 await loadScene();
 connect();
 setInterval(loadScene, 5000); // safety net if an agent writes without emitting an event
-tick();
+requestAnimationFrame(tick);
