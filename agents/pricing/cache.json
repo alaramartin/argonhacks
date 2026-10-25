@@ -1,0 +1,106 @@
+{
+  "stand mixer, red": {
+    "low": 299.99,
+    "high": 499.99,
+    "currency": "USD",
+    "query": "red stand mixer",
+    "sources": [
+      {
+        "retailer": "Walmart",
+        "title": "KitchenAid Deluxe Series 4.5 Quart Tilt-Head Stand Mixer with Stainless Bowl, Empire Red, KSM97ER",
+        "price": 299.99,
+        "url": "https://www.walmart.com/ip/KitchenAid-Deluxe-Series-4-5-Quart-Tilt-Head-Stand-Mixer-with-Stainless-Bowl-Empire-Red-KSM97ER/2074869304"
+      },
+      {
+        "retailer": "Target",
+        "title": "KitchenAid 5.5qt Bowl-Lift Stand Mixer - KSM55 - Empire Red",
+        "price": 499.99,
+        "url": "https://www.target.com/p/kitchenaid-5-5qt-bowl-lift-stand-mixer-ksm55-empire-red/-/A-88368976"
+      },
+      {
+        "retailer": "Best Buy",
+        "title": "KitchenAid - Artisan Series 5 Quart Tilt-Head Stand Mixer - KSM150PSER - Empire Red",
+        "price": 499.99,
+        "url": "https://www.bestbuy.com/site/kitchenaid-artisan-series-5-quart-tilt-head-stand-mixer-ksm150pser-empire-red/6008009.p?skuId=6008009"
+      }
+    ]
+  },
+  "gray 2-seat fabric loveseat": {
+    "low": 157.5,
+    "high": 469.0,
+    "currency": "USD",
+    "query": "gray 2-seat fabric loveseat",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Upholstered Loveseat Gray - Room Essentials™",
+        "price": 157.5,
+        "url": "https://www.target.com/p/upholstered-loveseat-gray-room-essentials-8482/-/A-89503313"
+      },
+      {
+        "retailer": "IKEA",
+        "title": "KLIPPAN Loveseat, Vissle gray",
+        "price": 349.0,
+        "url": "https://www.ikea.com/us/en/p/klippan-loveseat-vissle-gray-s09010617/"
+      },
+      {
+        "retailer": "The Home Depot",
+        "title": "Gleason 57.1 in. Pebble Grey Polyester 2-Seater Loveseat",
+        "price": 469.0,
+        "url": "https://www.homedepot.com/p/Gleason-57-1-in-Pebble-Grey-Polyester-2-Seater-Loveseat-132A023PEB/330993772"
+      }
+    ]
+  },
+  "black metal arc floor lamp": {
+    "low": 52.99,
+    "high": 149.99,
+    "currency": "USD",
+    "query": "black metal arc floor lamp",
+    "sources": [
+      {
+        "retailer": "Wayfair",
+        "title": "Banty 63.8'' Arched/Arc Floor Lamp",
+        "price": 52.99,
+        "url": "https://www.wayfair.com/lighting/pdp/wade-logan-banty-638-archedarc-floor-lamp-w100236942.html"
+      },
+      {
+        "retailer": "Walmart",
+        "title": "Better Homes & Gardens Michelle 71 in Metal Arc Floor Lamp with White Fabric Shade and 3-Way Switch",
+        "price": 104.0,
+        "url": "https://www.walmart.com/ip/Better-Homes-Gardens-71-H-Black-Metal-Arc-Floor-Lamp-Classic-Adult-Home-Office/2944515910"
+      },
+      {
+        "retailer": "Target",
+        "title": "Possini Euro Design Cora Modern Arc Floor Lamp Standing 72\" Tall Black Metal White Linen Drum Shade Decor for Living Room Reading Bedroom Office House",
+        "price": 149.99,
+        "url": "https://www.target.com/p/360-lighting-cora-modern-arc-floor-lamp-standing-72-tall-black-metal-white-linen-drum-shade-decor-for-living-room-reading-bedroom-office-house-home/-/A-82104922"
+      }
+    ]
+  },
+  "oak rectangular coffee table": {
+    "low": 194.99,
+    "high": 249.99,
+    "currency": "USD",
+    "query": "oak rectangular coffee table",
+    "sources": [
+      {
+        "retailer": "Target",
+        "title": "Christopher Knight Home Eartha 47\"W Oak Rectangular Solid Wood Coffee Table with Shelf, Natural",
+        "price": 194.99,
+        "url": "https://www.target.com/p/christopher-knight-home-eartha-47-w-oak-rectangular-solid-wood-coffee-table-with-shelf-natural/-/A-1003701356"
+      },
+      {
+        "retailer": "Home Depot",
+        "title": "Noble House Valda 47.3 in. Oak Rectangle Solid Wood Coffee Table with Storage Shelf",
+        "price": 242.0,
+        "url": "https://www.homedepot.com/p/Noble-House-Valda-47-3-in-Oak-Rectangle-Solid-Wood-Coffee-Table-with-Storage-Shelf-132863/338798508"
+      },
+      {
+        "retailer": "IKEA",
+        "title": "GUTTANE Coffee table, oak, 45 5/8x15 3/8\"",
+        "price": 249.99,
+        "url": "https://www.ikea.com/us/en/p/guttane-coffee-table-oak-10587712/"
+      }
+    ]
+  }
+}

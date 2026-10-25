@@ -10,9 +10,12 @@ import argparse
 import json
 import os
 import re
+import queue
 import shutil
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -81,6 +84,18 @@ def parse_result(text):
 NOISE_HOSTS = ("google.com", "googleapis.com", "gstatic.com", "w3.org", "schema.org", "bing.com", "duckduckgo.com")
 
 
+def site_of(url):
+    """Retailer site for a URL seen in the agent trace (redsky.target.com → target.com), or None for noise."""
+    host = urlparse(url).netloc.lower().split(":")[0]
+    labels = host.split(".")
+    if len(labels) < 2 or not labels[-1].isalpha():
+        return None  # truncated URLs like "https://www"
+    site = ".".join(labels[-2:])
+    if site.endswith(NOISE_HOSTS) or any(t in site for t in ("img", "cdn", "static")):
+        return None
+    return site
+
+
 def urls_in(obj):
     return re.findall(r"https?://[^\s\"'\\)>\]]+", str(obj))
 
@@ -88,13 +103,21 @@ def urls_in(obj):
 class ManagedPricer:
     """One Managed Agents sandbox, reused across items so we only provision once."""
 
-    def __init__(self, agent, model):
+    def __init__(self, agent, model, number):
         from google import genai
 
         self.client = genai.Client()
         self.agent = agent
         self.model = model
+        self.name = f"Sandbox {number}"
         self.environment = "remote"
+
+    def _set_environment(self, env_id):
+        if env_id and env_id != self.environment:
+            if self.environment == "remote":
+                emit("pricing", f"{self.name} provisioned (Managed Agents environment …{env_id[-6:]})", "ok",
+                     {"environment": env_id})
+            self.environment = env_id
 
     def price(self, item):
         seen = set()
@@ -111,14 +134,13 @@ class ManagedPricer:
             # and to learn the interaction/environment ids. The final answer is fetched whole below.
             inter = getattr(event, "interaction", None)
             interaction_id = getattr(inter, "id", None) or interaction_id
-            env_id = getattr(inter, "environment_id", None) or getattr(event, "environment_id", None)
-            if env_id:
-                self.environment = env_id
+            self._set_environment(getattr(inter, "environment_id", None) or getattr(event, "environment_id", None))
             for url in urls_in(event):
-                host = urlparse(url).netloc.removeprefix("www.")
-                if host and host not in seen and not host.endswith(NOISE_HOSTS) and len(seen) < 6:
+                host = site_of(url)
+                if host and host not in seen and len(seen) < 6:
                     seen.add(host)
-                    emit("pricing", f"Browsing {host} for \"{item['label']}\"", "info", {"item": item["id"], "url": url})
+                    emit("pricing", f"{self.name} browsing {host} for \"{item['label']}\"", "info",
+                         {"item": item["id"], "url": url})
         if not interaction_id:
             raise ValueError("stream ended without an interaction id")
         final = self.client.interactions.get(id=interaction_id)
@@ -127,8 +149,7 @@ class ManagedPricer:
                 break
             time.sleep(3)
             final = self.client.interactions.get(id=interaction_id)
-        if getattr(final, "environment_id", None):
-            self.environment = final.environment_id
+        self._set_environment(getattr(final, "environment_id", None))
         return parse_result(final.output_text)
 
 
@@ -147,6 +168,17 @@ def fmt(p):
     return f"${p['low']:,.0f}" if p["low"] == p["high"] else f"${p['low']:,.0f}–${p['high']:,.0f}"
 
 
+def report_sources(item, result):
+    """One panel line per retailer listing, so judges can check each number behind a price range."""
+    for s in result.get("sources", []):
+        if not isinstance(s, dict) or s.get("price") is None:
+            continue
+        title = (s.get("title") or "").strip()
+        title = title[:70] + "…" if len(title) > 70 else title
+        emit("pricing", f"Found at {s.get('retailer', 'retailer')}: {title} — ${float(s['price']):,.2f}", "info",
+             {"item": item["id"], "url": s.get("url")})
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--scene", type=Path, default=DEFAULT_SCENE)
@@ -155,6 +187,8 @@ def main():
     ap.add_argument("--cache-only", action="store_true", help="never call the live agent")
     ap.add_argument("--agent", default=AGENT)
     ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--sandboxes", type=int, default=int(os.environ.get("PRICING_SANDBOXES", 6)),
+                    help="parallel Managed Agents sandboxes")
     args = ap.parse_args()
 
     if not args.scene.exists():
@@ -165,40 +199,57 @@ def main():
     items = load_json(args.scene, {}).get("items", [])
     todo = [i for i in items if (args.refresh or not i.get("price")) and (not args.only or i["id"] in args.only)]
     cache = load_json(CACHE_PATH, {})
-    pricer = None
+    write_lock = threading.Lock()  # scene.json and cache.json are rewritten whole
 
-    emit("pricing", f"Pricing {len(todo)} items at like kind and quality", "info")
-    for n, item in enumerate(todo, 1):
+    # A pool of sandboxes: each worker takes one, prices an item in it, and hands it back for reuse.
+    live = [i for i in todo if args.refresh or cache_key(i["label"]) not in cache]
+    n_boxes = 0 if args.cache_only else min(args.sandboxes, len(live))
+    pool = queue.Queue()
+    for k in range(1, n_boxes + 1):
+        pool.put(ManagedPricer(args.agent, args.model, k))
+
+    emit("pricing", f"Pricing {len(todo)} items at like kind and quality"
+         + (f" · {n_boxes} Managed Agents sandboxes on {args.model}" if n_boxes else " · from cache"), "info")
+
+    def price_item(n, item):
         label, key = item["label"], cache_key(item["label"])
         emit("pricing", f"Searching price {n}/{len(todo)}: \"{label}\"", "info", {"item": item["id"]})
-
         result = None if args.refresh else cache.get(key)
         cached = result is not None
         if result is None and not args.cache_only:
+            pricer = pool.get()
             try:
-                pricer = pricer or ManagedPricer(args.agent, args.model)
                 result = pricer.price(item)
-                cache[key] = result
-                write_json(CACHE_PATH, cache)
             except Exception as e:  # keep going; one blocked retailer shouldn't stop the inventory
                 emit("pricing", f"Price search failed for \"{label}\": {e}", "error", {"item": item["id"]})
-                continue
+                return False
+            finally:
+                pool.put(pricer)
+            with write_lock:
+                cache[key] = result
+                write_json(CACHE_PATH, cache)
         if result is None:
             emit("pricing", f"No cached price for \"{label}\"", "error", {"item": item["id"]})
-            continue
+            return False
 
         price = to_contract(result)
-        save_price(args.scene, item["id"], price)
+        with write_lock:
+            save_price(args.scene, item["id"], price)
+        report_sources(item, result)
         hosts = sorted({urlparse(u).netloc.removeprefix("www.") for u in price["sources"]})
         where = ", ".join(hosts) if hosts else f"{len(price['sources'])} sources"
         emit(
             "pricing",
-            f"Searching price: \"{result.get('query', label)}\" → {fmt(price)} ({where}){' · cached' if cached else ''}",
+            f"Priced \"{label}\" → {fmt(price)} ({where}){' · cached' if cached else ''}",
             "ok",
             {"item": item["id"], "low": price["low"], "high": price["high"]},
         )
+        return True
 
-    emit("pricing", f"Pricing done: {len(todo)} items checked", "ok")
+    with ThreadPoolExecutor(max_workers=max(n_boxes, 1)) as ex:
+        done = sum(ex.map(lambda pair: price_item(*pair), enumerate(todo, 1)))
+
+    emit("pricing", f"Pricing done: {done}/{len(todo)} items priced", "ok" if done == len(todo) else "warn")
 
 
 if __name__ == "__main__":
