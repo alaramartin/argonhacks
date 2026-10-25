@@ -6,12 +6,11 @@ import os
 from pathlib import Path
 
 import argon
-import frames
 from events import emit
 from fidelity import _tokens
 from models import Critique, CritiqueList, Item, Keyframe, Scene, Size
 from reconstruct import CONVENTIONS
-from render import render, side_by_side
+from render_pairs import render_pairs
 
 MAX_ITERATIONS = 4
 REPO = Path(__file__).resolve().parent.parent
@@ -124,32 +123,69 @@ def _apply(scene: Scene, c: Critique) -> str | None:
     return None
 
 
-def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: int = MAX_ITERATIONS) -> tuple[Scene, int]:
+def _critique_local(scene: Scene, video: str | Path, pair_dir: Path, it: int) -> tuple[list[Critique], list[Path]]:
+    emit("loop", f"Loop iter {it}: rendering scene from {len(scene.keyframes)} keyframe viewpoints")
+    pairs = render_pairs(scene, video, pair_dir, f"iter{it}_")
+    contents: list = [PROMPT + _scene_for_prompt(scene)]
+    for k, path in enumerate(pairs):
+        contents += [f"Keyframe {k} (t={scene.keyframes[k].t:.1f}s):", argon.image_part(path)]
+    emit("loop", f"Loop iter {it}: Argon comparing {len(pairs)} rendered views with the real frames")
+    return argon.ask(contents, CritiqueList, system=SYSTEM, thinking="high").critiques, pairs
+
+
+SANDBOX_TASK = """\
+You are inside a Linux sandbox. Our files are in `pol/` under your starting directory (find it with `ls` if needed).
+
+Step 1. Setup (skip what's already done): `pip install --break-system-packages -q pillow numpy pydantic`.
+Step 2. Render: `cd pol && python3 render_pairs.py scene.json video.mp4 pairs iter{it}_`
+        This writes pairs/iter{it}_kf<k>.jpg: REAL frame on the left, RENDER of the current scene on the right.
+Step 3. Open and look at EVERY pair image pol/pairs/iter{it}_kf*.jpg yourself. Only if something is genuinely
+        unclear, extract an extra frame from pol/video.mp4 with ffmpeg: at most 4 extra frames in total. Be quick;
+        this runs while people watch.
+Step 4. Write your critiques to pol/critiques_iter{it}.json as {{"critiques": [...]}} matching this JSON schema:
+{schema}
+Step 5. Reply with just the number of critiques.
+
+Background:
+{system}
+
+What to look for:
+{prompt}"""
+
+
+def _critique_sandbox(sb, scene: Scene, video: str | Path, pair_dir: Path, it: int) -> tuple[list[Critique], list[Path]]:
+    sb.upload_text(json.dumps(scene.dump()), "pol/scene.json")
+    emit("loop", f"Loop iter {it}: Argon in the sandbox is rendering {len(scene.keyframes)} viewpoints and checking them against the video")
+    task = SANDBOX_TASK.format(it=it, schema=json.dumps(CritiqueList.model_json_schema()), system=SYSTEM,
+                               prompt=PROMPT + _scene_for_prompt(scene))
+    sb.run(task, f"Loop iter {it}")
+    critiques = CritiqueList.model_validate_json(sb.download(f"pol/critiques_iter{it}.json")).critiques
+    pairs = []
+    for k in range(len(scene.keyframes)):
+        path = pair_dir / f"iter{it}_kf{k}.jpg"
+        try:
+            path.write_bytes(sb.download(f"pol/pairs/iter{it}_kf{k}.jpg"))
+        except Exception:  # the viewer still needs the image; render the same pair locally
+            render_pairs(scene.model_copy(update={"keyframes": [scene.keyframes[k]]}), video, pair_dir, f"iter{it}_tmp_")
+            (pair_dir / f"iter{it}_tmp_kf0.jpg").rename(path)
+        pairs.append(path)
+    return critiques, pairs
+
+
+def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: int = MAX_ITERATIONS,
+        sandbox=None) -> tuple[Scene, int]:
     out_dir = Path(out_dir)
-    frame_dir, pair_dir = out_dir / "frames", out_dir / "loop"
+    pair_dir = out_dir / "loop"
     pair_dir.mkdir(parents=True, exist_ok=True)
-    width, height = frames.size(video)
-    scale = 720 / height
-    width, height = int(width * scale), 720
 
     scene = scene.model_copy(deep=True)
     iterations = 0
     for it in range(1, max_iterations + 1):
         iterations = it
-        emit("loop", f"Loop iter {it}: rendering scene from {len(scene.keyframes)} keyframe viewpoints")
-        pairs = []
-        for k, kf in enumerate(scene.keyframes):
-            real = frames.extract(video, kf.t, frame_dir)
-            pair = side_by_side(real, render(scene, kf, width, height), caption=f"keyframe {k} @ {kf.t:.1f}s")
-            path = pair_dir / f"iter{it}_kf{k}.jpg"
-            pair.save(path, quality=88)
-            pairs.append(path)
-
-        contents: list = [PROMPT + _scene_for_prompt(scene)]
-        for k, path in enumerate(pairs):
-            contents += [f"Keyframe {k} (t={scene.keyframes[k].t:.1f}s):", argon.image_part(path)]
-        emit("loop", f"Loop iter {it}: Argon comparing {len(pairs)} rendered views with the real frames")
-        critiques = argon.ask(contents, CritiqueList, system=SYSTEM, thinking="high").critiques
+        if sandbox is not None:
+            critiques, pairs = _critique_sandbox(sandbox, scene, video, pair_dir, it)
+        else:
+            critiques, pairs = _critique_local(scene, video, pair_dir, it)
 
         if not critiques:
             emit("loop", f"Loop iter {it}: rendered views match the video, no critiques", "ok")

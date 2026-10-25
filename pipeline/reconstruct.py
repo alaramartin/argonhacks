@@ -22,6 +22,11 @@ SYSTEM = f"""\
 You reconstruct rooms from phone walkthrough videos for home-insurance inventories.
 A missed item underpays the claim; an invented item makes it fraudulent. List only what you can see.
 
+What counts as an item, in every pass: belongings an insurer would pay to replace (furniture, electronics,
+appliances, lamps, plants in planters, decor, art, rugs, bikes and other equipment). Never: built-ins (counters,
+built-in cabinets and shelving, radiators, outlets, fixed lighting), consumables and supplies (snacks, boxes, pens,
+paper, cards, cups), loose trash (a trash can itself counts), people, or the clothing and bags of people passing through.
+
 {CONVENTIONS}"""
 
 PROMPT = """\

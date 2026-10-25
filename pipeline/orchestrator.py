@@ -64,7 +64,11 @@ def cmd_run(args) -> None:
     scene = _load(out / ("scene.single_pass.json" if start <= 1 else "scene.json"))
 
     if start <= 1:
-        scene, iterations = loop.run(scene, args.video, out, args.max_iter)
+        sb = None
+        if args.sandbox:
+            from sandbox import Sandbox
+            sb = Sandbox(args.video, out / ".sandbox_env.json")
+        scene, iterations = loop.run(scene, args.video, out, args.max_iter, sandbox=sb)
         _save(scene, out / "scene.after_loop1.json")
         _save(scene, out / "scene.json")
     if start <= 2 and not args.skip_passes:
@@ -108,6 +112,7 @@ def main() -> None:
     r.add_argument("--from", dest="from_stage", choices=STAGES, default="reconstruct")
     r.add_argument("--max-iter", type=int, default=loop.MAX_ITERATIONS)
     r.add_argument("--skip-passes", action="store_true", help="loop only; skip completeness and precision")
+    r.add_argument("--sandbox", action="store_true", help="run the loop's render-and-critique step in a Managed Agents sandbox")
     r.set_defaults(fn=cmd_run)
 
     s = sub.add_parser("smoke")
