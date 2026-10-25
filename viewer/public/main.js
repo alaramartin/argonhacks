@@ -256,8 +256,19 @@ function frameCamera(s) {
   controls.update();
 }
 
+// CSS2DRenderer only removes a label's element when that label object itself gets a "removed" event.
+// We remove the whole world group, so without this every rebuild left a frozen copy of every tag on screen.
+function disposeWorld(group) {
+  group.traverse((o) => {
+    if (o.isCSS2DObject) o.element.remove();
+    o.geometry?.dispose();
+    o.material?.dispose();
+  });
+  scene.remove(group);
+}
+
 function render(s) {
-  scene.remove(world);
+  disposeWorld(world);
   world = new THREE.Group();
   itemMeshes.clear();
   for (const room of s.rooms || []) buildRoom(room, world);
