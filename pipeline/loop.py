@@ -24,7 +24,16 @@ estimated camera of the same keyframe. Items in the render are colored boxes lab
 PROMPT = """\
 Here is the current scene (JSON) and one REAL | RENDER pair per keyframe.
 
-Report only real, material errors in the inventory, as critiques:
+Work through every pair as an itemized accounting (in your thinking, not the output):
+1. List every belonging visible in the REAL frame, including small ones on tables and counters (electronics,
+   card readers, speakers, bags, books, decor) and items partly hidden behind others.
+2. For each, find its box in the RENDER, or in the scene JSON if the render's viewpoint is off.
+3. Anything with no box anywhere in the scene is missing. A box whose object you can't find in any REAL frame is
+   suspect.
+The single pass that built this scene usually misses a few small or partly hidden items, so look hard before
+concluding nothing is missing.
+
+Then report the real, material errors as critiques:
 - fix "add": a belonging clearly visible in REAL with no box in RENDER. Give `label`, `anchor`, `size`, target "new".
 - fix "remove": a box in RENDER for something that is not in REAL at all. Target its id.
 - fix "move" / "resize": a box clearly in the wrong place (wrong wall, wrong side of another item, off by more than
@@ -35,6 +44,8 @@ Report only real, material errors in the inventory, as critiques:
   Give corrected `position` and `look_at`. When the camera is off, fix it instead of moving every item.
 
 Rules:
+- Only add belongings an insurer would pay to replace. Not consumables or supplies (snacks, cardboard boxes,
+  pens, paper, cards, cups), not trash, not people or their clothing.
 - Built-ins are deliberately NOT modeled: counters, built-in cabinets and shelving, radiators, outlets, fixed
   lighting. Never add them, even though they show in REAL and not in RENDER.
 - Before calling an item missing, check other keyframes and the scene JSON: it may already exist, seen from elsewhere.
@@ -65,7 +76,9 @@ def find_duplicate(scene: Scene, label: str, anchor) -> Item | None:
     (slightly padded) box. Identical items side by side don't overlap, so they're kept."""
     words = _tokens(label)
     for item in scene.items:
-        if not words & _tokens(item.label):
+        other = _tokens(item.label)
+        # "snack basket" vs "snack bar sign" share a word but aren't the same kind of thing
+        if not words or not other or len(words & other) / min(len(words), len(other)) < 0.5:
             continue
         a, s = item.anchor, item.size
         inside = (abs(anchor.x - a.x) <= s.w * DUPLICATE_PAD / 2 and abs(anchor.y - a.y) <= s.h * DUPLICATE_PAD / 2
@@ -134,7 +147,7 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
         for k, path in enumerate(pairs):
             contents += [f"Keyframe {k} (t={scene.keyframes[k].t:.1f}s):", argon.image_part(path)]
         emit("loop", f"Loop iter {it}: Argon comparing {len(pairs)} rendered views with the real frames")
-        critiques = argon.ask(contents, CritiqueList, system=SYSTEM).critiques
+        critiques = argon.ask(contents, CritiqueList, system=SYSTEM, thinking="high").critiques
 
         if not critiques:
             emit("loop", f"Loop iter {it}: rendered views match the video, no critiques", "ok")
