@@ -373,7 +373,15 @@ function renderSummary(s) {
     const n = fid.ground_truth_count;
     const found = (r) => (n ? `${Math.round(r * n)} of ${n}` : `${Math.round(r * 100)}%`);
     el.innerHTML = "";
-    const row = (k, r) => { const d = document.createElement("div"); d.innerHTML = `<span>${k}</span><b>${found(r.recall)}</b><small>precision ${Math.round(r.precision * 100)}%</small>`; return d; };
+    // "Accuracy" on screen is F1: one number that rises only if items found (recall) and listed items that are
+    // real (precision) improve together. The hover text says so for anyone who asks.
+    const f1 = (r) => (r.recall + r.precision ? (2 * r.recall * r.precision) / (r.recall + r.precision) : 0);
+    const row = (k, r) => {
+      const d = document.createElement("div");
+      d.title = `Accuracy is F1, combining items found (recall ${Math.round(r.recall * 100)}%) and listed items that are real (precision ${Math.round(r.precision * 100)}%), scored against a hand count of the room.`;
+      d.innerHTML = `<span>${k}</span><b>${Math.round(f1(r) * 100)}%</b><small>accuracy · ${found(r.recall)} found</small>`;
+      return d;
+    };
     el.append(row("single pass", fid.single_pass), row(`after loop · ${fid.iterations} iter`, fid.after_loop));
     el.hidden = false;
   } else el.hidden = true;
