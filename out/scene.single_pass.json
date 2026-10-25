@@ -9,37 +9,37 @@
             0.0
           ],
           "to": [
-            0.0,
-            12.0
-          ],
-          "height": 4.5
-        },
-        {
-          "from": [
-            0.0,
-            12.0
-          ],
-          "to": [
-            6.5,
-            12.0
-          ],
-          "height": 4.5
-        },
-        {
-          "from": [
-            6.5,
-            12.0
-          ],
-          "to": [
-            6.5,
+            5.5,
             0.0
           ],
           "height": 4.5
         },
         {
           "from": [
-            6.5,
+            5.5,
             0.0
+          ],
+          "to": [
+            5.5,
+            14.0
+          ],
+          "height": 4.5
+        },
+        {
+          "from": [
+            5.5,
+            14.0
+          ],
+          "to": [
+            0.0,
+            14.0
+          ],
+          "height": 4.5
+        },
+        {
+          "from": [
+            0.0,
+            14.0
           ],
           "to": [
             0.0,
@@ -51,27 +51,21 @@
       "openings": [
         {
           "type": "window",
-          "wall": 0,
+          "wall": 3,
           "offset": 0.0,
-          "width": 4.0
+          "width": 14.0
         },
         {
           "type": "door",
-          "wall": 0,
-          "offset": 4.0,
+          "wall": 3,
+          "offset": 9.5,
           "width": 2.0
         },
         {
-          "type": "window",
-          "wall": 0,
-          "offset": 6.0,
-          "width": 6.0
-        },
-        {
           "type": "door",
-          "wall": 2,
+          "wall": 1,
           "offset": 8.0,
-          "width": 0.9
+          "width": 1.0
         }
       ]
     }
@@ -80,84 +74,84 @@
     {
       "t": 3.0,
       "position": {
-        "x": 1.2,
+        "x": 0.6,
         "y": 1.5,
-        "z": 1.8
+        "z": 12.8
       },
       "look_at": {
-        "x": 3.5,
+        "x": 3.0,
         "y": 1.5,
-        "z": 8.0
+        "z": 2.0
       },
       "fov": 60.0
     },
     {
       "t": 10.0,
       "position": {
-        "x": 3.6,
+        "x": 3.0,
         "y": 1.5,
-        "z": 2.5
+        "z": 10.8
       },
       "look_at": {
-        "x": 4.8,
+        "x": 4.2,
+        "y": 1.0,
+        "z": 10.0
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 25.0,
+      "position": {
+        "x": 3.2,
+        "y": 1.5,
+        "z": 4.5
+      },
+      "look_at": {
+        "x": 5.2,
         "y": 1.0,
         "z": 3.5
       },
       "fov": 60.0
     },
     {
-      "t": 22.0,
-      "position": {
-        "x": 3.8,
-        "y": 1.5,
-        "z": 8.0
-      },
-      "look_at": {
-        "x": 5.8,
-        "y": 1.2,
-        "z": 10.0
-      },
-      "fov": 60.0
-    },
-    {
       "t": 39.0,
       "position": {
-        "x": 3.5,
+        "x": 2.5,
         "y": 1.5,
-        "z": 7.5
+        "z": 5.5
       },
       "look_at": {
         "x": 2.5,
-        "y": 1.2,
-        "z": 11.5
+        "y": 1.0,
+        "z": 0.0
       },
       "fov": 60.0
     },
     {
       "t": 55.0,
       "position": {
-        "x": 4.0,
+        "x": 3.0,
         "y": 1.5,
-        "z": 10.5
+        "z": 1.8
       },
       "look_at": {
-        "x": 5.8,
+        "x": 5.0,
         "y": 1.0,
-        "z": 8.5
+        "z": 3.5
       },
       "fov": 60.0
     },
     {
       "t": 75.0,
       "position": {
-        "x": 2.6,
-        "y": 1.5,
-        "z": 9.8
+        "x": 2.3,
+        "y": 1.2,
+        "z": 2.0
       },
       "look_at": {
-        "x": 2.6,
-        "y": 0.8,
-        "z": 11.5
+        "x": 2.3,
+        "y": 0.6,
+        "z": 0.5
       },
       "fov": 60.0
     },
@@ -166,40 +160,26 @@
       "position": {
         "x": 1.5,
         "y": 1.5,
-        "z": 9.5
+        "z": 4.5
       },
       "look_at": {
-        "x": 0.5,
-        "y": 0.8,
-        "z": 7.0
+        "x": 0.3,
+        "y": 0.6,
+        "z": 6.5
       },
       "fov": 60.0
     },
     {
-      "t": 105.0,
+      "t": 115.0,
       "position": {
         "x": 1.5,
         "y": 1.5,
-        "z": 5.0
-      },
-      "look_at": {
-        "x": 2.5,
-        "y": 1.5,
-        "z": 1.5
-      },
-      "fov": 60.0
-    },
-    {
-      "t": 118.0,
-      "position": {
-        "x": 1.5,
-        "y": 1.5,
-        "z": 2.0
+        "z": 11.5
       },
       "look_at": {
         "x": 3.5,
         "y": 1.5,
-        "z": 8.0
+        "z": 5.0
       },
       "fov": 60.0
     }
@@ -207,11 +187,11 @@
   "items": [
     {
       "id": "item_001",
-      "label": "black Purell automatic hand sanitizer dispenser on metal floor stand",
+      "label": "black Purell automatic hand sanitizer dispenser on floor stand",
       "anchor": {
-        "x": 4.5,
+        "x": 4.2,
         "y": 0.65,
-        "z": 2.6
+        "z": 11.0
       },
       "size": {
         "w": 0.35,
@@ -227,31 +207,11 @@
     },
     {
       "id": "item_002",
-      "label": "white plastic rectangular trash can",
+      "label": "tall green dracaena floor plant in gray cylindrical planter",
       "anchor": {
-        "x": 4.3,
-        "y": 0.3,
-        "z": 3.4
-      },
-      "size": {
-        "w": 0.35,
-        "h": 0.6,
-        "d": 0.25
-      },
-      "seen_at": [
-        6.0,
-        10.0,
-        116.0
-      ],
-      "confidence": 0.95
-    },
-    {
-      "id": "item_003",
-      "label": "tall green dracaena plant in round gray planter",
-      "anchor": {
-        "x": 5.1,
+        "x": 4.8,
         "y": 0.9,
-        "z": 3.3
+        "z": 10.3
       },
       "size": {
         "w": 0.8,
@@ -261,17 +221,37 @@
       "seen_at": [
         7.0,
         8.0,
-        113.0
+        9.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_003",
+      "label": "white rectangular plastic trash can",
+      "anchor": {
+        "x": 3.9,
+        "y": 0.3,
+        "z": 10.3
+      },
+      "size": {
+        "w": 0.35,
+        "h": 0.6,
+        "d": 0.25
+      },
+      "seen_at": [
+        6.0,
+        10.0,
+        115.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_004",
-      "label": "small pink and green aglaonema plant in round gray pot on reception counter",
+      "label": "small leafy plant in gray cylindrical pot on white faux fur mat",
       "anchor": {
-        "x": 4.4,
+        "x": 3.9,
         "y": 1.25,
-        "z": 3.8
+        "z": 9.9
       },
       "size": {
         "w": 0.45,
@@ -281,56 +261,37 @@
       "seen_at": [
         8.0,
         11.0,
-        13.0
+        12.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_005",
-      "label": "gray mesh ergonomic office chair",
+      "label": "wooden desk phone/intercom unit",
       "anchor": {
-        "x": 5.1,
-        "y": 0.5,
-        "z": 5.2
+        "x": 4.15,
+        "y": 1.03,
+        "z": 10.1
       },
       "size": {
-        "w": 0.65,
-        "h": 1.0,
-        "d": 0.65
+        "w": 0.15,
+        "h": 0.06,
+        "d": 0.2
       },
       "seen_at": [
-        15.0,
-        16.0
-      ],
-      "confidence": 0.85
-    },
-    {
-      "id": "item_006",
-      "label": "gray mesh ergonomic office chair",
-      "anchor": {
-        "x": 5.1,
-        "y": 0.5,
-        "z": 6.5
-      },
-      "size": {
-        "w": 0.65,
-        "h": 1.0,
-        "d": 0.65
-      },
-      "seen_at": [
-        3.0,
-        5.0,
-        116.0
+        11.0,
+        12.0,
+        13.0
       ],
       "confidence": 0.8
     },
     {
-      "id": "item_007",
-      "label": "laptop with stickers on reception desk",
+      "id": "item_006",
+      "label": "sticker-covered laptop on reception counter",
       "anchor": {
-        "x": 4.1,
+        "x": 3.6,
         "y": 1.12,
-        "z": 5.2
+        "z": 8.4
       },
       "size": {
         "w": 0.35,
@@ -344,12 +305,52 @@
       "confidence": 0.9
     },
     {
-      "id": "item_008",
-      "label": "silver Apple iMac desktop computer on reception desk",
+      "id": "item_007",
+      "label": "gray mesh ergonomic office chair",
       "anchor": {
-        "x": 4.2,
+        "x": 4.3,
+        "y": 0.5,
+        "z": 8.3
+      },
+      "size": {
+        "w": 0.65,
+        "h": 1.0,
+        "d": 0.65
+      },
+      "seen_at": [
+        15.0,
+        16.0,
+        116.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_008",
+      "label": "gray ergonomic office chair",
+      "anchor": {
+        "x": 4.3,
+        "y": 0.5,
+        "z": 6.8
+      },
+      "size": {
+        "w": 0.65,
+        "h": 1.0,
+        "d": 0.65
+      },
+      "seen_at": [
+        3.0,
+        5.0,
+        116.0
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "item_009",
+      "label": "silver Apple iMac desktop computer",
+      "anchor": {
+        "x": 3.5,
         "y": 1.35,
-        "z": 7.0
+        "z": 6.0
       },
       "size": {
         "w": 0.55,
@@ -363,12 +364,12 @@
       "confidence": 0.95
     },
     {
-      "id": "item_009",
+      "id": "item_010",
       "label": "white floor-standing tablet kiosk stand with tablet",
       "anchor": {
-        "x": 3.8,
+        "x": 3.1,
         "y": 0.65,
-        "z": 7.6
+        "z": 5.5
       },
       "size": {
         "w": 0.4,
@@ -383,32 +384,32 @@
       "confidence": 0.95
     },
     {
-      "id": "item_010",
+      "id": "item_011",
       "label": "black compact folding electric bike",
       "anchor": {
-        "x": 4.6,
-        "y": 0.55,
-        "z": 8.8
+        "x": 3.6,
+        "y": 0.5,
+        "z": 3.6
       },
       "size": {
         "w": 0.6,
-        "h": 1.1,
+        "h": 1.0,
         "d": 1.3
       },
       "seen_at": [
-        22.0,
-        36.0,
-        56.0
+        21.0,
+        23.0,
+        38.0
       ],
       "confidence": 0.95
     },
     {
-      "id": "item_011",
-      "label": "white bicycle helmet hanging on handlebar",
+      "id": "item_012",
+      "label": "white and black bicycle helmet",
       "anchor": {
-        "x": 4.5,
+        "x": 3.6,
         "y": 0.85,
-        "z": 8.5
+        "z": 3.2
       },
       "size": {
         "w": 0.25,
@@ -417,18 +418,18 @@
       },
       "seen_at": [
         24.0,
-        36.0,
-        56.0
+        38.0,
+        55.0
       ],
       "confidence": 0.9
     },
     {
-      "id": "item_012",
-      "label": "black road bicycle leaning against wall",
+      "id": "item_013",
+      "label": "black road bicycle",
       "anchor": {
-        "x": 6.1,
+        "x": 5.1,
         "y": 0.5,
-        "z": 9.5
+        "z": 3.5
       },
       "size": {
         "w": 0.5,
@@ -443,17 +444,17 @@
       "confidence": 0.95
     },
     {
-      "id": "item_013",
-      "label": "black electric longboard skateboard leaning against wall",
+      "id": "item_014",
+      "label": "black electric longboard skateboard",
       "anchor": {
-        "x": 6.3,
-        "y": 0.5,
-        "z": 10.5
+        "x": 5.2,
+        "y": 0.45,
+        "z": 2.3
       },
       "size": {
         "w": 0.3,
-        "h": 1.0,
-        "d": 0.25
+        "h": 0.9,
+        "d": 0.2
       },
       "seen_at": [
         26.0,
@@ -463,17 +464,17 @@
       "confidence": 0.95
     },
     {
-      "id": "item_014",
-      "label": "tall decorative light-wood ladder leaning against wall",
+      "id": "item_015",
+      "label": "light wood decorative wall ladder",
       "anchor": {
-        "x": 6.3,
+        "x": 5.2,
         "y": 1.75,
-        "z": 11.0
+        "z": 1.7
       },
       "size": {
         "w": 0.5,
         "h": 3.5,
-        "d": 0.2
+        "d": 0.15
       },
       "seen_at": [
         27.0,
@@ -483,16 +484,16 @@
       "confidence": 0.9
     },
     {
-      "id": "item_015",
-      "label": "fiddle leaf fig plant in round gray planter",
+      "id": "item_016",
+      "label": "fiddle leaf fig tree in gray cylindrical planter",
       "anchor": {
-        "x": 5.8,
-        "y": 0.8,
-        "z": 11.5
+        "x": 4.9,
+        "y": 0.85,
+        "z": 0.8
       },
       "size": {
         "w": 0.8,
-        "h": 1.6,
+        "h": 1.7,
         "d": 0.8
       },
       "seen_at": [
@@ -503,17 +504,17 @@
       "confidence": 0.95
     },
     {
-      "id": "item_016",
-      "label": "black upright electric kick scooter near corner plant",
+      "id": "item_017",
+      "label": "black Fluid electric kick scooter (standing near plant along wall 0/1 corner, standing upright with yellow/black stem or black stem \"fluid\")",
       "anchor": {
-        "x": 5.2,
-        "y": 0.6,
-        "z": 11.4
+        "x": 4.2,
+        "y": 0.55,
+        "z": 0.9
       },
       "size": {
-        "w": 0.5,
-        "h": 1.2,
-        "d": 1.1
+        "w": 0.45,
+        "h": 1.1,
+        "d": 1.0
       },
       "seen_at": [
         44.0,
@@ -523,36 +524,36 @@
       "confidence": 0.95
     },
     {
-      "id": "item_017",
-      "label": "black folded electric kick scooter on floor",
+      "id": "item_018",
+      "label": "black folded electric kick scooter",
       "anchor": {
-        "x": 4.8,
+        "x": 3.9,
         "y": 0.25,
-        "z": 11.3
+        "z": 1.0
       },
       "size": {
-        "w": 0.4,
+        "w": 0.45,
         "h": 0.5,
-        "d": 1.1
+        "d": 1.0
       },
       "seen_at": [
-        44.0,
+        45.0,
         67.0,
         68.0
       ],
       "confidence": 0.95
     },
     {
-      "id": "item_018",
-      "label": "black upright electric kick scooter in middle of seating area",
+      "id": "item_019",
+      "label": "black Fluid electric kick scooter",
       "anchor": {
-        "x": 3.2,
-        "y": 0.6,
-        "z": 10.2
+        "x": 2.7,
+        "y": 0.55,
+        "z": 2.0
       },
       "size": {
         "w": 0.5,
-        "h": 1.2,
+        "h": 1.1,
         "d": 1.1
       },
       "seen_at": [
@@ -563,116 +564,96 @@
       "confidence": 0.95
     },
     {
-      "id": "item_019",
-      "label": "cream round upholstered lounge armchair",
-      "anchor": {
-        "x": 3.8,
-        "y": 0.4,
-        "z": 11.3
-      },
-      "size": {
-        "w": 1.0,
-        "h": 0.8,
-        "d": 0.95
-      },
-      "seen_at": [
-        38.0,
-        52.0,
-        60.0
-      ],
-      "confidence": 0.95
-    },
-    {
       "id": "item_020",
-      "label": "cream round upholstered lounge armchair",
+      "label": "cream upholstered rounded low lounge chair",
       "anchor": {
-        "x": 1.6,
+        "x": 3.2,
         "y": 0.4,
-        "z": 11.3
+        "z": 0.8
       },
       "size": {
-        "w": 1.0,
+        "w": 0.95,
         "h": 0.8,
-        "d": 0.95
+        "d": 0.9
       },
       "seen_at": [
-        38.0,
-        50.0,
-        86.0
+        52.0,
+        60.0,
+        73.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_021",
-      "label": "round light-wood pedestal coffee table",
+      "label": "cream upholstered rounded low lounge chair",
       "anchor": {
-        "x": 2.7,
-        "y": 0.22,
-        "z": 11.3
+        "x": 1.4,
+        "y": 0.4,
+        "z": 0.8
       },
       "size": {
-        "w": 0.8,
-        "h": 0.45,
-        "d": 0.8
+        "w": 0.95,
+        "h": 0.8,
+        "d": 0.9
       },
       "seen_at": [
         50.0,
-        74.0,
-        81.0
+        73.0,
+        88.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_022",
-      "label": "space gray Apple MacBook laptop on coffee table",
+      "label": "round light-wood pedestal low coffee table",
       "anchor": {
-        "x": 2.65,
-        "y": 0.46,
-        "z": 11.05
+        "x": 2.3,
+        "y": 0.22,
+        "z": 0.8
       },
       "size": {
-        "w": 0.35,
-        "h": 0.02,
-        "d": 0.25
+        "w": 0.75,
+        "h": 0.45,
+        "d": 0.75
       },
       "seen_at": [
+        73.0,
         74.0,
-        75.0,
         81.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_023",
-      "label": "large white hardcover art book (Annie Leibovitz Wonderland) on coffee table",
+      "label": "space gray Apple MacBook laptop",
       "anchor": {
-        "x": 2.7,
+        "x": 2.3,
         "y": 0.47,
-        "z": 11.4
+        "z": 1.0
       },
       "size": {
-        "w": 0.35,
-        "h": 0.05,
-        "d": 0.28
+        "w": 0.32,
+        "h": 0.02,
+        "d": 0.22
       },
       "seen_at": [
-        76.0,
-        77.0,
-        81.0
+        74.0,
+        81.0,
+        82.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_024",
-      "label": "floral arrangement in round cream ceramic vase with two small decorative vases on coffee table",
+      "label": "large floral arrangement in cream ceramic vase",
       "anchor": {
-        "x": 2.7,
+        "x": 2.25,
         "y": 0.65,
-        "z": 11.4
+        "z": 0.7
       },
       "size": {
         "w": 0.5,
-        "h": 0.35,
+        "h": 0.4,
         "d": 0.4
       },
       "seen_at": [
@@ -684,51 +665,51 @@
     },
     {
       "id": "item_025",
-      "label": "fiddle leaf fig plant in round gray planter",
+      "label": "large hardcover coffee table book (Annie Leibovitz Wonderland) and small vases",
       "anchor": {
-        "x": 0.6,
-        "y": 0.8,
-        "z": 11.4
+        "x": 2.3,
+        "y": 0.48,
+        "z": 0.75
       },
       "size": {
-        "w": 0.8,
-        "h": 1.6,
-        "d": 0.8
+        "w": 0.35,
+        "h": 0.06,
+        "d": 0.28
       },
       "seen_at": [
-        38.0,
-        50.0,
-        88.0
+        76.0,
+        77.0,
+        79.0
       ],
-      "confidence": 0.95
+      "confidence": 0.9
     },
     {
       "id": "item_026",
-      "label": "light-wood 4-legged counter stool",
+      "label": "fiddle leaf fig tree in gray cylindrical planter",
       "anchor": {
         "x": 0.5,
-        "y": 0.32,
-        "z": 10.3
+        "y": 0.85,
+        "z": 0.8
       },
       "size": {
-        "w": 0.4,
-        "h": 0.65,
-        "d": 0.4
+        "w": 0.8,
+        "h": 1.7,
+        "d": 0.8
       },
       "seen_at": [
-        92.0,
-        93.0,
-        94.0
+        49.0,
+        88.0,
+        91.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_027",
-      "label": "light-wood 4-legged counter stool",
+      "label": "natural wood 4-legged bar stool",
       "anchor": {
-        "x": 0.7,
+        "x": 0.45,
         "y": 0.32,
-        "z": 9.7
+        "z": 1.8
       },
       "size": {
         "w": 0.4,
@@ -744,11 +725,51 @@
     },
     {
       "id": "item_028",
-      "label": "light-wood 4-legged counter stool",
+      "label": "natural wood 4-legged bar stool",
       "anchor": {
-        "x": 0.5,
+        "x": 0.65,
         "y": 0.32,
-        "z": 8.7
+        "z": 2.3
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        92.0,
+        93.0,
+        94.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_029",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 3.5
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        93.0,
+        94.0,
+        96.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_030",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 4.7
       },
       "size": {
         "w": 0.4,
@@ -757,58 +778,18 @@
       },
       "seen_at": [
         94.0,
-        95.0,
-        96.0
-      ],
-      "confidence": 0.95
-    },
-    {
-      "id": "item_029",
-      "label": "light-wood 4-legged counter stool",
-      "anchor": {
-        "x": 0.5,
-        "y": 0.32,
-        "z": 7.7
-      },
-      "size": {
-        "w": 0.4,
-        "h": 0.65,
-        "d": 0.4
-      },
-      "seen_at": [
-        95.0,
         96.0,
-        97.0
-      ],
-      "confidence": 0.95
-    },
-    {
-      "id": "item_030",
-      "label": "light-wood 4-legged counter stool",
-      "anchor": {
-        "x": 0.5,
-        "y": 0.32,
-        "z": 7.0
-      },
-      "size": {
-        "w": 0.4,
-        "h": 0.65,
-        "d": 0.4
-      },
-      "seen_at": [
-        95.0,
-        96.0,
-        97.0
+        98.0
       ],
       "confidence": 0.95
     },
     {
       "id": "item_031",
-      "label": "light-wood 4-legged counter stool",
+      "label": "natural wood 4-legged bar stool",
       "anchor": {
-        "x": 0.5,
+        "x": 0.45,
         "y": 0.32,
-        "z": 6.3
+        "z": 5.7
       },
       "size": {
         "w": 0.4,
@@ -816,9 +797,29 @@
         "d": 0.4
       },
       "seen_at": [
-        96.0,
+        95.0,
         97.0,
-        98.0
+        99.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_032",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 6.5
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        95.0,
+        97.0,
+        100.0
       ],
       "confidence": 0.95
     }
