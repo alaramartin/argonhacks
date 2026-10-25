@@ -4,7 +4,12 @@ node_modules/
 data/
 __pycache__/
 *.tmp
-out/
+out/*
+!out/scene.json
+!out/scene.single_pass.json
+!out/events.jsonl
+!out/fidelity.json
+!out/loop/
 .argon_uploads.json
 *.mp4
 *.mov
