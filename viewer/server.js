@@ -8,6 +8,13 @@ const path = require("path");
 const { spawn } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
+
+// Repo-root .env (gitignored): PORTAL_PUBLIC_URL makes "File claim" run the live agent through the tunnel.
+const envFile = path.join(ROOT, ".env");
+if (fs.existsSync(envFile)) for (const line of fs.readFileSync(envFile, "utf8").split(/\r?\n/)) {
+  const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/.exec(line);
+  if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+}
 const PUBLIC = path.join(__dirname, "public");
 const PORT = Number(process.env.PORT || 8080);
 const OUT = path.join(ROOT, "out"); // A's pipeline writes here (pipeline/orchestrator.py --out)

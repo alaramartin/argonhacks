@@ -98,7 +98,16 @@ http.createServer(async (req, res) => {
 
   // Policyholder page: this laptop only.
   if (p === "/" && req.method === "GET") {
-    if (viaTunnel(req)) return send(res, 403, { error: "the policyholder page is only available on the policyholder's device" });
+    if (viaTunnel(req)) {
+      res.writeHead(403, { "Content-Type": "text/html" });
+      return res.end(`<!doctype html><meta charset="utf-8"><title>Mock Mutual</title>
+<body style="font:16px/1.5 system-ui,sans-serif;max-width:560px;margin:15vh auto;padding:0 16px;color:#1d1d1b">
+<h1 style="color:#1f5f4a">Mock Mutual claims API</h1>
+<p>This address is for authorized claim assistants only. Every request needs credentials, which are added by
+the assistant's network, never typed or seen by the assistant.</p>
+<p>Policyholders review and submit their claim on their own device.</p>
+<p style="color:#6b6a64;font-size:13px">Demo portal for a hackathon project. Not a real insurer.</p></body>`);
+    }
     res.writeHead(200, { "Content-Type": "text/html" });
     return fs.createReadStream(path.join(__dirname, "index.html")).pipe(res);
   }
