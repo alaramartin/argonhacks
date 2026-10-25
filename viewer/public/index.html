@@ -32,7 +32,23 @@
       <span><i class="swatch present"></i>present</span>
       <span><i class="swatch moved"></i>moved</span>
       <span><i class="swatch stolen"></i>stolen</span>
-      <button id="reset-view" type="button">Reset view</button>
+    </div>
+    <div id="nav" role="group" aria-label="Move the camera">
+      <div class="pad">
+        <button type="button" data-nav="rotL" title="Rotate left (Q)" aria-label="Rotate left">⟲</button>
+        <button type="button" data-nav="fwd" title="Move forward (↑ or W)" aria-label="Move forward">▲</button>
+        <button type="button" data-nav="rotR" title="Rotate right (E)" aria-label="Rotate right">⟳</button>
+        <button type="button" data-nav="left" title="Move left (← or A)" aria-label="Move left">◀</button>
+        <button type="button" id="reset-view" title="Reset view (0)" aria-label="Reset view">⌂</button>
+        <button type="button" data-nav="right" title="Move right (→ or D)" aria-label="Move right">▶</button>
+        <button type="button" data-nav="tiltUp" title="Look more from above (R)" aria-label="Tilt up">⤒</button>
+        <button type="button" data-nav="back" title="Move back (↓ or S)" aria-label="Move back">▼</button>
+        <button type="button" data-nav="tiltDown" title="Look more from the side (F)" aria-label="Tilt down">⤓</button>
+      </div>
+      <div class="zoom">
+        <button type="button" data-nav="in" title="Zoom in (+)" aria-label="Zoom in">+</button>
+        <button type="button" data-nav="out" title="Zoom out (−)" aria-label="Zoom out">−</button>
+      </div>
     </div>
   </main>
 

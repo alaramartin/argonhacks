@@ -282,6 +282,81 @@ function render(s) {
 
 document.getElementById("reset-view").addEventListener("click", () => current && frameCamera(current));
 
+// ---------- camera pad: move across the floor, rotate, tilt, zoom (buttons repeat while held; keys too) ----------
+// Moves are relative to where the camera looks, and slide the orbit target with the camera, so you can
+// travel through the room instead of only circling its center.
+
+const _off = new THREE.Vector3();
+const _sph = new THREE.Spherical();
+const _fwd = new THREE.Vector3();
+const _right = new THREE.Vector3();
+const UP = new THREE.Vector3(0, 1, 0);
+
+const NAV = {
+  fwd: () => move(0, 1), back: () => move(0, -1), left: () => move(-1, 0), right: () => move(1, 0),
+  rotL: () => orbit(0.035, 0), rotR: () => orbit(-0.035, 0),
+  tiltUp: () => orbit(0, -0.025), tiltDown: () => orbit(0, 0.025),
+  in: () => zoom(0.96), out: () => zoom(1 / 0.96),
+};
+
+function move(dx, dz) {
+  _fwd.subVectors(controls.target, camera.position).setY(0);
+  if (_fwd.lengthSq() < 1e-6) _fwd.set(0, 0, -1);
+  _fwd.normalize();
+  _right.crossVectors(_fwd, UP).normalize();
+  const step = Math.max(0.05, camera.position.distanceTo(controls.target) * 0.02);
+  const d = _right.multiplyScalar(dx * step).add(_fwd.multiplyScalar(dz * step));
+  camera.position.add(d);
+  controls.target.add(d);
+}
+
+function orbit(dTheta, dPhi) {
+  _off.subVectors(camera.position, controls.target);
+  _sph.setFromVector3(_off);
+  _sph.theta += dTheta;
+  _sph.phi = Math.min(Math.PI / 2 - 0.02, Math.max(0.05, _sph.phi + dPhi)); // never under the floor
+  _off.setFromSpherical(_sph);
+  camera.position.copy(controls.target).add(_off);
+}
+
+function zoom(f) {
+  _off.subVectors(camera.position, controls.target);
+  const d = Math.min(80, Math.max(0.6, _off.length() * f));
+  camera.position.copy(controls.target).add(_off.setLength(d));
+}
+
+// Held buttons and keys run their action every frame until released.
+const held = new Set();
+function stepNav() {
+  for (const a of held) NAV[a]();
+  if (held.size) lastDeclutter = 0;
+}
+
+for (const b of document.querySelectorAll("#nav [data-nav]")) {
+  const a = b.dataset.nav;
+  const stop = () => held.delete(a);
+  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); held.add(a); });
+  b.addEventListener("pointerup", stop);
+  b.addEventListener("pointercancel", stop);
+  b.addEventListener("lostpointercapture", stop);
+  b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); NAV[a](); } });
+}
+
+const KEYS = {
+  ArrowUp: "fwd", w: "fwd", ArrowDown: "back", s: "back", ArrowLeft: "left", a: "left", ArrowRight: "right", d: "right",
+  q: "rotL", e: "rotR", r: "tiltUp", f: "tiltDown", "+": "in", "=": "in", "-": "out", _: "out",
+};
+window.addEventListener("keydown", (e) => {
+  if (e.target.closest?.("input, textarea, dialog[open]") || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === "0") { if (current) frameCamera(current); return; }
+  const a = KEYS[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+  if (!a) return;
+  e.preventDefault();
+  held.add(a);
+});
+window.addEventListener("keyup", (e) => { const a = KEYS[e.key.length === 1 ? e.key.toLowerCase() : e.key]; if (a) held.delete(a); });
+window.addEventListener("blur", () => held.clear());
+
 function renderSummary(s) {
   const items = s.items || [];
   const priced = items.filter((i) => i.price);
@@ -515,6 +590,7 @@ function declutter(now) {
 // ---------- go ----------
 
 function tick(now) {
+  stepNav();
   controls.update();
   renderer.render(scene, camera);
   labels.render(scene, camera);
