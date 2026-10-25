@@ -276,7 +276,9 @@ function render(s) {
   groups = clusterItems(s.items || []).map((m) => buildGroup(m, world));
   scene.add(world);
   current = s;
-  if (!framed) { frameCamera(s); framed = true; }
+  // Frame once the scene has something in it: an empty scene has no bounds, and framing on it left the camera
+  // at NaN, so a run watched from an empty start never showed the room.
+  if (!framed && ((s.rooms || []).length || (s.items || []).length)) { frameCamera(s); framed = true; }
   renderSummary(s);
 }
 
@@ -455,10 +457,16 @@ function scheduleReload() {
 // ---------- activity panel ----------
 
 const feed = document.getElementById("feed");
-// Follow new events unless the viewer has scrolled up to read. Decided on scroll, not on append: text reflowing
-// after load grows the list without a scroll, which made an "are we at the bottom?" check stop following.
+// Follow new events unless a person has scrolled up to read. Only their own wheel, touch or keys can unpin it:
+// text reflowing and loop thumbnails loading after the scroll grow the list on their own, and treating that as
+// "scrolled up" made the panel stop following halfway through a run. Scrolling back down pins it again.
 let feedPinned = true;
-feed.addEventListener("scroll", () => { feedPinned = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40; });
+const feedGap = () => feed.scrollHeight - feed.scrollTop - feed.clientHeight;
+const stickFeed = () => { if (feedPinned) feed.scrollTop = feed.scrollHeight; };
+const userScrolled = () => requestAnimationFrame(() => { feedPinned = feedGap() < 40; });
+for (const type of ["wheel", "touchmove", "keydown"]) feed.addEventListener(type, userScrolled, { passive: true });
+feed.addEventListener("scroll", () => { if (feedGap() < 40) feedPinned = true; });
+feed.addEventListener("load", stickFeed, true); // images inside events finish loading after the append
 const live = document.getElementById("live");
 
 function addEvent(ev) {
@@ -492,7 +500,7 @@ function addEvent(ev) {
     li.addEventListener("click", () => openEvidence(itemId));
   }
   feed.append(li);
-  if (feedPinned) feed.scrollTop = feed.scrollHeight;
+  stickFeed();
   if (itemId) pulse(itemId);
 }
 

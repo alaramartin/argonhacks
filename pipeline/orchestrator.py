@@ -52,10 +52,12 @@ def _score(out: Path, gt_path: Path, iterations: int | None = None) -> None:
         lines = [l for l in ev.read_text().splitlines() if l and json.loads(l).get("agent") != "fidelity"]
         ev.write_text("".join(l + "\n" for l in lines))
     n = len(gt.items)
-    emit("fidelity", f"Single pass found {round(s1.recall * n)} of {n} items (precision {s1.precision:.0%})", "info",
-         recall=s1.recall, precision=s1.precision)
-    emit("fidelity", f"After the loop: {round(s2.recall * n)} of {n} items (precision {s2.precision:.0%})",
-         "ok" if s2.recall > s1.recall else "warn", recall=s2.recall, precision=s2.precision)
+    # The panel shows accuracy (F1 of recall and precision), like the scorecard; both parts stay in the payload.
+    f1 = lambda s: 2 * s.recall * s.precision / (s.recall + s.precision) if s.recall + s.precision else 0.0
+    emit("fidelity", f"Single pass: accuracy {f1(s1):.0%} ({round(s1.recall * n)} of {n} items found)", "info",
+         accuracy=round(f1(s1), 3), recall=s1.recall, precision=s1.precision)
+    emit("fidelity", f"After the loop: accuracy {f1(s2):.0%} ({round(s2.recall * n)} of {n} items found)",
+         "ok" if f1(s2) > f1(s1) else "warn", accuracy=round(f1(s2), 3), recall=s2.recall, precision=s2.precision)
 
 
 def cmd_run(args) -> None:
