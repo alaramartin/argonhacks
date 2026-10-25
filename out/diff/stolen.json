@@ -1,0 +1,11 @@
+[
+  {
+    "id": "item_023",
+    "label": "space gray Apple MacBook laptop",
+    "price": null,
+    "before_t": 74.0,
+    "after_t": 90.0,
+    "evidence": "out/diff/stolen_item_023.jpg",
+    "reason": "The laptop is clearly visible on the coffee table in the before image, and the same surface is clearly empty in the after image."
+  }
+]

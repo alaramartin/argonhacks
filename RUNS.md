@@ -17,6 +17,8 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 6 | 12:44 | A | Loop in a Managed Agents sandbox | `run --sandbox` · gemini-4-argon in Antigravity agent · 1 loop iteration, reuses #4's single pass, no passes | 5.5 min | Single pass 30/35 (97%) → **31/35 (94%)**, 33 items, 6 critiques | `out/sandbox_demo/` |
 | 7 | 12:48 | B | **Price every item in #4's scene** | `price.py --sandboxes 8` · flash | 11 min | **39/39 priced**, all with sources, 0 failures. Total $7,426–$11,971 | `out/scene.json`, cache |
 | 8 | 12:51 | A | **Rerun of #4 with the Part 1 fixes** (evidence check before removals `58b40cd`, duplicate check `dd01544`, size rule `f42bc8f`) | same as #4 | 12.5 min | Single pass **30/35 (94%)** → final **34/35 (90%)**, 38 items. Loop kept the iMac, caught the QR code stand, split both small vases out | `out/final2/` (not published, see notes) |
+| 9 | 13:13 | A | **Part 2 diff** (branch `part2`): after.mp4 vs #8's scene | `diff/diff.py --after ../fixtures/after.mp4` · gemini-4-argon, thinking high · survey + up to 3 re-check rounds | 4.8 min | All 3 changes right (laptop stolen, stool moved, trash can moved), **1 false theft** (small white vase) | `out/diff/` (overwritten by #10) |
+| 10 | 13:19 | A | **Part 2 diff, rerun** after adding the evidence-image confirmation (`73679b7`) | same as #9 + confirm step | 3.2 min | Laptop **stolen** (confirmed on its image), stool **moved**, trash can present, **0 false thefts** | `out/diff/` |
 
 ## Notes per run
 
@@ -29,6 +31,10 @@ Every pipeline or agent run that produced output, failed, or taught us something
 **#7.** 6 items have ranges wider than 2.5× because the agent mixed models or tiers, e.g. MacBook $700–$1,837 and longboard $144–$486. Candidate for the deferred "review" flag. Re-running is instant from `agents/pricing/cache.json` whenever A republishes the scene.
 
 **#8.** Answers the open comparison "rerun #4 with the fixes": precision 87% → 90% at the same recall. Loop iteration 1 tried to remove the iMac again and was refused ("kept item_009 … its own evidence frames still show it"). The loop added "black countertop QR scanner stand" twice in one iteration at two spots, so one is an extra; the only miss is the black tablet or monitor (g09). Not published to `out/` because `out/scene.json` holds #7's 39 prices on #4's scene, and #8's labels differ, so publishing would drop most of them. Publishing #8 means rerunning pricing on it (cached labels are instant, new ones need a sandbox). **Published to `out/` at 13:07** (team decision): 3 of 38 prices carried over by exact label, 35 items need repricing (B). Publishing also replaced `out/events.jsonl`, so #7's pricing events are gone from it until pricing reruns.
+
+**#9.** The false theft was `item_038`, a small vase that #8 had already listed as an extra (the ground truth has two small vases, #8 listed three). Its spot was "clearly in view" because the table was, but the vase sat behind another vase (`out/diff/stolen_item_038.jpg` in #9). Part 1 precision errors become false thefts in Part 2. Fixed in `73679b7`: every claim is confirmed on the BEFORE | AFTER image it will carry; on #9's two images Argon confirmed the laptop and rejected the vase.
+
+**#10.** The re-check found the vase by itself this time, so the confirmation step only confirmed the laptop. Scored with `diff/score.py` against `fixtures/after_truth.json` (written by the person who removed and moved the items).
 
 ## Open comparisons
 
