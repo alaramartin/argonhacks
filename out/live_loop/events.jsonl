@@ -12,6 +12,6 @@
 {"ts": "13:57:24", "agent": "loop", "action": "Loop iter 1: fix \u2192 added item_035 black tablet check-in stand", "status": "ok", "payload": {"fix": "add", "target": "new"}}
 {"ts": "13:57:24", "agent": "loop", "action": "Loop iter 1: Black desktop monitor on the reception desk is missing from the scene. @0:03.0", "status": "warn", "payload": {"fix": "add", "target": "new", "keyframe": 0, "pair": "out/live_loop/loop/iter1_kf0.jpg"}}
 {"ts": "13:57:24", "agent": "loop", "action": "Loop iter 1: fix \u2192 added item_036 black desktop computer monitor", "status": "ok", "payload": {"fix": "add", "target": "new"}}
-{"ts": "13:57:24", "agent": "fidelity", "action": "Single pass found 30 of 35 items (precision 94%)", "status": "info", "payload": {"recall": 0.857, "precision": 0.938}}
-{"ts": "13:57:24", "agent": "fidelity", "action": "After the loop: 32 of 35 items (precision 89%)", "status": "ok", "payload": {"recall": 0.914, "precision": 0.889}}
 {"ts": "13:57:24", "agent": "reconstruct", "action": "scene.json written: 36 items", "status": "ok", "payload": {"path": "../out/live_loop/scene.json"}}
+{"ts": "14:06:10", "agent": "fidelity", "action": "Single pass found 30 of 35 items (precision 94%)", "status": "info", "payload": {"recall": 0.857, "precision": 0.938}}
+{"ts": "14:06:10", "agent": "fidelity", "action": "After the loop: 32 of 35 items (precision 89%)", "status": "ok", "payload": {"recall": 0.914, "precision": 0.889}}

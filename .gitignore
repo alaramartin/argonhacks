@@ -30,3 +30,5 @@ out/diff_fast/frames_before/
 out/diff_fast/frames_after/
 !out/live_loop/
 out/live_loop/frames/
+!out/live_loop2/
+out/live_loop2/frames/
