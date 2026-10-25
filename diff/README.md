@@ -13,6 +13,17 @@ uv run python ../diff/diff.py --reprice                                # baselin
 
 A run takes 3 to 5 minutes.
 
+### From the viewer's "upload after video"
+
+```
+cd pipeline && uv run python ../diff/diff.py --after <uploaded file> --events ../out/events.jsonl
+```
+
+- Any video works: a phone `.MOV` (HEVC, 1080p or 4K) is converted to 720p MP4 first, written to `out/diff/after.mp4`.
+- `--events` sends the `diff` events to the file the Activity panel tails, so the diff shows live.
+- The last line on stdout is a one-line JSON summary: `{"stolen": [{"id", "label"}], "moved": 2, "scene": "out/diff/scene.json", "stolen_list": "out/diff/stolen.json"}`. Exit code 0 means the files are written.
+- Then `python agents/claim/claim.py --local` (or `--portal …`) picks up `out/diff/stolen.json` as before.
+
 ## What it does
 
 1. **Survey.** Argon watches the after video with the baseline inventory (each item's label, position and before-frame) and says whether each item is in the same place, somewhere else, or not seen.

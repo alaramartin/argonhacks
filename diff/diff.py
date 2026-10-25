@@ -17,6 +17,7 @@ stolen item. Every step goes to out/diff/events.jsonl as `diff` events.
 import argparse
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 from typing import Literal
@@ -273,6 +274,17 @@ def reprice(out_dir: Path, scene_path: Path) -> int:
     return sum(1 for s in stolen if s["price"])
 
 
+def normalize(video: Path, out_dir: Path) -> Path:
+    """Phone uploads are often HEVC .MOV at 1080p or more. Re-encode to 720p H.264 MP4 unless it already is one."""
+    if video.suffix.lower() == ".mp4" and frames.size(video)[1] <= 720:
+        return video
+    out = out_dir / "after.mp4"
+    emit("diff", f"Converting {video.name} to 720p for upload")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-vf", "scale=-2:720", "-c:v", "libx264",
+                    "-crf", "26", "-preset", "fast", "-an", str(out)], check=True)
+    return out
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--after", help="after-walkthrough video (required unless --reprice)")
@@ -280,6 +292,8 @@ def main() -> None:
     p.add_argument("--scene", default=str(REPO / "out" / "scene.json"), help="baseline scene")
     p.add_argument("--out", default=str(REPO / "out" / "diff"))
     p.add_argument("--reprice", action="store_true", help="only refresh prices in an existing diff from --scene")
+    p.add_argument("--events", help="events file to append to (default: <out>/events.jsonl); point it at the file "
+                                    "the viewer tails to show the diff live")
     args = p.parse_args()
 
     out_dir = Path(args.out)
@@ -287,14 +301,19 @@ def main() -> None:
         print(f"{reprice(out_dir, Path(args.scene))} stolen items priced")
         return
     out_dir.mkdir(parents=True, exist_ok=True)
-    events.set_path(out_dir / "events.jsonl")
+    events.set_path(Path(args.events) if args.events else out_dir / "events.jsonl")
     if not args.after:
         p.error("--after is required")
     scene = Scene.model_validate_json(Path(args.scene).read_text())
-    result, stolen = run(scene, Path(args.after), Path(args.before_video), out_dir)
+    after = normalize(Path(args.after), out_dir)
+    result, stolen = run(scene, after, Path(args.before_video), out_dir)
     (out_dir / "scene.json").write_text(json.dumps(result.dump(), indent=2))
     (out_dir / "stolen.json").write_text(json.dumps(stolen, indent=2))
-    print(json.dumps([{"id": s["id"], "label": s["label"]} for s in stolen], indent=2))
+    moved = sum(1 for i in result.items if i.status == "moved")
+    # last stdout line is a one-line JSON summary for whatever launched us (e.g. the viewer's upload handler)
+    print(json.dumps({"stolen": [{"id": s["id"], "label": s["label"]} for s in stolen], "moved": moved,
+                      "scene": os.path.relpath(out_dir / "scene.json", REPO),
+                      "stolen_list": os.path.relpath(out_dir / "stolen.json", REPO)}))
 
 
 if __name__ == "__main__":
