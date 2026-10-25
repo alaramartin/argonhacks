@@ -12,6 +12,7 @@ import os
 import re
 import shutil
 import sys
+import time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -76,6 +77,10 @@ def parse_result(text):
     raise ValueError(f"no price JSON in agent reply: {text[:200] if text else text!r}")
 
 
+# URLs that show up in agent traces but aren't retailers (search engines, XML namespaces, our own API).
+NOISE_HOSTS = ("google.com", "googleapis.com", "gstatic.com", "w3.org", "schema.org", "bing.com", "duckduckgo.com")
+
+
 def urls_in(obj):
     return re.findall(r"https?://[^\s\"'\\)>\]]+", str(obj))
 
@@ -100,22 +105,31 @@ class ManagedPricer:
             environment=self.environment,
             stream=True,
         )
-        chunks = []
+        interaction_id = None
         for event in stream:
-            # Event shapes aren't documented in detail; surface any page the agent visits, keep everything for parsing.
-            env_id = getattr(event, "environment_id", None)
+            # Streamed events carry the reply in fragments; we only use them to surface visited pages live
+            # and to learn the interaction/environment ids. The final answer is fetched whole below.
+            inter = getattr(event, "interaction", None)
+            interaction_id = getattr(inter, "id", None) or interaction_id
+            env_id = getattr(inter, "environment_id", None) or getattr(event, "environment_id", None)
             if env_id:
                 self.environment = env_id
-            chunks.append(str(event))
             for url in urls_in(event):
                 host = urlparse(url).netloc.removeprefix("www.")
-                if host and host not in seen and "googleapis" not in host and len(seen) < 6:
+                if host and host not in seen and not host.endswith(NOISE_HOSTS) and len(seen) < 6:
                     seen.add(host)
                     emit("pricing", f"Browsing {host} for \"{item['label']}\"", "info", {"item": item["id"], "url": url})
-            text = getattr(event, "output_text", None)
-            if text:
-                chunks.append(text)
-        return parse_result("\n".join(chunks))
+        if not interaction_id:
+            raise ValueError("stream ended without an interaction id")
+        final = self.client.interactions.get(id=interaction_id)
+        for _ in range(60):  # up to ~3 min for the agent to finish after the stream closes
+            if getattr(final, "status", None) not in ("in_progress", "queued"):
+                break
+            time.sleep(3)
+            final = self.client.interactions.get(id=interaction_id)
+        if getattr(final, "environment_id", None):
+            self.environment = final.environment_id
+        return parse_result(final.output_text)
 
 
 def to_contract(result):
