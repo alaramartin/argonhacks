@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene.schema.json",
+  "title": "scene.json",
+  "type": "object",
+  "required": ["rooms", "keyframes", "items"],
+  "$defs": {
+    "vec3": {
+      "type": "object",
+      "required": ["x", "y", "z"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" } }
+    },
+    "score": {
+      "type": "object",
+      "required": ["recall", "precision"],
+      "properties": { "recall": { "type": "number" }, "precision": { "type": "number" } }
+    }
+  },
+  "properties": {
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "walls"],
+        "properties": {
+          "id": { "type": "string" },
+          "walls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["from", "to", "height"],
+              "properties": {
+                "from": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+                "to": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+                "height": { "type": "number" }
+              }
+            }
+          },
+          "openings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "wall", "offset", "width"],
+              "properties": {
+                "type": { "enum": ["door", "window"] },
+                "wall": { "type": "integer" },
+                "offset": { "type": "number" },
+                "width": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "keyframes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["t", "position", "look_at"],
+        "properties": {
+          "t": { "type": "number", "description": "seconds into the before-video" },
+          "position": { "$ref": "#/$defs/vec3" },
+          "look_at": { "$ref": "#/$defs/vec3" },
+          "fov": { "type": "number", "description": "vertical field of view in degrees, default 60" }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "anchor", "size", "seen_at", "confidence"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "anchor": { "$ref": "#/$defs/vec3", "description": "center of the box" },
+          "size": {
+            "type": "object",
+            "required": ["w", "h", "d"],
+            "properties": { "w": { "type": "number" }, "h": { "type": "number" }, "d": { "type": "number" } }
+          },
+          "seen_at": { "type": "array", "items": { "type": "number" }, "description": "video timestamps of evidence frames" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "price": {
+            "type": "object",
+            "description": "written by B",
+            "required": ["low", "high", "currency", "sources", "basis"],
+            "properties": {
+              "low": { "type": "number" },
+              "high": { "type": "number" },
+              "currency": { "type": "string" },
+              "sources": { "type": "array", "items": { "type": "string" } },
+              "basis": { "type": "string" }
+            }
+          },
+          "status": { "enum": ["present", "moved", "stolen"], "description": "written by A in Part 2" }
+        }
+      }
+    },
+    "fidelity": {
+      "type": "object",
+      "description": "written by A, scored against fixtures/ground_truth.json",
+      "properties": {
+        "ground_truth_count": { "type": "integer" },
+        "single_pass": { "$ref": "#/$defs/score" },
+        "after_loop": { "$ref": "#/$defs/score" },
+        "iterations": { "type": "integer" }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "rooms": [{"id": "room_1", "walls": [
+    {"from": [0, 0], "to": [4.5, 0], "height": 2.6},
+    {"from": [4.5, 0], "to": [4.5, 4], "height": 2.6},
+    {"from": [4.5, 4], "to": [0, 4], "height": 2.6},
+    {"from": [0, 4], "to": [0, 0], "height": 2.6}],
+    "openings": [{"type": "door", "wall": 3, "offset": 1.0, "width": 0.9}, {"type": "window", "wall": 0, "offset": 2.5, "width": 1.2}]}],
+  "keyframes": [
+    {"t": 5.0, "position": {"x": 2.2, "y": 1.6, "z": 3.8}, "look_at": {"x": 2.2, "y": 0.9, "z": 0}},
+    {"t": 20.0, "position": {"x": 0.3, "y": 1.6, "z": 0.3}, "look_at": {"x": 4.0, "y": 0.8, "z": 3.5}}],
+  "items": [
+    {"id": "item_001", "label": "gray 2-seat fabric loveseat", "anchor": {"x": 2.2, "y": 0.42, "z": 0.5}, "size": {"w": 1.6, "h": 0.84, "d": 0.85}, "seen_at": [5.0], "confidence": 0.95},
+    {"id": "item_002", "label": "floor lamp", "anchor": {"x": 0.6, "y": 0.8, "z": 0.4}, "size": {"w": 0.35, "h": 1.6, "d": 0.35}, "seen_at": [6.0], "confidence": 0.9},
+    {"id": "item_003", "label": "55in TV on stand", "anchor": {"x": 2.2, "y": 0.9, "z": 3.7}, "size": {"w": 1.25, "h": 0.75, "d": 0.1}, "seen_at": [20.0], "confidence": 0.88},
+    {"id": "item_004", "label": "wood coffee table", "anchor": {"x": 2.2, "y": 0.22, "z": 1.6}, "size": {"w": 1.0, "h": 0.44, "d": 0.55}, "seen_at": [5.5], "confidence": 0.9}]
+}

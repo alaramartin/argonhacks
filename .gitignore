@@ -4,3 +4,7 @@ node_modules/
 data/
 __pycache__/
 *.tmp
+out/
+.argon_uploads.json
+*.mp4
+*.mov
