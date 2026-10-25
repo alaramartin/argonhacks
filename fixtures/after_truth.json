@@ -1,0 +1,10 @@
+{
+  "video": "fixtures/after.mp4",
+  "note": "What changed between before.mp4 and after.mp4, written by the person who changed it.",
+  "changes": [
+    { "gt": "g25", "label": "MacBook", "aliases": ["Apple MacBook", "laptop on coffee table"], "location": "on the coffee table", "expected": ["stolen"] },
+    { "gt": "g30", "label": "counter stool", "aliases": ["stool", "bar stool", "wood stool"], "location": "one stool, carried to the other side of the room", "expected": ["moved"] },
+    { "gt": "g02", "label": "trash can", "aliases": ["waste bin", "garbage can", "bin", "wastebasket"], "location": "shifted a little to the left", "expected": ["present", "moved"] }
+  ],
+  "unchanged_expected": ["present", "moved"]
+}
