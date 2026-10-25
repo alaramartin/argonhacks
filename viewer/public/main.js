@@ -335,7 +335,8 @@ function stepNav() {
 for (const b of document.querySelectorAll("#nav [data-nav]")) {
   const a = b.dataset.nav;
   const stop = () => held.delete(a);
-  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); held.add(a); });
+  // step once right away so a quick tap always moves (a tap can end before the next frame runs the held action)
+  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); NAV[a](); held.add(a); });
   b.addEventListener("pointerup", stop);
   b.addEventListener("pointercancel", stop);
   b.addEventListener("lostpointercapture", stop);
@@ -446,6 +447,10 @@ function scheduleReload() {
 // ---------- activity panel ----------
 
 const feed = document.getElementById("feed");
+// Follow new events unless the viewer has scrolled up to read. Decided on scroll, not on append: text reflowing
+// after load grows the list without a scroll, which made an "are we at the bottom?" check stop following.
+let feedPinned = true;
+feed.addEventListener("scroll", () => { feedPinned = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40; });
 const live = document.getElementById("live");
 
 function addEvent(ev) {
@@ -470,7 +475,7 @@ function addEvent(ev) {
     img.addEventListener("click", (e) => { e.stopPropagation(); showCatch(ev, pair); });
     img.addEventListener("error", () => img.remove());
     li.append(img);
-    if (ev.agent === "loop" && ev.status === "warn") showCatch(ev, pair);
+    if (ev.agent === "loop" && ev.status === "warn" && catchRank(ev) >= shownRank) { shownRank = catchRank(ev); showCatch(ev, pair); }
   }
   // Pricing names the item as payload.item; loop critiques/fixes name it as payload.target (may be a wall).
   const itemId = ev.payload?.item || ev.payload?.target;
@@ -478,9 +483,8 @@ function addEvent(ev) {
     li.dataset.item = itemId;
     li.addEventListener("click", () => openEvidence(itemId));
   }
-  const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40;
   feed.append(li);
-  if (atBottom) feed.scrollTop = feed.scrollHeight;
+  if (feedPinned) feed.scrollTop = feed.scrollHeight;
   if (itemId) pulse(itemId);
 }
 
@@ -500,6 +504,11 @@ function connect() {
 // ---------- loop catch card: the real frame next to our render, over the 3D scene ----------
 
 const catchCard = document.getElementById("catch");
+// The card shows the catch that matters most for a claim: a missed item found beats an invented one removed,
+// which beats a moved box or a relabel. A stronger or equal catch replaces it; thumbnails still open any catch.
+const CATCH_RANK = { add: 3, remove: 2, move: 1, resize: 1 };
+const catchRank = (ev) => CATCH_RANK[ev.payload?.fix] ?? 0;
+let shownRank = -1;
 catchCard.querySelector("button").addEventListener("click", () => { catchCard.hidden = true; });
 
 function showCatch(ev, src, caption = "Loop caught a reconstruction error") {

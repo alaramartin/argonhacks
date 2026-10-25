@@ -143,7 +143,7 @@ dialog video { width: 100%; border-radius: 8px; background: #000; }
 
 /* ---------- after the loss ---------- */
 #after { position: absolute; top: 112px; right: 20px; width: 300px; max-height: calc(100% - 272px); overflow-y: auto;
-  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
 #after .views { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 #after .views button { background: none; border: 0; color: var(--muted); padding: 7px; font: inherit; font-size: 13px; cursor: pointer; }
 #after .views button + button { border-left: 1px solid var(--line); }
@@ -155,9 +155,9 @@ dialog video { width: 100%; border-radius: 8px; background: #000; }
 #after-status:empty { display: none; }
 #stolen h3 { margin: 0 0 6px; font-size: 13px; color: var(--stolen); text-transform: uppercase; letter-spacing: 0.05em; }
 #stolen h3 span { color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
-#stolen-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
+#stolen-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 #stolen-list button { display: flex; justify-content: space-between; gap: 10px; width: 100%; background: none; border: 0; padding: 4px 0; color: var(--text); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
-#stolen-list button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#stolen-list button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #stolen-list button b { color: var(--stolen); white-space: nowrap; }
 #stolen-list img { width: 100%; border-radius: 6px; border: 1px solid var(--line); cursor: zoom-in; display: block; }
 #file-claim { width: 100%; background: var(--stolen); color: #fff; border: 0; border-radius: 8px; padding: 9px; font: inherit; font-weight: 600; cursor: pointer; }

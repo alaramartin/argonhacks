@@ -31,7 +31,7 @@ if (!fs.existsSync(EVENTS_PATH)) fs.writeFileSync(EVENTS_PATH, "");
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".mp4": "video/mp4", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png" };
 
 function scenePath(view) {
-  if (view === "after" && fs.existsSync(AFTER_SCENE)) return AFTER_SCENE;
+  if (view === "after" && afterIsFresh()) return AFTER_SCENE;
   return fs.existsSync(SCENE_PATH) ? SCENE_PATH : SCENE_FALLBACK;
 }
 
@@ -40,6 +40,14 @@ const DIFF_OUT = path.join(OUT, "diff");
 const AFTER_SCENE = path.join(DIFF_OUT, "scene.json");
 const STOLEN = path.join(DIFF_OUT, "stolen.json");
 const jobs = { diff: { state: "idle" }, claim: { state: "idle" } };
+
+// Only show after-video results this viewer produced (an upload since it started), so a demo never opens with a
+// stolen list left over from an earlier run. KEEP_AFTER=1 shows earlier results, e.g. after a restart mid-demo.
+const STARTED = Date.now();
+function afterIsFresh() {
+  if (!fs.existsSync(AFTER_SCENE)) return false;
+  return Boolean(process.env.KEEP_AFTER) || fs.statSync(AFTER_SCENE).mtimeMs > STARTED;
+}
 
 function runJob(name, cmd, args, opts) {
   const job = (jobs[name] = { state: "running", started: Date.now(), log: "" });
@@ -150,8 +158,8 @@ http.createServer((req, res) => {
   }
   if (url.pathname === "/api/after" && req.method === "GET") {
     return sendJson(res, 200, {
-      available: fs.existsSync(AFTER_SCENE),
-      stolen: readJson(STOLEN, []),
+      available: afterIsFresh(),
+      stolen: afterIsFresh() ? readJson(STOLEN, []) : [],
       diff: { state: jobs.diff.state, error: jobs.diff.error, summary: jobs.diff.summary },
       claim: { state: jobs.claim.state, error: jobs.claim.error, live: Boolean(process.env.PORTAL_PUBLIC_URL) },
       portal: "http://localhost:" + (process.env.PORTAL_PORT || 8090),

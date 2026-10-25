@@ -210,8 +210,11 @@ the assistant's network, never typed or seen by the assistant.</p>
     // Re-sending the same item replaces its line instead of claiming it twice.
     const dup = row.item_id ? claim.items.findIndex((i) => i.item_id === row.item_id) : -1;
     if (dup >= 0) claim.items[dup] = row; else claim.items.push(row);
+    const line = dup >= 0 ? dup + 1 : claim.items.length;
     save();
-    emit(`Adding claim line ${claim.items.length}: ${short(row.description)} × ${row.quantity} @ ${money(row.replacement_cost)}`, "ok",
+    emit(dup >= 0
+      ? `Claim line ${line} re-sent: replaced, not claimed twice (${short(row.description)} @ ${money(row.replacement_cost)})`
+      : `Adding claim line ${line}: ${short(row.description)} × ${row.quantity} @ ${money(row.replacement_cost)}`, "ok",
       row.item_id ? { item: row.item_id, value: Number(row.replacement_cost) } : { value: Number(row.replacement_cost) });
     return send(res, 200, { ok: true, line: claim.items.length, total: total() });
   }

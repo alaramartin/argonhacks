@@ -229,7 +229,11 @@ def fill_with_agent(packet, total, base, model):
         final = client.interactions.get(id=interaction_id)
     report = (final.output_text or "").strip()
     if report:
-        emit("claim", f"Claim agent report: {report[:400]}", "info")
+        # the agent answers in Markdown; the panel wants one readable sentence
+        plain = re.sub(r"[#*|`>_]+", " ", report)
+        plain = re.sub(r"\s+", " ", plain).strip()
+        first = re.split(r"(?<=[.!?])\s", plain, maxsplit=1)[0]
+        emit("claim", f"Claim agent report: {first[:220]}", "info")
     return report
 
 
