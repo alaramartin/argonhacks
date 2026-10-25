@@ -16,6 +16,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import env  # noqa: E402,F401  (loads .env so GEMINI_API_KEY reaches genai.Client)
 from events import emit  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent.parent
