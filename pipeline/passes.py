@@ -6,7 +6,7 @@ from pathlib import Path
 import argon
 import frames
 from events import emit
-from models import Item, MissingItems, Scene, VerdictList
+from models import Item, MissingItems, Scene, Verdict, VerdictList
 from reconstruct import SYSTEM as RECON_SYSTEM
 
 SEGMENT = 30.0
@@ -62,24 +62,31 @@ def completeness(scene: Scene, video: str | Path) -> Scene:
     return scene
 
 
-def precision(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
-    scene = scene.model_copy(deep=True)
-    frame_dir = Path(out_dir) / "frames"
-    checkable = [i for i in scene.items if i.seen_at]
-    emit("loop", f"Precision: checking each of {len(checkable)} items against its evidence frame")
-    for b in range(0, len(checkable), PRECISION_BATCH):
-        batch = checkable[b:b + PRECISION_BATCH]
+def verify(items: list[Item], video: str | Path, frame_dir: str | Path) -> dict[str, Verdict]:
+    """Ask Argon whether each item really shows in its own evidence frames. Items without evidence are skipped."""
+    items = [i for i in items if i.seen_at]
+    out: dict[str, Verdict] = {}
+    for b in range(0, len(items), PRECISION_BATCH):
+        batch = items[b:b + PRECISION_BATCH]
         contents: list = [PRECISION_PROMPT]
         for item in batch:
             ts = item.seen_at[:FRAMES_PER_ITEM]
             contents.append(f"Item {item.id}: {item.label}. Evidence frames at " + ", ".join(_fmt(t) for t in ts) + ":")
             contents += [argon.image_part(frames.extract(video, t, frame_dir)) for t in ts]
-        verdicts = {v.id: v for v in argon.ask(contents, VerdictList).verdicts}
-        for item in batch:
-            v = verdicts.get(item.id)
-            if v is not None and not v.visible:
-                scene.items = [i for i in scene.items if i.id != item.id]
-                emit("loop", f"Precision: {item.label} not in any of its frames → removing {item.id}",
-                     "warn", id=item.id, reason=v.reason)
+        out.update({v.id: v for v in argon.ask(contents, VerdictList).verdicts})
+    return out
+
+
+def precision(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
+    scene = scene.model_copy(deep=True)
+    checkable = [i for i in scene.items if i.seen_at]
+    emit("loop", f"Precision: checking each of {len(checkable)} items against its evidence frame")
+    verdicts = verify(checkable, video, Path(out_dir) / "frames")
+    for item in checkable:
+        v = verdicts.get(item.id)
+        if v is not None and not v.visible:
+            scene.items = [i for i in scene.items if i.id != item.id]
+            emit("loop", f"Precision: {item.label} not in any of its frames → removing {item.id}",
+                 "warn", id=item.id, reason=v.reason)
     emit("loop", f"Precision: {len(scene.items)} items confirmed", "ok")
     return scene

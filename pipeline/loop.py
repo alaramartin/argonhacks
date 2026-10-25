@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 
 import argon
+import passes
 from events import emit
 from fidelity import _tokens
 from models import Critique, CritiqueList, Item, Keyframe, Scene, Size
@@ -197,6 +198,13 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
             emit("loop", f"Loop iter {it}: rendered views match the video, no critiques", "ok")
             break
 
+        # A removal deletes a belonging from the claim, so check the item's own evidence frames first.
+        to_remove = [scene.item(c.target) for c in critiques if c.fix == "remove" and scene.item(c.target)]
+        still_visible = {}
+        if to_remove:
+            verdicts = passes.verify(to_remove, video, out_dir / "frames")
+            still_visible = {i: v for i, v in verdicts.items() if v.visible}
+
         applied = 0
         # adds last: unbundling relabels "bike with helmet" to "bike" first, so the helmet isn't seen as a duplicate
         for c in sorted(critiques, key=lambda c: c.fix == "add"):
@@ -209,6 +217,11 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
             if c.fix == "add" and c.anchor and c.label and (dup := find_duplicate(scene, c.label, c.anchor)):
                 emit("loop", f"Loop iter {it}: already have {dup.id} {dup.label} there, not adding a duplicate", "info",
                      duplicate_of=dup.id)
+                continue
+            if c.fix == "remove" and c.target in still_visible:
+                item = scene.item(c.target)
+                emit("loop", f"Loop iter {it}: kept {item.id} {item.label}: its own evidence frames still show it", "info",
+                     reason=still_visible[c.target].reason)
                 continue
             result = _apply(scene, c)
             if result:
