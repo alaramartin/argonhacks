@@ -12,10 +12,12 @@ Built at the **Gemini 4 Argon Hackathon** (Cerebral Valley × Google DeepMind, S
 
 A 2-minute walkthrough of a building lobby, scored against a hand count of the 35 insurable items in it (`fixtures/ground_truth.json`, which the pipeline never reads):
 
-| | Items found (recall) | Precision |
-|---|---|---|
-| Argon single pass | 30 of 35 | 94% |
-| After the render-and-compare loop and both checking passes | **34 of 35** | **90%** |
+| | Accuracy (F1) | Items found (recall) | Precision |
+|---|---|---|---|
+| Argon single pass | 90% | 30 of 35 | 94% |
+| After the render-and-compare loop and both checking passes | **93%** | **34 of 35** | 90% |
+
+Accuracy, the number the viewer shows, is F1: it combines how many of the room's items were found (recall) with how many listed items are real (precision). The loop finds 4 items the single pass missed and adds 2 that aren't in the hand count, so recall rises, precision dips, and accuracy goes from 90% to 93%.
 
 Every item in the final scene is priced from 2–3 retailer listings, each kept with its product title, price and URL.
 
