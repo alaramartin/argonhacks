@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proof of Loss</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main id="stage">
+    <div id="scene"></div>
+    <header id="title">
+      <h1>Proof of Loss</h1>
+      <p id="summary">Loading inventory…</p>
+    </header>
+    <div id="fidelity" hidden></div>
+    <div id="legend">
+      <span><i class="dot present"></i>present</span>
+      <span><i class="dot moved"></i>moved</span>
+      <span><i class="dot stolen"></i>stolen</span>
+    </div>
+  </main>
+
+  <aside id="activity">
+    <h2>Agent activity <span id="live" class="live">●</span></h2>
+    <ol id="feed"></ol>
+  </aside>
+
+  <dialog id="evidence">
+    <form method="dialog"><button aria-label="Close">×</button></form>
+    <h3 id="ev-title"></h3>
+    <p id="ev-meta"></p>
+    <video id="ev-video" src="/video" muted controls preload="metadata"></video>
+    <p id="ev-novideo" hidden>No before-video at fixtures/before.mp4 yet.</p>
+    <ul id="ev-sources"></ul>
+  </dialog>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
