@@ -85,6 +85,6 @@
 {"ts": "12:36:47", "agent": "loop", "action": "Completeness: what's visible 1:30\u20132:00 that isn't listed?", "status": "info"}
 {"ts": "12:36:51", "agent": "loop", "action": "Precision: checking each of 39 items against its evidence frame", "status": "info"}
 {"ts": "12:37:49", "agent": "loop", "action": "Precision: 39 items confirmed", "status": "ok"}
-{"ts": "12:37:49", "agent": "fidelity", "action": "Single pass found 30 of 37 items (precision 97%)", "status": "info", "payload": {"recall": 0.811, "precision": 0.968}}
-{"ts": "12:37:49", "agent": "fidelity", "action": "After the loop: 35 of 37 items (precision 90%)", "status": "ok", "payload": {"recall": 0.946, "precision": 0.897}}
 {"ts": "12:37:49", "agent": "reconstruct", "action": "scene.json written: 39 items", "status": "ok", "payload": {"path": "../out/scene.json"}}
+{"ts": "12:40:06", "agent": "fidelity", "action": "Single pass found 30 of 35 items (precision 97%)", "status": "info", "payload": {"recall": 0.857, "precision": 0.968}}
+{"ts": "12:40:06", "agent": "fidelity", "action": "After the loop: 35 of 35 items (precision 90%)", "status": "ok", "payload": {"recall": 1.0, "precision": 0.897}}

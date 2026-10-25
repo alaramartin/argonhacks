@@ -218,14 +218,6 @@
         "label": "QR code stand"
       },
       {
-        "gt": "g36",
-        "label": "sharpie pen"
-      },
-      {
-        "gt": "g37",
-        "label": "sharpie pen"
-      },
-      {
         "gt": "g09",
         "label": "black tablet or monitor"
       },
@@ -497,16 +489,7 @@
         "score": 0.5
       }
     ],
-    "missed": [
-      {
-        "gt": "g36",
-        "label": "sharpie pen"
-      },
-      {
-        "gt": "g37",
-        "label": "sharpie pen"
-      }
-    ],
+    "missed": [],
     "extra": [
       {
         "item": "item_020",
