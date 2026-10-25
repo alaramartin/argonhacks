@@ -17,6 +17,8 @@ This is the {start}-{end} segment of a room walkthrough. Below is the inventory 
 List belongings clearly visible in this segment that are NOT already in the inventory — same rules as before:
 insurable items only, one entry per physical object, specific priceable labels, positions in the same coordinates.
 Check positions before adding: an item already listed near the same spot is the same item, not a new one.
+But if an inventory label bundles several separate objects ("bike with helmet", "book with flowers and vases"),
+the extra objects are NOT listed yet: add each one as its own item.
 Return an empty list if nothing is missing.
 
 Inventory:

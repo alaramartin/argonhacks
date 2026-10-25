@@ -41,6 +41,9 @@ Then report the real, material errors as critiques:
   ~0.5 m) or badly wrong size (any dimension off by more than ~50%; a thin pole or stand drawn as a thick block
   counts). Give the corrected `anchor` / `size`. Geometry errors matter as much as missing items.
 - fix "relabel": the box is the right object but the label is wrong in kind or color. Give the new `label`.
+- Bundled entries: a label that names several separate objects ("bike with helmet on handlebar", "book with
+  flower arrangement and vases") hides belongings that each need their own entry. Relabel the box to the main
+  object, and "add" each other object as its own item at its own spot.
 - fix "camera": the whole RENDER is clearly from the wrong viewpoint (most items shifted the same way).
   Give corrected `position` and `look_at`. When the camera is off, fix it instead of moving every item.
 
@@ -79,7 +82,7 @@ def find_duplicate(scene: Scene, label: str, anchor) -> Item | None:
     for item in scene.items:
         other = _tokens(item.label)
         # "snack basket" vs "snack bar sign" share a word but aren't the same kind of thing
-        if not words or not other or len(words & other) / min(len(words), len(other)) < 0.5:
+        if not words or not other or len(words & other) / min(len(words), len(other)) <= 0.5:
             continue
         a, s = item.anchor, item.size
         inside = (abs(anchor.x - a.x) <= s.w * DUPLICATE_PAD / 2 and abs(anchor.y - a.y) <= s.h * DUPLICATE_PAD / 2
@@ -192,7 +195,8 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
             break
 
         applied = 0
-        for c in critiques:
+        # adds last: unbundling relabels "bike with helmet" to "bike" first, so the helmet isn't seen as a duplicate
+        for c in sorted(critiques, key=lambda c: c.fix == "add"):
             t = scene.keyframes[c.keyframe].t if 0 <= c.keyframe < len(scene.keyframes) else None
             where = f" @{int(t // 60)}:{t % 60:04.1f}" if t is not None else ""
             # repo-relative, so the viewer can serve it (e.g. out/loop/iter1_kf3.jpg)
