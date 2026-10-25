@@ -69,14 +69,17 @@ function buildRoom(room, group) {
     const ops = (room.openings || []).filter((o) => o.wall === i).sort((p, q) => p.offset - q.offset);
 
     // Split the wall around each opening: solid span, then below/above the opening.
+    // Openings can overlap (a door inside a full-width window), so each one starts where the last ended.
     let cursor = 0;
     const pieces = [];
     for (const o of ops) {
       const [y0, y1] = OPENING_Y[o.type] || OPENING_Y.door;
-      pieces.push([cursor, o.offset, 0, H]);
-      pieces.push([o.offset, o.offset + o.width, 0, y0]);
-      pieces.push([o.offset, o.offset + o.width, y1, H]);
-      cursor = o.offset + o.width;
+      const start = Math.max(o.offset, cursor), end = Math.min(o.offset + o.width, len);
+      if (end <= start) continue;
+      pieces.push([cursor, start, 0, H]);
+      pieces.push([start, end, 0, y0]);
+      pieces.push([start, end, y1, H]);
+      cursor = end;
     }
     pieces.push([cursor, len, 0, H]);
     for (const p of pieces) {
@@ -135,21 +138,121 @@ function buildItem(item, group) {
   const geo = new THREE.BoxGeometry(Math.max(w, 0.02), Math.max(h, 0.02), Math.max(d, 0.02));
   const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color, transparent: true, opacity: 0.55 }));
   mesh.position.set(item.anchor.x, item.anchor.y, item.anchor.z);
+  mesh.userData.itemId = item.id;
   mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color })));
   const tagEl = makeTag(item);
   const tag = new CSS2DObject(tagEl);
   tag.position.set(0, h / 2 + 0.12, 0);
   mesh.add(tag);
   group.add(mesh);
-  itemMeshes.set(item.id, { mesh, tagEl });
+  itemMeshes.set(item.id, { mesh, tagEl, tag, item, group: null });
 }
 
-function frameCamera() {
-  const box = new THREE.Box3().setFromObject(world);
-  const c = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3()).length();
-  camera.position.set(c.x + size * 0.55, size * 0.75, c.z + size * 0.85);
-  controls.target.set(c.x, 0.6, c.z);
+// ---------- groups: items within GROUP_RADIUS of each other on the floor share one tag ----------
+// The group tag lists its members (hover a row = highlight the box, click = evidence). Zooming in within
+// SPLIT_DISTANCE of a group swaps it for the members' own tags; hovering a box always shows that box's tag.
+
+const GROUP_RADIUS = 0.6;
+const SPLIT_DISTANCE = 3.0;
+let groups = [];
+const expandedGroups = new Set();
+
+function clusterItems(items) {
+  const parent = items.map((_, i) => i);
+  const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+  for (let i = 0; i < items.length; i++)
+    for (let j = i + 1; j < items.length; j++) {
+      const a = items[i].anchor, b = items[j].anchor;
+      if (Math.hypot(a.x - b.x, a.z - b.z) <= GROUP_RADIUS) parent[find(i)] = find(j);
+    }
+  const byRoot = new Map();
+  items.forEach((it, i) => byRoot.set(find(i), [...(byRoot.get(find(i)) || []), it]));
+  return [...byRoot.values()].filter((m) => m.length > 1);
+}
+
+function sumPrice(items) {
+  const priced = items.filter((i) => i.price);
+  if (!priced.length) return null;
+  return { low: priced.reduce((t, i) => t + i.price.low, 0), high: priced.reduce((t, i) => t + i.price.high, 0) };
+}
+
+function buildGroup(members, world) {
+  const vol = (i) => i.size.w * i.size.h * i.size.d;
+  const biggest = [...members].sort((a, b) => vol(b) - vol(a))[0];
+  const ordered = [biggest, ...members.filter((m) => m !== biggest).sort((a, b) => (b.price?.high || 0) - (a.price?.high || 0))];
+  const cx = members.reduce((t, m) => t + m.anchor.x, 0) / members.length;
+  const cz = members.reduce((t, m) => t + m.anchor.z, 0) / members.length;
+  const top = Math.max(...members.map((m) => m.anchor.y + m.size.h / 2));
+
+  const el = document.createElement("div");
+  el.className = "tag group" + (members.some((m) => m.status === "stolen") ? " stolen" : "");
+  const head = document.createElement("button");
+  head.className = "ghead";
+  const name = document.createElement("span");
+  name.className = "name";
+  name.textContent = `${biggest.label} · ${members.length} items`;
+  const amt = document.createElement("span");
+  amt.className = "price";
+  amt.textContent = fmtPrice(sumPrice(members)) || "pricing…";
+  head.append(name, amt);
+  const list = document.createElement("ol");
+  list.className = "gitems";
+  for (const m of ordered) {
+    const row = document.createElement("li");
+    const b = document.createElement("button");
+    b.className = m.status || "present";
+    const l = document.createElement("span");
+    l.textContent = m.label;
+    const p = document.createElement("b");
+    p.textContent = fmtPrice(m.price) || "…";
+    b.append(l, p);
+    b.addEventListener("click", (e) => { e.stopPropagation(); openEvidence(m.id); });
+    b.addEventListener("pointerenter", () => setHover(m.id, true));
+    b.addEventListener("pointerleave", () => setHover(m.id, false));
+    row.append(b);
+    list.append(row);
+  }
+  el.append(head, list);
+
+  // The scene reloads on every agent update, so remember which groups are open by their member ids.
+  const key = members.map((m) => m.id).sort().join(",");
+  const g = { ids: members.map((m) => m.id), el, expanded: expandedGroups.has(key), center: new THREE.Vector3(cx, top, cz) };
+  el.classList.toggle("expanded", g.expanded);
+  head.addEventListener("click", () => {
+    g.expanded = !g.expanded;
+    g.expanded ? expandedGroups.add(key) : expandedGroups.delete(key);
+    el.classList.toggle("expanded", g.expanded);
+    el.classList.remove("dot");
+    delete el.dataset.w; // size changed; re-measure for declutter
+    lastDeclutter = 0;
+  });
+  const anchor = new THREE.Object3D();
+  anchor.position.set(cx, top + 0.15, cz);
+  g.tag = new CSS2DObject(el);
+  anchor.add(g.tag);
+  world.add(anchor);
+  for (const id of g.ids) itemMeshes.get(id).group = g;
+  return g;
+}
+
+// Elevated three-quarter view from beside the room's long side, so items spread across the screen
+// instead of lining up behind each other down the room's length.
+function roomBounds(s) {
+  const pts = (s.rooms || []).flatMap((r) => r.walls.flatMap((w) => [w.from, w.to]));
+  if (!pts.length) return null;
+  const xs = pts.map((p) => p[0]), zs = pts.map((p) => p[1]);
+  return { minX: Math.min(...xs), maxX: Math.max(...xs), minZ: Math.min(...zs), maxZ: Math.max(...zs) };
+}
+
+function frameCamera(s) {
+  const b = roomBounds(s);
+  const box = b ? null : new THREE.Box3().setFromObject(world);
+  const [minX, maxX, minZ, maxZ] = b ? [b.minX, b.maxX, b.minZ, b.maxZ] : [box.min.x, box.max.x, box.min.z, box.max.z];
+  const cx = (minX + maxX) / 2, cz = (minZ + maxZ) / 2, dx = maxX - minX, dz = maxZ - minZ;
+  const L = Math.max(dx, dz);
+  if (dz >= dx) camera.position.set(maxX + L * 0.55, L * 0.7, cz + L * 0.12);
+  else camera.position.set(cx + L * 0.12, L * 0.7, maxZ + L * 0.55);
+  controls.target.set(cx, 0.5, cz);
   controls.update();
 }
 
@@ -159,11 +262,14 @@ function render(s) {
   itemMeshes.clear();
   for (const room of s.rooms || []) buildRoom(room, world);
   for (const item of s.items || []) buildItem(item, world);
+  groups = clusterItems(s.items || []).map((m) => buildGroup(m, world));
   scene.add(world);
-  if (!framed) { frameCamera(); framed = true; }
   current = s;
+  if (!framed) { frameCamera(s); framed = true; }
   renderSummary(s);
 }
+
+document.getElementById("reset-view").addEventListener("click", () => current && frameCamera(current));
 
 function renderSummary(s) {
   const items = s.items || [];
@@ -191,13 +297,47 @@ function setHover(id, on) {
   if (it) it.mesh.material.opacity = on ? 0.9 : 0.55;
 }
 
+// Pulse the tag that's actually on screen: the item's own, or its group's.
 function pulse(id) {
   const it = itemMeshes.get(id);
   if (!it) return;
-  it.tagEl.classList.remove("pulse");
-  void it.tagEl.offsetWidth;
-  it.tagEl.classList.add("pulse");
+  const el = it.tag.visible || !it.group ? it.tagEl : it.group.el;
+  el.classList.remove("pulse");
+  void el.offsetWidth;
+  el.classList.add("pulse");
 }
+
+// ---------- hovering a box shows its tag; clicking a box opens its evidence ----------
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let hoveredId = null;
+let downAt = null;
+
+function itemAt(e) {
+  const r = renderer.domElement.getBoundingClientRect();
+  pointer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObjects([...itemMeshes.values()].map((v) => v.mesh), false)[0];
+  return hit?.object.userData.itemId ?? null;
+}
+
+renderer.domElement.addEventListener("pointermove", (e) => {
+  if (e.buttons) return; // orbiting
+  const id = itemAt(e);
+  if (id === hoveredId) return;
+  if (hoveredId) setHover(hoveredId, false);
+  hoveredId = id;
+  if (id) setHover(id, true);
+  renderer.domElement.style.cursor = id ? "pointer" : "";
+  lastDeclutter = 0; // show/hide tags now, not on the next throttle tick
+});
+renderer.domElement.addEventListener("pointerdown", (e) => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener("pointerup", (e) => {
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return; // that was a drag
+  const id = itemAt(e);
+  if (id) openEvidence(id);
+});
 
 // ---------- data ----------
 
@@ -312,9 +452,11 @@ function openEvidence(id) {
 }
 dlg.addEventListener("close", () => video.pause());
 
-// ---------- tag declutter ----------
-// Nearest tags keep their full label; a tag that would overlap a nearer one collapses to just its price.
-// Overlap is tested with each tag's full-size box (cached), so collapsing never flips it back and forth.
+// ---------- which tags show, and declutter ----------
+// 1. A group shows one tag, unless it's expanded (its list) or the camera is close (members' own tags).
+// 2. The hovered box always shows its own tag.
+// 3. Of what's left, nearest tags stay full; any tag that would overlap one already placed becomes a dot
+//    (hover it for the full tag). Overlap uses each tag's cached full size, so dots never flicker back.
 
 const _v = new THREE.Vector3();
 let lastDeclutter = 0;
@@ -322,25 +464,40 @@ let lastDeclutter = 0;
 function declutter(now) {
   if (now - lastDeclutter < 120) return;
   lastDeclutter = now;
-  const tags = [];
-  for (const { mesh, tagEl } of itemMeshes.values()) {
-    if (tagEl.style.display === "none") continue; // behind the camera
-    if (!tagEl.dataset.w) { // tags are rebuilt on every scene reload, so this is measured at full size
-      const r = tagEl.getBoundingClientRect();
-      tagEl.dataset.w = r.width; tagEl.dataset.h = r.height;
-    }
-    const r = tagEl.getBoundingClientRect();
-    const w = +tagEl.dataset.w, h = +tagEl.dataset.h;
-    const box = { x: r.left, y: r.top + r.height / 2 - h / 2, w, h };
-    tags.push({ tagEl, box, dist: camera.position.distanceTo(mesh.getWorldPosition(_v)) });
+
+  for (const g of groups) {
+    const split = !g.expanded && camera.position.distanceTo(g.center) < SPLIT_DISTANCE;
+    g.tag.visible = !split;
+    for (const id of g.ids) itemMeshes.get(id).tag.visible = split || id === hoveredId;
   }
-  tags.sort((a, b) => a.dist - b.dist);
+  for (const it of itemMeshes.values()) {
+    if (!it.group) it.tag.visible = true;
+    it.tagEl.classList.toggle("hot", it.item.id === hoveredId);
+  }
+
+  const tags = [];
+  const consider = (el, worldPos, pinned) => {
+    if (el.style.display === "none") return; // hidden or behind the camera
+    if (!el.dataset.w && !el.classList.contains("dot")) {
+      const r = el.getBoundingClientRect();
+      if (r.width) { el.dataset.w = r.width; el.dataset.h = r.height; }
+    }
+    if (!el.dataset.w) return;
+    const r = el.getBoundingClientRect();
+    const w = +el.dataset.w, h = +el.dataset.h, cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    tags.push({ el, pinned, box: { x: cx - w / 2, y: cy - h / 2, w, h }, dist: camera.position.distanceTo(worldPos) });
+  };
+  for (const it of itemMeshes.values()) if (it.tag.visible) consider(it.tagEl, it.mesh.getWorldPosition(_v), it.item.id === hoveredId);
+  for (const g of groups) if (g.tag.visible) consider(g.el, g.center, g.expanded);
+
+  // Pinned tags (hovered, expanded) are placed first so everything else yields to them.
+  tags.sort((a, b) => (b.pinned - a.pinned) || (a.dist - b.dist));
   const kept = [];
   const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
   for (const t of tags) {
-    const collapse = kept.some((k) => hit(t.box, k.box));
-    t.tagEl.classList.toggle("collapsed", collapse);
-    if (!collapse) kept.push(t);
+    const dot = !t.pinned && kept.some((k) => hit(t.box, k.box));
+    t.el.classList.toggle("dot", dot);
+    if (!dot) kept.push(t);
   }
 }
 
