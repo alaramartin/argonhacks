@@ -223,7 +223,18 @@
         7.0,
         113.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 120.69,
+        "high": 177.79,
+        "currency": "USD",
+        "sources": [
+          "https://www.officedepot.com/a/products/8491242/Purell-CS6-Touch-Free-Dispenser-Floor/",
+          "https://www.quill.com/purell-cs6-automatic-floor-stand-hand-sanitizer-dispenser-black-chrome-7416-ds/cbs/55400951.html",
+          "https://www.staples.com/purell-es-6-automatic-floor-stand-hand-sanitizer-dispenser-graphite-black-7216-ds/product_24475192"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_002",
@@ -243,7 +254,18 @@
         10.0,
         116.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 4.98,
+        "high": 15.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Sterilite-3-Gal-Rectangular-Wastebasket-Plastic-Bedroom-White/47912401",
+          "https://www.homedepot.com/p/Rubbermaid-8-Gal-White-Rectangular-Trash-Can-with-LinerLock-FG5L6000WHT/202260824",
+          "https://www.target.com/p/11gal-slim-step-trash-can-brightroom-8482/-/A-87299521"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_003",
@@ -263,7 +285,18 @@
         8.0,
         113.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 121.99,
+        "high": 199.49,
+        "currency": "USD",
+        "sources": [
+          "https://www.wayfair.com/pdp/latitude-run-faux-dracaena-tree-resin-round-plant-pots-with-tray-w114608766.html",
+          "https://www.walmart.com/ip/Artificial-Dracaena-Tree-with-Gray-Tall-Planter-5-Feet/20930065928",
+          "https://www.homedepot.com/p/5-ft-Artificial-Dracaena-Tree-in-Gray-Planter-Z0CFB3QY9C/338152950"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_004",
@@ -283,7 +316,18 @@
         11.0,
         13.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 27.72,
+        "high": 36.98,
+        "currency": "USD",
+        "sources": [
+          "https://www.homedepot.com/p/Costa-Farms-Aglaonema-Indoor-Chinese-Evergreen-Plant-in-6-in-Self-Watering-Decor-Pot-Avg-Shipping-Height-1-2-ft-Tall-6SIAMAGHOL2PK/306716757",
+          "https://www.wayfair.com/decor-pillows/pdp/nohen-established-aglaonema-red-siam-live-plant-dense-variegated-leaves-low-light-tolerantperfect-95-inch-height-for-shelves-tables-nhbn1008.html?piid=122807843",
+          "https://www.walmart.com/ip/United-Nursery-Live-Aglaonema-Sparkling-Sarah-Houseplant-12-14in-Tall-in-6-inch-Premium-Ecopot-Gray/562784103"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_005",
@@ -302,7 +346,18 @@
         15.0,
         16.0
       ],
-      "confidence": 0.85
+      "confidence": 0.85,
+      "price": {
+        "low": 47.99,
+        "high": 104.32,
+        "currency": "USD",
+        "sources": [
+          "https://www.wayfair.com/furniture/pdp/inbox-zero-ergonomic-mesh-commercial-use-office-task-chair-aeoi1247.html",
+          "https://www.target.com/p/vasagle-ergonomic-mesh-office-chair-with-adjustable-lumbar-support-90-105-tilt-function-wide-seat-flip-up-armrests-dove-gray/-/A-1010314435",
+          "https://www.homedepot.com/p/WONDER-COMFORT-Gray-Office-Chair-Ergonomic-Desk-Task-Mesh-Chair-with-Armrests-Swivel-Adjustable-Height-HD1368GY/315522454"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_006",
@@ -322,7 +377,18 @@
         5.0,
         116.0
       ],
-      "confidence": 0.8
+      "confidence": 0.8,
+      "price": {
+        "low": 61.13,
+        "high": 104.32,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/jionjoy-ergonomic-mesh-office-chair-computer-desk-chair-with-lumbar-support-fixed-armrests-back-storage-pocket-250lbs-capacity-gray/-/A-1011533704",
+          "https://www.walmart.com/ip/Mainstays-Ergonomic-Mesh-Back-Office-Chair-with-Flip-Up-Arms-Grey-275-lb-Capacity/13991206398",
+          "https://www.homedepot.com/p/WONDER-COMFORT-Gray-Office-Chair-Ergonomic-Desk-Task-Mesh-Chair-with-Armrests-Swivel-Adjustable-Height-HD1368GY/315522454"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_007",
@@ -341,7 +407,18 @@
         16.0,
         17.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 516.06,
+        "high": 669.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.amazon.com/dp/B0DWPKQ3LH",
+          "https://www.walmart.com/ip/HP-15-6-inch-Windows-Laptop-Intel-Core-i5-1334U-8GB-RAM-512GB-SSD-Natural-Silver/16458465730",
+          "https://www.bestbuy.com/site/lenovo-ideapad-slim-3-15-6-full-hd-touchscreen-laptop-amd-ryzen-7-5825u-16gb-memory-512gb-ssd-arctic-grey/6610889.p?skuId=6610889"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_009",
@@ -361,7 +438,18 @@
         20.0,
         39.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 166.99,
+        "high": 229.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.amazon.com/dp/B082WNQQ7W",
+          "https://www.homedepot.com/p/mount-it-Universal-Tablet-Floor-Kiosk-for-9-7-in-to-13-in-Tablets-White-MI-3788W/339549358",
+          "https://www.bestbuy.com/product/mount-it-antitheft-floor-standing-tablet-kiosk-with-adjustable-viewing-locking-enclosure-tablets-white/J3GTF84L2C/sku/12101336"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_010",
@@ -381,7 +469,18 @@
         36.0,
         56.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 899.99,
+        "high": 1499.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/GOTRAX-R2-20-x-3-Folding-Adult-Electric-Bike-with-20Mph-500W-Strong-Power-Motors-LCD-Display-with-Rear-Rack-Black/11218508478",
+          "https://www.bestbuy.com/site/gotrax-z4-pro-foldable-ebike-w-up-to-40mi-max-operating-range-and-28-mph-max-speed-black/6537548.p?skuId=6537548",
+          "https://www.target.com/p/gopowerbike-golite-folding-electric-bike-black/-/A-1013103656"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_011",
@@ -401,7 +500,18 @@
         36.0,
         56.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 29.74,
+        "high": 84.95,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/bell-huxley-adult-bike-helmet-white/-/A-89513995",
+          "https://www.walmart.com/ip/Ozark-Trail-Adult-3-4-Shell-Bike-Helmet-Navy-White-14-Size-L/17380122071",
+          "https://www.rei.com/product/C04356/giro-register-mips-ii-bike-helmet"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_012",
@@ -421,7 +531,18 @@
         25.0,
         54.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 329.99,
+        "high": 375.36,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/hiland-road-bike-black-l/-/A-1001819385",
+          "https://www.walmart.com/ip/Hiland-Road-Bike-Shimano-14-Speeds-Light-Weight-Aluminum-Frame-700C-Racing-Bike-for-Men/127163140",
+          "https://www.homedepot.com/p/Tenleaf-27-5-in-Black-Adult-Shimano-16-Speed-L-TWOO-Disc-Brakes-Aluminum-Alloy-Frame-Road-City-Bicycle-FCBF13-233/331443320"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_013",
@@ -441,7 +562,18 @@
         45.0,
         54.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 144.0,
+        "high": 485.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.homedepot.com/p/VEVOR-Electric-Skateboard-with-Remote-9-3-Mph-Top-Speed-and-5-Miles-Maximum-Range-Skateboard-Longboard-DDYB20002500TT92QV1/328541771",
+          "https://www.target.com/p/voyager-electric-skateboard-neutrino-blk/-/A-84825202",
+          "https://www.walmart.com/ip/Wowgo-3E-Electric-Longboard-Portable-lightweight-E-Skateboard-with-Dual-Motors-Belt-Black-330ib/5375634078"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_014",
@@ -461,7 +593,18 @@
         45.0,
         54.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 44.99,
+        "high": 104.74,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/FUIN-6ft-Wooden-Blanket-Ladder-Living-Room-Decorative-Wall-Leaning-Farmhouse-Quilt-Display-Holder-Rustic-Wood-Towel-Rack-for-Bathroom-Natural/19640453970",
+          "https://www.wayfair.com/storage-organization/pdp/gracie-oaks-extra-wide-64ft-wooden-blanket-ladder-living-room-decorative-wal-leaning-farmhouse-quilt-display-holder-rustic-wood-towel-rack-w112339636.html",
+          "https://www.homedepot.com/p/LuxenHome-59-in-Tall-Solid-Natural-Wood-Bookcase-Blanket-Ladder-WHD2172/332809375"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_015",
@@ -481,7 +624,18 @@
         45.0,
         66.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 53.79,
+        "high": 89.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Artificial-Fiddle-Leaf-Fig-Tree-4ft-Realistic-Faux-Ficus-Lyrata-Floor-Plant-with-gray-Planter-Indoor-Fake-Tree-for-Home-Office-Living-Room-Decor/20662257574",
+          "https://www.wayfair.com/home/pdp/latitude-run-fiddle-leaf-fig-tree-artificial-with-48-leaves-realistic-faux-ficus-lyrata-trees-in-78-in-grey-planter-pot-indoor-fake-floor-plants-w117809294.html",
+          "https://www.target.com/p/4ft-fiddle-leaf-fig-tree-artificial-with-48-leaves-with-grey-planter-indoor-floor-plant-for-home-office-living-room-decor-housewarming-gift/-/A-1014618203"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_016",
@@ -501,7 +655,18 @@
         66.0,
         67.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 499.99,
+        "high": 499.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.bestbuy.com/site/segway-e2-pro-electric-scooter-efficient-commuter-scooter-w-21-7-mile-range-18-6-mph-speed-apple-find-my-integration-black/6583822.p?skuId=6583822",
+          "https://www.target.com/p/segway-e2-pro-adult-electric-scooter-black/-/A-89807920",
+          "https://www.walmart.com/ip/Segway-E2-Pro-Electric-Scooter-18-6-mph-Max-Speed-21-7-Miles-Max-Range-Teens-and-Adults-Black/10598000075"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_017",
@@ -521,7 +686,18 @@
         67.0,
         68.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 349.99,
+        "high": 699.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.bestbuy.com/product/segway-e2-plus-ii-electric-scooter-lightweight-portable-commuter-scooter-w-16-mile-range-15-mph-speed-rgb-lights-black/J394R97XVT/sku/6623722",
+          "https://www.target.com/p/segway-e2-pro-adult-electric-scooter-black/-/A-89807920",
+          "https://www.walmart.com/ip/Segway-Ninebot-MAX-G2-Electric-KickScooter-1000W-Motor-22mph-Max-Speed-Adults/5155296787"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_018",
@@ -541,7 +717,18 @@
         50.0,
         60.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 349.99,
+        "high": 699.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Segway-E2-Plus-II-Electric-Scooter-15-mph-Max-Speed-16-Miles-Max-Range-Teens-and-Adults-Black/16298222562",
+          "https://www.target.com/p/segway-e2-pro-adult-electric-scooter-black/-/A-89807920",
+          "https://www.bestbuy.com/site/segway-max-g2-electric-kick-scooter-foldable-w-43-mile-range-and-22-mph-max-speed-black/6541285.p?skuId=6541285"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_019",
@@ -561,7 +748,18 @@
         52.0,
         60.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 298.0,
+        "high": 350.09,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Beautiful-Drew-Chair-by-Drew-Barrymore-Cream/2862955510",
+          "https://www.target.com/p/vernon-upholstered-barrel-accent-chair-faux-shearling-cream-threshold-8482-designed-with-studio-mcgee/-/A-82457787",
+          "https://www.homedepot.com/p/Spruce-Spring-Noah-Cream-Performance-Fabric-Swivel-Accent-Chair-Modern-Upholstered-Round-Barrel-Armchair-for-Bedroom-or-Living-Room-SS72950-HT80913-3-VC/330811077"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_020",
@@ -581,7 +779,18 @@
         50.0,
         86.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 182.0,
+        "high": 350.09,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Mainstays-Boucle-Swivel-Accent-Chair-Cream/8473020072",
+          "https://www.target.com/p/upholstered-swivel-accent-chair-with-antique-brass-base-cream-threshold-designed-with-studio-mcgee-8482/-/A-94921713",
+          "https://www.homedepot.com/p/Spruce-Spring-Noah-Cream-Performance-Fabric-Swivel-Accent-Chair-Modern-Upholstered-Round-Barrel-Armchair-for-Bedroom-or-Living-Room-SS72950-HT80913-3-VC/330811077"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_021",
@@ -601,7 +810,18 @@
         74.0,
         81.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 168.0,
+        "high": 279.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Better-Homes-Gardens-Lillian-Fluted-Coffee-Table-Natural-Pine-Finish/1869094692",
+          "https://www.wayfair.com/furniture/pdp/latitude-run-sharna-pedestal-round-coffee-table-handcrafted-solid-wood-fluted-design-w112031520.html",
+          "https://www.target.com/p/wooden-round-pedestal-coffee-table-natural-hearth-38-hand-8482-with-magnolia/-/A-84826258"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_022",
@@ -621,7 +841,18 @@
         75.0,
         81.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 699.99,
+        "high": 1837.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/apple-macbook-neo-a18-pro-2026-laptop-256gb-indigo/-/A-91122085",
+          "https://www.walmart.com/ip/Apple-13-inch-MacBook-Air-Apple-M5-chip-w-10-core-CPU-8-core-GPU-512GB-SSD-16GB-RAM-Midnight-MDHE4LL-A-2026/19683558480",
+          "https://www.walmart.com/ip/Apple-14-in-MacBook-Pro-M5-chip-w-10-core-CPU-and-10-core-GPU-1TB-SSD-Space-Black-MDE14LL-A-Oct-2025/18124851966"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_023",
@@ -641,7 +872,18 @@
         77.0,
         81.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 58.03,
+        "high": 89.95,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/wonderland-hardcover/-/A-84709556",
+          "https://www.amazon.com/Annie-Leibovitz-Wonderland/dp/1838661522",
+          "https://www.barnesandnoble.com/w/wonderland-annie-leibovitz/1142972891?ean=9781838661526"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_024",
@@ -661,7 +903,18 @@
         77.0,
         83.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 33.99,
+        "high": 77.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/dobleepy-artificial-lily-flowers-with-ceramic-vase-faux-floral-arrangement-realistic-fake-lilies-for-table-bathroom-wedding-home-decor/-/A-1010109584",
+          "https://www.walmart.com/ip/VeriNatural-24-Hydrangea-Artificial-Floral-Arrangement-in-Ceramic-Vase-silk-fake-flowers/20631366060",
+          "https://www.homedepot.com/p/Unbranded-12-5-in-White-Indoor-Artificial-Mixed-Flower-in-White-Vase-Z0C1JL5MMK/700484661"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_025",
@@ -681,7 +934,18 @@
         50.0,
         88.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 51.45,
+        "high": 119.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.homedepot.com/p/4ft-Artificial-Fiddle-Leaf-Fig-Tree-with-48-Leaves-in-Grey-Planter-Pot-Indoor-Fake-Floor-Plants-for-Home-Office-Decor-HDxsqPHK-359KJCG6/340345996",
+          "https://www.walmart.com/ip/Artificial-Fiddle-Leaf-Fig-Tree-7ft-Realistic-Faux-Ficus-Lyrata-Floor-Plant-with-gray-Planter-Indoor-Fake-Tree-for-Home-Office-Living-Room-Decor/20630269957",
+          "https://www.target.com/p/5ft-fiddle-leaf-fig-tree-artificial-with-108-leaves-with-grey-planter-indoor-floor-plant-for-home-office-living-room-decor-housewarming-gift/-/A-1014618205"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_026",
@@ -701,7 +965,18 @@
         93.0,
         94.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 52.42,
+        "high": 95.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Counter-Stool-Natural-Finish/10749588",
+          "https://www.target.com/p/halifax-farmhouse-wood-counter-height-barstool-natural-wood-threshold-8482/-/A-54598212",
+          "https://www.ikea.com/us/en/p/skogsta-bar-stool-with-backrest-counter-height-acacia-50620677/"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_027",
@@ -721,7 +996,18 @@
         93.0,
         94.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 47.67,
+        "high": 80.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Counter-Stool-Natural-Finish/10749588",
+          "https://www.homedepot.com/p/GRAIN-AND-GROVE-Smith-24-in-H-Blonde-Backless-Wood-Counter-Stool-with-Wooden-Seat-G34003230-010/343465772",
+          "https://www.target.com/p/modern-all-wood-counter-height-barstool-natural-threshold-8482/-/A-88994977"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_028",
@@ -741,7 +1027,18 @@
         95.0,
         96.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 48.51,
+        "high": 95.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.homedepot.com/p/Linon-Home-Decor-Lopes-24-in-Natural-Backless-Wood-Counter-Stool-with-Wood-Seat-98100NAT-01-KD/203423865",
+          "https://www.target.com/p/modern-all-wood-counter-height-barstool-natural-threshold-8482/-/A-88994977",
+          "https://www.ikea.com/us/en/p/skogsta-bar-stool-with-backrest-counter-height-acacia-50620677/"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_029",
@@ -761,7 +1058,18 @@
         96.0,
         97.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 47.67,
+        "high": 95.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Counter-Stool-Natural-Finish/10749588",
+          "https://www.target.com/p/halifax-farmhouse-wood-counter-height-barstool-natural-wood-threshold-8482/-/A-54598212",
+          "https://www.ikea.com/us/en/p/dalfred-bar-stool-birch-80613091/"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_030",
@@ -781,7 +1089,18 @@
         96.0,
         97.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 47.67,
+        "high": 65.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Counter-Stool-Natural-Finish/10749588",
+          "https://www.homedepot.com/p/International-Concepts-24-in-Unfinished-Wood-Bar-Stool-1S-682/204764476",
+          "https://www.target.com/p/halifax-farmhouse-wood-counter-height-barstool-natural-wood-threshold-8482/-/A-54598212"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_031",
@@ -801,7 +1120,18 @@
         97.0,
         98.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 47.67,
+        "high": 80.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Winsome-Wood-Satori-Saddle-Seat-Counter-Stool-Natural-Finish/10749588",
+          "https://www.homedepot.com/p/GRAIN-AND-GROVE-Smith-24-in-H-Blonde-Backless-Wood-Counter-Stool-with-Wooden-Seat-G34003230-010/343465772",
+          "https://www.target.com/p/modern-all-wood-counter-height-barstool-natural-threshold-8482/-/A-88994977"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_032",
@@ -819,7 +1149,18 @@
       "seen_at": [
         22.0
       ],
-      "confidence": 0.7
+      "confidence": 0.7,
+      "price": {
+        "low": 80.94,
+        "high": 119.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/10-1-Inch-Android-10-Tablet-2GB-RAM-16GB-ROM-256GB-Expand-MTK-10-Core-CPU-Dual-SIM-WiFi-Bluetooth-GPS-4000mAh-Battery-Full-HD-Display/17919959816",
+          "https://www.bestbuy.com/product/linsay-10-1-octa-core-256gb-storage-android-15-tablet-with-golden-keyboard-gold/J3H5T2J3G8/sku/10197948",
+          "https://www.target.com/p/linsay-10-1-octa-core-256gb-storage-android-15-tablet-dual-camera-android-with-golden-keyboard/-/A-1003920849"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_033",
@@ -837,7 +1178,18 @@
       "seen_at": [
         10.0
       ],
-      "confidence": 0.7
+      "confidence": 0.7,
+      "price": {
+        "low": 149.99,
+        "high": 179.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.target.com/p/amazon-kindle-6-34-e-reader-2024-black/-/A-91563144",
+          "https://www.bestbuy.com/site/amazon-kindle-16-gb-2024-black/6599466.p?skuId=6599466",
+          "https://www.walmart.com/ip/Kobo-Clara-Colour-eReader-6-Glare-Free-E-Ink-Kaleido-3-Display-Dark-Mode-Option-Waterproof-Audiobooks-16GB-Storage-Black/5597220400"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_034",
@@ -855,7 +1207,18 @@
       "seen_at": [
         3.0
       ],
-      "confidence": 0.7
+      "confidence": 0.7,
+      "price": {
+        "low": 49.07,
+        "high": 56.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/AT-T-CL2940-Corded-Single-Line-Speakerphone-Caller-ID-Call-Waiting-with-Large-Tilt-Display/25026210",
+          "https://www.bestbuy.com/site/at-t-2940-corded-phone-with-caller-id-call-waiting-black/2396185.p?skuId=2396185",
+          "https://www.target.com/p/at-t-corded-speakerphone-with-large-display/-/A-87920603"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_035",
@@ -873,7 +1236,18 @@
       "seen_at": [
         3.0
       ],
-      "confidence": 0.7
+      "confidence": 0.7,
+      "price": {
+        "low": 31.4,
+        "high": 56.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/AT-T-TR1909-Trimline-Corded-Phone-with-Caller-ID-Black/16923599",
+          "https://www.bestbuy.com/product/at-t-tr1909b-trimline-corded-phone-black/JX8RR848R4/sku/12198164",
+          "https://www.target.com/p/at-t-corded-speakerphone-with-large-display/-/A-87920603"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_036",
@@ -892,7 +1266,18 @@
         19.0,
         20.0
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "price": {
+        "low": 1455.99,
+        "high": 1499.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Apple-24-inch-iMac-with-Retina-4-5K-display-M4-chip-w-8C-CPU-8C-GPU-256GB-SSD-16GB-Memory-Silver-MWUC3LL-A-Fall-2024/13702717994",
+          "https://www.bestbuy.com/site/apple-imac-24-inch-all-in-one-m4-chip-built-for-apple-intelligence-8-core-cpu-8-core-gpu-16gb-memory-256gb-ssd-silver/6467298.p?skuId=6467298",
+          "https://www.bhphotovideo.com/c/product/1858924-REG/apple_mwuc3ll_a_imac_8_core_16gb_256gb_silver_24.html"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_037",
@@ -912,7 +1297,18 @@
         28.0,
         29.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 67.22,
+        "high": 264.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.homedepot.com/p/Litton-Lane-Brown-Teak-Wood-Floating-Leaf-Sculpture-with-Black-Stand-and-Base-045577/329446050",
+          "https://www.homedepot.com/p/Litton-Lane-Brown-60-in-x-14-in-Teak-Wood-Handmade-Live-Edge-Floor-Abstract-Sculpture-047765/336877303",
+          "https://www.wayfair.com/decor-pillows/pdp/millwood-pines-gemmalynn-natural-sculpture-w112890295.html"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_038",
@@ -932,7 +1328,18 @@
         77.0,
         78.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 4.99,
+        "high": 10.0,
+        "currency": "USD",
+        "sources": [
+          "https://www.ikea.com/us/en/p/stilren-vase-white-10592365/",
+          "https://www.walmart.com/ip/Better-Homes-Gardens-4-5-Speckled-Ribbed-Ceramic-Vase-Cream-White-1-Piece/5337897846",
+          "https://www.target.com/p/modern-textured-ceramic-bud-vase-white-threshold-8482/-/A-94686812"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_039",
@@ -952,7 +1359,18 @@
         77.0,
         78.0
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "price": {
+        "low": 22.99,
+        "high": 71.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.amazon.com/dp/B0BV4BC7KS",
+          "https://www.wayfair.com/decor-pillows/pdp/birch-lane-aelia-fluted-metal-vase-with-distressed-antique-brass-w011391322.html",
+          "https://www.homedepot.com/p/Liv-Skye-17-in-Bronze-Copper-Metal-Tapered-Decorative-Vase-HD21320-01/343997462"
+        ],
+        "basis": "like kind and quality"
+      }
     },
     {
       "id": "item_040",
@@ -972,7 +1390,18 @@
         79.0,
         80.0
       ],
-      "confidence": 0.85
+      "confidence": 0.85,
+      "price": {
+        "low": 9.88,
+        "high": 19.99,
+        "currency": "USD",
+        "sources": [
+          "https://www.walmart.com/ip/Mainstays-8-Circular-Ceramic-White-Donut-Vase/2663376068",
+          "https://www.target.com/p/modern-textured-ceramic-bud-vase-white-threshold-8482/-/A-94686812",
+          "https://www.ikea.com/us/en/p/stilren-vase-white-10442045/"
+        ],
+        "basis": "like kind and quality"
+      }
     }
   ],
   "fidelity": {
