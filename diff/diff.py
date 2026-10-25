@@ -36,6 +36,8 @@ from models import Item, Scene  # noqa: E402
 from render import _font  # noqa: E402
 
 MAX_ROUNDS = 3
+SURVEY_THINKING = "high"
+RECHECK_THINKING = "high"
 RECHECK_BATCH = 6
 
 
@@ -109,7 +111,7 @@ def _inventory_contents(items: list[Item], before_video: Path, frame_dir: Path) 
 def survey(scene: Scene, after_file, before_video: Path, frame_dir: Path) -> dict[str, SurveyEntry]:
     emit("diff", f"Argon is watching the after walkthrough and looking for all {len(scene.items)} items")
     contents = [argon.video_part(after_file), SURVEY_PROMPT] + _inventory_contents(scene.items, before_video, frame_dir)
-    result = {e.id: e for e in argon.ask(contents, Survey, system=SYSTEM, thinking="high").items}
+    result = {e.id: e for e in argon.ask(contents, Survey, system=SYSTEM, thinking=SURVEY_THINKING).items}
     for it in scene.items:
         e = result.get(it.id)
         if e is None:
@@ -130,7 +132,7 @@ def recheck(items: list[Item], after_file, before_video: Path, frame_dir: Path, 
         batch = items[b:b + RECHECK_BATCH]
         emit("diff", f"Re-check round {rnd}: looking again for " + ", ".join(i.label for i in batch))
         contents = [argon.video_part(after_file), RECHECK_PROMPT] + _inventory_contents(batch, before_video, frame_dir)
-        out.update({r.id: r for r in argon.ask(contents, RecheckList, system=SYSTEM, thinking="high").items})
+        out.update({r.id: r for r in argon.ask(contents, RecheckList, system=SYSTEM, thinking=RECHECK_THINKING).items})
     return out
 
 
@@ -280,8 +282,11 @@ def normalize(video: Path, out_dir: Path) -> Path:
         return video
     out = out_dir / "after.mp4"
     emit("diff", f"Converting {video.name} to 720p for upload")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-vf", "scale=-2:720", "-c:v", "libx264",
-                    "-crf", "26", "-preset", "fast", "-an", str(out)], check=True)
+    base = ["ffmpeg", "-v", "error", "-y", "-i", str(video), "-vf", "scale=-2:720", "-an"]
+    try:  # the Mac's hardware encoder is several times faster than x264
+        subprocess.run(base + ["-c:v", "h264_videotoolbox", "-b:v", "2500k", str(out)], check=True, capture_output=True)
+    except subprocess.CalledProcessError:
+        subprocess.run(base + ["-c:v", "libx264", "-crf", "26", "-preset", "veryfast", str(out)], check=True)
     return out
 
 
@@ -292,11 +297,16 @@ def main() -> None:
     p.add_argument("--scene", default=str(REPO / "out" / "scene.json"), help="baseline scene")
     p.add_argument("--out", default=str(REPO / "out" / "diff"))
     p.add_argument("--reprice", action="store_true", help="only refresh prices in an existing diff from --scene")
+    p.add_argument("--fast", action="store_true", help="live-demo speed: medium thinking for survey and re-check, one "
+                                                       "re-check round (the confirm step still runs at high)")
     p.add_argument("--events", help="events file to append to (default: <out>/events.jsonl); point it at the file "
                                     "the viewer tails to show the diff live")
     args = p.parse_args()
 
     out_dir = Path(args.out)
+    if args.fast:
+        global SURVEY_THINKING, RECHECK_THINKING, MAX_ROUNDS
+        SURVEY_THINKING, RECHECK_THINKING, MAX_ROUNDS = "medium", "medium", 1
     if args.reprice:
         print(f"{reprice(out_dir, Path(args.scene))} stolen items priced")
         return

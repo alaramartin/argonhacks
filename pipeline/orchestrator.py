@@ -75,7 +75,16 @@ def cmd_run(args) -> None:
         if args.sandbox:
             from sandbox import Sandbox
             sb = Sandbox(args.video, out / ".sandbox_env.json")
+        if args.thinking:
+            loop.THINKING = args.thinking
+        full_keyframes = scene.keyframes
+        if args.keyframes:  # compare only these viewpoints; every item stays in the scene
+            picks = [int(k) for k in args.keyframes.split(",")]
+            scene = scene.model_copy(update={"keyframes": [full_keyframes[k] for k in picks]})
         scene, iterations = loop.run(scene, args.video, out, args.max_iter, sandbox=sb)
+        if args.keyframes:  # put the untouched viewpoints back, keeping any camera fixes the loop made
+            fixed = dict(zip(picks, scene.keyframes))
+            scene.keyframes = [fixed.get(k, kf) for k, kf in enumerate(full_keyframes)]
         _save(scene, out / "scene.after_loop1.json")
         _save(scene, out / "scene.json")
     if start <= 2 and not args.skip_passes:
@@ -148,6 +157,8 @@ def main() -> None:
     r.add_argument("--from", dest="from_stage", choices=STAGES, default="reconstruct")
     r.add_argument("--max-iter", type=int, default=loop.MAX_ITERATIONS)
     r.add_argument("--skip-passes", action="store_true", help="loop only; skip completeness and precision")
+    r.add_argument("--keyframes", help="comma-separated keyframe indices to compare, e.g. 0,5 (live demo)")
+    r.add_argument("--thinking", choices=["low", "medium", "high"], help="loop thinking level (default high)")
     r.add_argument("--sandbox", action="store_true", help="run the loop's render-and-critique step in a Managed Agents sandbox")
     r.set_defaults(fn=cmd_run)
 

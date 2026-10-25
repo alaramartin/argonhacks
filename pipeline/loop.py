@@ -15,6 +15,7 @@ from reconstruct import CONVENTIONS
 from render_pairs import render_pairs
 
 MAX_ITERATIONS = 4
+THINKING = "high"
 REPO = Path(__file__).resolve().parent.parent
 RUN_TAG = time.strftime("%H%M%S")
 
@@ -142,7 +143,7 @@ def _critique_local(scene: Scene, video: str | Path, pair_dir: Path, it: int) ->
     for k, path in enumerate(pairs):
         contents += [f"Keyframe {k} (t={scene.keyframes[k].t:.1f}s):", argon.image_part(path)]
     emit("loop", f"Loop iter {it}: Argon comparing {len(pairs)} rendered views with the real frames")
-    return argon.ask(contents, CritiqueList, system=SYSTEM, thinking="high").critiques, pairs
+    return argon.ask(contents, CritiqueList, system=SYSTEM, thinking=THINKING).critiques, pairs
 
 
 SANDBOX_TASK = """\
