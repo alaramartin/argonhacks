@@ -31,15 +31,17 @@ def _tokens(s: str) -> set[str]:
     return out
 
 
-def _similarity(label: str, names: list[str]) -> float:
+def _similarity(label: str, names: list[str]) -> tuple[float, int]:
+    """(share of the ground-truth name the label covers, words shared). The second breaks ties:
+    "folding electric bike with helmet" covers both "bike helmet" and "folding electric bike" fully,
+    but shares more words with the bike."""
     lt = _tokens(label)
-    best = 0.0
+    best = (0.0, 0)
     for name in names:
         nt = _tokens(name)
         if not nt or not lt:
             continue
-        # share of the ground-truth name the label covers; "floor lamp" vs "tall black floor lamp" = 1.0
-        best = max(best, len(lt & nt) / len(nt))
+        best = max(best, (len(lt & nt) / len(nt), len(lt & nt)))
     return best
 
 
@@ -48,12 +50,12 @@ def match(scene: Scene, gt: GroundTruth) -> list[tuple[str, str, float]]:
     pairs = []
     for item in scene.items:
         for g in gt.items:
-            s = _similarity(item.label, [g.label, *g.aliases])
+            s, shared = _similarity(item.label, [g.label, *g.aliases])
             if s >= MATCH_THRESHOLD:
-                pairs.append((s, item.id, g.id))
-    pairs.sort(reverse=True)
+                pairs.append((s, shared, item.id, g.id))
+    pairs.sort(key=lambda p: (-p[0], -p[1], p[2], p[3]))
     used_items, used_gt, out = set(), set(), []
-    for s, iid, gid in pairs:
+    for s, _, iid, gid in pairs:
         if iid in used_items or gid in used_gt:
             continue
         used_items.add(iid)
