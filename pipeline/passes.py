@@ -23,10 +23,12 @@ Inventory:
 """
 
 PRECISION_PROMPT = """\
-For each numbered frame below, I name one item an inventory says is visible in it.
-Answer per item id: is that object actually visible in its frame (partly visible counts)? Be strict: if the frame
-shows something different (e.g. a cushion called a pillow is fine, but a chair called a table is not), say not visible.
+Below, each item an inventory claims to have seen comes with one or more evidence frames.
+Answer per item id: is that object visible in ANY of its frames (partly visible counts)? Frames can be blurry or
+mid-pan, so check them all before answering no. Say not visible only if no frame shows it, or the frames show
+something different (a cushion called a pillow is fine; a chair called a table is not).
 """
+FRAMES_PER_ITEM = 3
 
 
 def _fmt(t: float) -> str:
@@ -42,8 +44,10 @@ def completeness(scene: Scene, video: str | Path) -> Scene:
     f = argon.upload_video(video)
     total = frames.duration(video)
     start = 0.0
-    while start < total:
+    while total - start > 3.0:  # skip a sub-3s tail
         end = min(start + SEGMENT, total)
+        if total - end <= 3.0:
+            end = total
         emit("loop", f"Completeness: what's visible {_fmt(start)}–{_fmt(end)} that isn't listed?")
         prompt = COMPLETENESS_PROMPT.format(start=_fmt(start), end=_fmt(end)) + _inventory(scene)
         found = argon.ask([argon.video_part(f, start, end), prompt], MissingItems, system=RECON_SYSTEM).items
@@ -64,15 +68,16 @@ def precision(scene: Scene, video: str | Path, out_dir: str | Path) -> Scene:
     for b in range(0, len(checkable), PRECISION_BATCH):
         batch = checkable[b:b + PRECISION_BATCH]
         contents: list = [PRECISION_PROMPT]
-        for n, item in enumerate(batch, start=1):
-            contents += [f"Frame {n}: is the {item.label} (id {item.id}) visible?",
-                         argon.image_part(frames.extract(video, item.seen_at[0], frame_dir))]
+        for item in batch:
+            ts = item.seen_at[:FRAMES_PER_ITEM]
+            contents.append(f"Item {item.id}: {item.label}. Evidence frames at " + ", ".join(_fmt(t) for t in ts) + ":")
+            contents += [argon.image_part(frames.extract(video, t, frame_dir)) for t in ts]
         verdicts = {v.id: v for v in argon.ask(contents, VerdictList).verdicts}
         for item in batch:
             v = verdicts.get(item.id)
             if v is not None and not v.visible:
                 scene.items = [i for i in scene.items if i.id != item.id]
-                emit("loop", f"Precision: {item.label} not in its frame @{_fmt(item.seen_at[0])} → removing {item.id}",
+                emit("loop", f"Precision: {item.label} not in any of its frames → removing {item.id}",
                      "warn", id=item.id, reason=v.reason)
     emit("loop", f"Precision: {len(scene.items)} items confirmed", "ok")
     return scene
