@@ -23,6 +23,9 @@ Every pipeline or agent run that produced output, failed, or taught us something
 | 12 | 13:25 | A | **Part 2 diff with generic prompt** (removed the room-specific examples "a slid laptop" and "six matching stools") | same as #11 | 4.9 min | Laptop **stolen**, stool **moved**, trash can moved, **0 false thefts**. The confirm step rejected the vase claim | `out/diff/` (prices from #9 copied in with `diff.py --reprice`) |
 | 13 | 13:31 | A | **Part 2 control: no changes** (before.mp4 given as the after video) | `diff/diff.py --after ../fixtures/before.mp4` | 1.5 min | **0 stolen, 0 moved, 38 in place**: no false thefts or false moves on an unchanged room | `out/diff_control/` |
 | 14 | 13:47 | A | **Part 2 end-to-end, local**: #12's `out/diff/stolen.json` into B's claim agent and Mock Mutual portal | `claim.py --local` · throwaway PORTAL_TOKEN · events to a scratch file | 4 s | 1 claim line, MacBook **$1,099.00** (median of 3 listings), evidence text with before/after times and image path, stopped **not submitted** for review | none (scratch) |
+| 15 | 13:49 | A | **Part 2 upload path**: raw `IMG_6922.MOV` (HEVC 1080p) straight into `diff.py` | `diff.py --after IMG_6922.MOV` · full settings | 5.7 min | Correct (laptop stolen, stool and trash can moved, 0 false thefts); confirm step blocked the vase again. Time: convert 45 s, upload 19 s, survey 131 s, re-check 71 s + 65 s, confirm 8 s | `out/diff_upload/` |
+| 16 | 13:56 | A | **Part 2 fast setting** on the raw MOV | `diff.py --fast` · medium thinking, 1 re-check round, VideoToolbox conversion, confirm at high | 2.8 min | Correct, 0 false thefts; one harmless extra "moved" (kiosk "turned slightly"). Time: convert 19 s, upload 57 s (Wi-Fi, shared with #17), survey 68 s, re-check 17 s, confirm 5 s | `out/diff_fast/` |
+| 17 | 13:57 | A | **Live loop setting**: one iteration on keyframes 0 and 5 from #8's single pass | `run --from loop --max-iter 1 --skip-passes --keyframes 0,5 --thinking medium` | 24 s | Unbundled the coffee-table book, added the white vase, both check-in stands and the black monitor (#8's only final miss). Brown vase refused as a duplicate of the white one | `out/live_loop/` |
 
 ## Notes per run
 
@@ -45,6 +48,8 @@ Every pipeline or agent run that produced output, failed, or taught us something
 **#12.** Same verdicts with the room-specific examples gone from the survey prompt. The re-check called the small vase stolen again, and this time the confirmation step blocked it on its own evidence image ("all of the small white ceramic vases on top of the book are still present"). That's the first end-to-end run where the confirm step prevented a false theft (in #11 the re-check found the vase on its own).
 
 **#14.** Every `stolen.json` field reached the claim line (`before_t`, `after_t`, `evidence`, sources). The evidence image is referenced by its repo path, which an adjuster outside our machine can't open; it needs a public URL before the live (sandbox) run is shown as a real filing.
+
+**#16-#17.** Demo timing: with the after video uploaded during setup (cache hit), the live diff is about 90-110 s, and the live loop iteration (24 s) fits inside it. **#17**'s refused brown vase is a limit of the duplicate rule: two small same-kind objects side by side overlap each other's padded box.
 
 ## Open comparisons
 

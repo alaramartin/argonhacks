@@ -25,3 +25,8 @@ out/diff/frames_after/
 out/diff_control/frames_before/
 out/diff_control/frames_after/
 out/claim/
+!out/diff_fast/
+out/diff_fast/frames_before/
+out/diff_fast/frames_after/
+!out/live_loop/
+out/live_loop/frames/

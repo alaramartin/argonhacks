@@ -1,0 +1,34 @@
+{
+  "changes": [
+    {
+      "change": "MacBook",
+      "expected": [
+        "stolen"
+      ],
+      "item": "item_023",
+      "status": "stolen",
+      "ok": true
+    },
+    {
+      "change": "counter stool",
+      "expected": [
+        "moved"
+      ],
+      "item": "item_032",
+      "status": "moved",
+      "ok": true
+    },
+    {
+      "change": "trash can",
+      "expected": [
+        "present",
+        "moved"
+      ],
+      "item": "item_003",
+      "status": "moved",
+      "ok": true
+    }
+  ],
+  "stolen_found": "1/1",
+  "false_thefts": []
+}
