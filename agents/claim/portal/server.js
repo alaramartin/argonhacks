@@ -92,6 +92,58 @@ function readBody(req) {
   });
 }
 
+// Remote mode: the portal itself is hosted (portal-vercel/, PORTAL_REMOTE_URL), so it stays up with the laptop
+// closed and needs no tunnel. This server is then only the policyholder's side: it serves the review page,
+// forwards its API calls with POLICYHOLDER_TOKEN, and copies the hosted portal's events into events.jsonl so
+// the Activity panel shows each field as the portal accepts it.
+const REMOTE = (process.env.PORTAL_REMOTE_URL || "").replace(/\/$/, "");
+if (REMOTE) {
+  const HOLDER = process.env.POLICYHOLDER_TOKEN;
+  if (!HOLDER) { console.error("PORTAL_REMOTE_URL is set but POLICYHOLDER_TOKEN is missing from .env"); process.exit(1); }
+
+  let seen = null; // events already copied; starts at the hosted portal's current count so old runs aren't replayed
+  async function pollEvents() {
+    try {
+      const r = await fetch(`${REMOTE}/api/events?since=${seen ?? 0}`, { headers: { Authorization: `Bearer ${HOLDER}` } });
+      if (r.ok) {
+        const { events } = await r.json();
+        if (seen === null) seen = events.length;
+        else if (events.length) {
+          fs.mkdirSync(path.dirname(EVENTS_PATH), { recursive: true });
+          fs.appendFileSync(EVENTS_PATH, events.map((e) => JSON.stringify(e)).join("\n") + "\n");
+          for (const e of events) console.log(`[${e.ts}] claim  ${e.action}`);
+          seen += events.length;
+        }
+      }
+    } catch (e) { console.error("event poll failed:", e.message); }
+    setTimeout(pollEvents, 1000);
+  }
+  pollEvents();
+
+  http.createServer(async (req, res) => {
+    const p = new URL(req.url, "http://x").pathname;
+    if (p === "/" && req.method === "GET") {
+      res.writeHead(200, { "Content-Type": "text/html" });
+      return fs.createReadStream(path.join(__dirname, "index.html")).pipe(res);
+    }
+    if (!p.startsWith("/api/") && !p.startsWith("/attachments/")) return send(res, 404, { error: "not found" });
+    const chunks = [];
+    for await (const c of req) chunks.push(c);
+    try {
+      const r = await fetch(REMOTE + req.url, {
+        method: req.method,
+        headers: { Authorization: `Bearer ${HOLDER}`, "Content-Type": req.headers["content-type"] || "application/json" },
+        body: ["GET", "HEAD"].includes(req.method) ? undefined : Buffer.concat(chunks),
+      });
+      res.writeHead(r.status, { "Content-Type": r.headers.get("content-type") || "application/json", "Cache-Control": "no-store" });
+      res.end(Buffer.from(await r.arrayBuffer()));
+    } catch (e) {
+      send(res, 502, { error: `hosted portal unreachable: ${e.message}` });
+    }
+  }).listen(PORT, "127.0.0.1", () => console.log(`Mock Mutual (policyholder side): http://127.0.0.1:${PORT}  →  ${REMOTE}  (events → ${path.relative(ROOT, EVENTS_PATH)})`));
+  return; // the local portal below doesn't run in remote mode
+}
+
 http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://x");
   const p = url.pathname;

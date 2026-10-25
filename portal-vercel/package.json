@@ -1,0 +1,8 @@
+{
+  "name": "mock-mutual-portal",
+  "private": true,
+  "description": "Mock Mutual demo claims portal (hosted). Not a real insurer.",
+  "dependencies": {
+    "@upstash/redis": "1.34.3"
+  }
+}
