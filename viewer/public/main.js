@@ -335,7 +335,8 @@ function stepNav() {
 for (const b of document.querySelectorAll("#nav [data-nav]")) {
   const a = b.dataset.nav;
   const stop = () => held.delete(a);
-  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); held.add(a); });
+  // step once right away so a quick tap always moves (a tap can end before the next frame runs the held action)
+  b.addEventListener("pointerdown", (e) => { e.preventDefault(); b.setPointerCapture(e.pointerId); NAV[a](); held.add(a); });
   b.addEventListener("pointerup", stop);
   b.addEventListener("pointercancel", stop);
   b.addEventListener("lostpointercapture", stop);
@@ -364,7 +365,7 @@ function renderSummary(s) {
   const sum = (list, k) => list.reduce((t, i) => t + (i.price?.[k] || 0), 0);
   const total = priced.length ? ` · total ${fmtPrice({ low: sum(priced, "low"), high: sum(priced, "high") })}` : "";
   let text = `${items.length} items · ${priced.length} priced${total}`;
-  if (stolen.length) text += ` · ${stolen.length} stolen (${fmtPrice({ low: sum(stolen, "low"), high: sum(stolen, "high") }) || "unpriced"})`;
+  if (stolen.length) text += ` · ${stolen.length} missing (${fmtPrice({ low: sum(stolen, "low"), high: sum(stolen, "high") }) || "unpriced"})`;
   document.getElementById("summary").textContent = text;
 
   const fid = s.fidelity, el = document.getElementById("fidelity");
@@ -372,7 +373,15 @@ function renderSummary(s) {
     const n = fid.ground_truth_count;
     const found = (r) => (n ? `${Math.round(r * n)} of ${n}` : `${Math.round(r * 100)}%`);
     el.innerHTML = "";
-    const row = (k, r) => { const d = document.createElement("div"); d.innerHTML = `<span>${k}</span><b>${found(r.recall)}</b><small>precision ${Math.round(r.precision * 100)}%</small>`; return d; };
+    // "Accuracy" on screen is F1: one number that rises only if items found (recall) and listed items that are
+    // real (precision) improve together. The hover text says so for anyone who asks.
+    const f1 = (r) => (r.recall + r.precision ? (2 * r.recall * r.precision) / (r.recall + r.precision) : 0);
+    const row = (k, r) => {
+      const d = document.createElement("div");
+      d.title = `Accuracy is F1, combining items found (recall ${Math.round(r.recall * 100)}%) and listed items that are real (precision ${Math.round(r.precision * 100)}%), scored against a hand count of the room.`;
+      d.innerHTML = `<span>${k}</span><b>${Math.round(f1(r) * 100)}%</b><small>accuracy · ${found(r.recall)} found</small>`;
+      return d;
+    };
     el.append(row("single pass", fid.single_pass), row(`after loop · ${fid.iterations} iter`, fid.after_loop));
     el.hidden = false;
   } else el.hidden = true;
@@ -428,8 +437,9 @@ renderer.domElement.addEventListener("pointerup", (e) => {
 // ---------- data ----------
 
 let lastSceneText = "";
+let view = "before"; // "after" = A's diff scene, with items[].status set
 async function loadScene() {
-  const res = await fetch("/scene.json", { cache: "no-store" });
+  const res = await fetch(`/scene.json?view=${view}`, { cache: "no-store" });
   const text = await res.text();
   if (text === lastSceneText) return;
   lastSceneText = text;
@@ -445,6 +455,10 @@ function scheduleReload() {
 // ---------- activity panel ----------
 
 const feed = document.getElementById("feed");
+// Follow new events unless the viewer has scrolled up to read. Decided on scroll, not on append: text reflowing
+// after load grows the list without a scroll, which made an "are we at the bottom?" check stop following.
+let feedPinned = true;
+feed.addEventListener("scroll", () => { feedPinned = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40; });
 const live = document.getElementById("live");
 
 function addEvent(ev) {
@@ -469,7 +483,7 @@ function addEvent(ev) {
     img.addEventListener("click", (e) => { e.stopPropagation(); showCatch(ev, pair); });
     img.addEventListener("error", () => img.remove());
     li.append(img);
-    if (ev.agent === "loop" && ev.status === "warn") showCatch(ev, pair);
+    if (ev.agent === "loop" && ev.status === "warn" && catchRank(ev) >= shownRank) { shownRank = catchRank(ev); showCatch(ev, pair); }
   }
   // Pricing names the item as payload.item; loop critiques/fixes name it as payload.target (may be a wall).
   const itemId = ev.payload?.item || ev.payload?.target;
@@ -477,9 +491,8 @@ function addEvent(ev) {
     li.dataset.item = itemId;
     li.addEventListener("click", () => openEvidence(itemId));
   }
-  const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40;
   feed.append(li);
-  if (atBottom) feed.scrollTop = feed.scrollHeight;
+  if (feedPinned) feed.scrollTop = feed.scrollHeight;
   if (itemId) pulse(itemId);
 }
 
@@ -499,12 +512,112 @@ function connect() {
 // ---------- loop catch card: the real frame next to our render, over the 3D scene ----------
 
 const catchCard = document.getElementById("catch");
+// The card shows the catch that matters most for a claim: a missed item found beats an invented one removed,
+// which beats a moved box or a relabel. A stronger or equal catch replaces it; thumbnails still open any catch.
+const CATCH_RANK = { add: 3, remove: 2, move: 1, resize: 1 };
+const catchRank = (ev) => CATCH_RANK[ev.payload?.fix] ?? 0;
+let shownRank = -1;
 catchCard.querySelector("button").addEventListener("click", () => { catchCard.hidden = true; });
 
-function showCatch(ev, src) {
+function showCatch(ev, src, caption = "Loop caught a reconstruction error") {
   catchCard.querySelector("img").src = src;
+  catchCard.querySelector("figcaption").textContent = caption;
   catchCard.querySelector("p").textContent = ev.action;
   catchCard.hidden = false;
+}
+
+// ---------- after the loss: upload, before/after, stolen list, file claim ----------
+
+const afterEl = document.getElementById("after");
+const afterStatus = document.getElementById("after-status");
+const viewButtons = afterEl.querySelectorAll(".views button");
+let afterState = null;
+
+function setView(v) {
+  if (v === view) return;
+  view = v;
+  for (const b of viewButtons) b.classList.toggle("on", b.dataset.view === v);
+  lastSceneText = ""; // force a rebuild even if the file didn't change
+  loadScene();
+}
+for (const b of viewButtons) b.addEventListener("click", () => setView(b.dataset.view));
+
+afterEl.querySelector("input[type=file]").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  afterStatus.textContent = `Uploading ${file.name}…`;
+  const r = await fetch("/api/after/upload", { method: "POST", headers: { "X-Filename": file.name }, body: file });
+  afterStatus.textContent = r.ok ? "Comparing with the before scene. Watch the Activity panel." : (await r.json()).error;
+  pollAfter();
+});
+
+document.getElementById("file-claim").addEventListener("click", async () => {
+  const r = await fetch("/api/claim/start", { method: "POST" });
+  if (!r.ok) afterStatus.textContent = (await r.json()).error;
+  pollAfter();
+});
+
+async function pollAfter() {
+  let s;
+  try { s = await (await fetch("/api/after", { cache: "no-store" })).json(); } catch { return; }
+  const was = afterState;
+  afterState = s;
+  viewButtons[1].disabled = !s.available;
+
+  // A diff that just finished: show its result.
+  if (was?.diff.state === "running" && s.diff.state === "done") setView("after");
+  if (s.diff.state === "running") afterStatus.textContent = "Comparing with the before scene. Watch the Activity panel.";
+  else if (s.diff.state === "error") afterStatus.textContent = `Diff failed: ${s.diff.error}`;
+  else if (s.claim.state === "running") afterStatus.textContent = s.claim.live ? "Claim agent is filling the portal from a Managed Agents sandbox." : "Filling the claim portal.";
+  else if (s.claim.state === "done") afterStatus.textContent = "Claim filled and waiting for your review. It has not been submitted.";
+  else if (s.claim.state === "error") afterStatus.textContent = `Claim agent failed: ${s.claim.error}`;
+  else if (was?.diff.state !== s.diff.state) afterStatus.textContent = "";
+
+  renderStolen(s);
+}
+
+function renderStolen(s) {
+  const box = document.getElementById("stolen");
+  box.hidden = view !== "after" || !s.stolen.length;
+  if (box.hidden) return;
+  const list = document.getElementById("stolen-list");
+  const key = JSON.stringify(s.stolen.map((i) => [i.id, i.price?.low, i.price?.high]));
+  if (list.dataset.key !== key) {
+    list.dataset.key = key;
+    list.innerHTML = "";
+    for (const it of s.stolen) {
+      const li = document.createElement("li");
+      const head = document.createElement("button");
+      head.type = "button";
+      const name = document.createElement("span");
+      name.textContent = it.label;
+      const price = document.createElement("b");
+      price.textContent = fmtPrice(it.price) || "unpriced";
+      head.append(name, price);
+      head.addEventListener("click", () => openEvidence(it.id));
+      head.addEventListener("pointerenter", () => setHover(it.id, true));
+      head.addEventListener("pointerleave", () => setHover(it.id, false));
+      li.append(head);
+      if (it.evidence) {
+        const src = "/" + it.evidence.replace(/\\/g, "/");
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `Before and after: ${it.label}`;
+        img.title = it.reason || "";
+        img.addEventListener("click", () => showCatch({ action: it.reason || it.label }, src, "Before | after: why this item is missing"));
+        img.addEventListener("error", () => img.remove());
+        li.append(img);
+      }
+      list.append(li);
+    }
+  }
+  const sum = sumPrice(s.stolen);
+  document.getElementById("stolen-total").textContent = `· ${s.stolen.length} item${s.stolen.length > 1 ? "s" : ""}${sum ? " · " + fmtPrice(sum) : ""}`;
+  const fileBtn = document.getElementById("file-claim");
+  fileBtn.disabled = s.claim.state === "running";
+  fileBtn.textContent = s.claim.state === "running" ? "Filing…" : s.claim.state === "done" ? "File again" : "File claim";
+  document.getElementById("portal-link").href = s.portal;
 }
 
 // ---------- evidence ----------
@@ -602,4 +715,6 @@ resize();
 await loadScene();
 connect();
 setInterval(loadScene, 5000); // safety net if an agent writes without emitting an event
+pollAfter();
+setInterval(pollAfter, 2000);
 requestAnimationFrame(tick);

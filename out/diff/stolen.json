@@ -1,0 +1,21 @@
+[
+  {
+    "id": "item_023",
+    "label": "space gray Apple MacBook laptop",
+    "price": {
+      "low": 859.0,
+      "high": 1099.0,
+      "currency": "USD",
+      "sources": [
+        "https://www.walmart.com/ip/Apple-13-inch-MacBook-Air-Apple-M3-chip-with-8-core-CPU-and-8-core-GPU-16GB-256GB-SSD-Space-Gray/13741815546",
+        "https://www.bestbuy.com/site/apple-macbook-air-13-inch-laptop-m3-chip-built-for-apple-intelligence-8gb-memory-256gb-ssd-space-gray/6565830.p?skuId=6565830",
+        "https://www.bhphotovideo.com/c/product/1860123-REG/apple_mc8g4ll_a_13_macbook_air_m3.html"
+      ],
+      "basis": "like kind and quality"
+    },
+    "before_t": 74.0,
+    "after_t": 90.0,
+    "evidence": "out/diff/stolen_item_023.jpg",
+    "reason": "The MacBook laptop on the round coffee table in the before image is clearly gone in the after image."
+  }
+]

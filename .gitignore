@@ -18,3 +18,17 @@ out/sandbox_demo/frames/
 out/sandbox_demo/.sandbox_env.json
 !out/final2/
 out/final2/frames/
+!out/diff/
+out/diff/frames_before/
+out/diff/frames_after/
+!out/diff_control/
+out/diff_control/frames_before/
+out/diff_control/frames_after/
+out/claim/
+!out/diff_fast/
+out/diff_fast/frames_before/
+out/diff_fast/frames_after/
+!out/live_loop/
+out/live_loop/frames/
+!out/live_loop2/
+out/live_loop2/frames/

@@ -3,6 +3,7 @@
 import json
 import math
 import os
+import re
 import time
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from reconstruct import CONVENTIONS
 from render_pairs import render_pairs
 
 MAX_ITERATIONS = 4
+THINKING = "high"
 REPO = Path(__file__).resolve().parent.parent
 RUN_TAG = time.strftime("%H%M%S")
 
@@ -79,12 +81,33 @@ DUPLICATE_MIN_DIST = 0.25
 DUPLICATE_SIZE_RATIO = 2.5
 
 
+# Color words grouped into families, so "brown" and "bronze" can still be the same object but "white" and
+# "brown" can't.
+COLOR_FAMILY = {
+    "white": "white", "cream": "white", "ivory": "white", "beige": "white", "off": "white",
+    "black": "black", "charcoal": "black",
+    "gray": "gray", "grey": "gray", "silver": "gray", "space": "gray",
+    "brown": "brown", "bronze": "brown", "copper": "brown", "tan": "brown", "walnut": "brown",
+    "gold": "gold", "golden": "gold", "brass": "gold", "yellow": "gold",
+    "red": "red", "pink": "red", "orange": "orange", "green": "green", "blue": "blue", "navy": "blue",
+    "purple": "purple",
+}
+
+
+def _colors(label: str) -> set[str]:
+    return {COLOR_FAMILY[w] for w in re.findall(r"[a-z]+", label.lower()) if w in COLOR_FAMILY}
+
+
 def find_duplicate(scene: Scene, label: str, anchor, size: Size | None = None) -> Item | None:
-    """An existing item that is probably the same object: similar label, similar size, and the new center falls
-    inside its (slightly padded) box. Identical items side by side don't overlap, and a small vase split out of a
-    "flowers in a vase" entry is much smaller than it, so both are kept."""
-    words = _tokens(label)
+    """An existing item that is probably the same object: similar label, similar size, same color if both name
+    one, and the new center falls inside its (slightly padded) box or very close to it. Identical items side by
+    side don't overlap, a small vase split out of a "flowers in a vase" entry is much smaller than it, and a
+    white vase next to a brown one names different colors, so all of those are kept."""
+    words, colors = _tokens(label), _colors(label)
     for item in scene.items:
+        other_colors = _colors(item.label)
+        if colors and other_colors and not colors & other_colors:
+            continue
         if size is not None:
             big, small = sorted([max(size.w, size.h, size.d), max(item.size.w, item.size.h, item.size.d)], reverse=True)
             if small <= 0 or big / small > DUPLICATE_SIZE_RATIO:
@@ -96,7 +119,9 @@ def find_duplicate(scene: Scene, label: str, anchor, size: Size | None = None) -
         a, s = item.anchor, item.size
         inside = (abs(anchor.x - a.x) <= s.w * DUPLICATE_PAD / 2 and abs(anchor.y - a.y) <= s.h * DUPLICATE_PAD / 2
                   and abs(anchor.z - a.z) <= s.d * DUPLICATE_PAD / 2)
-        if inside or math.dist((a.x, a.y, a.z), (anchor.x, anchor.y, anchor.z)) < DUPLICATE_MIN_DIST:
+        # "very close" scales with the object: 25 cm for furniture, a few cm for small things on a table
+        near = min(DUPLICATE_MIN_DIST, 0.5 * min(max(s.w, s.h, s.d), max(size.w, size.h, size.d) if size else 9e9))
+        if inside or math.dist((a.x, a.y, a.z), (anchor.x, anchor.y, anchor.z)) < near:
             return item
     return None
 
@@ -142,7 +167,7 @@ def _critique_local(scene: Scene, video: str | Path, pair_dir: Path, it: int) ->
     for k, path in enumerate(pairs):
         contents += [f"Keyframe {k} (t={scene.keyframes[k].t:.1f}s):", argon.image_part(path)]
     emit("loop", f"Loop iter {it}: Argon comparing {len(pairs)} rendered views with the real frames")
-    return argon.ask(contents, CritiqueList, system=SYSTEM, thinking="high").critiques, pairs
+    return argon.ask(contents, CritiqueList, system=SYSTEM, thinking=THINKING).critiques, pairs
 
 
 SANDBOX_TASK = """\

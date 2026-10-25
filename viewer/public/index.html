@@ -28,10 +28,27 @@
       <img alt="Real video frame next to the rendered scene" />
       <p></p>
     </figure>
+    <section id="after" aria-label="After the loss">
+      <div class="views" role="group" aria-label="Scene">
+        <button type="button" data-view="before" class="on">Before</button>
+        <button type="button" data-view="after" disabled>After</button>
+      </div>
+      <label class="upload">
+        <input type="file" accept="video/mp4,video/quicktime,.mov,.mp4,.m4v" hidden />
+        <span>Upload after video</span>
+      </label>
+      <p id="after-status"></p>
+      <div id="stolen" hidden>
+        <h3>Missing <span id="stolen-total"></span></h3>
+        <ol id="stolen-list"></ol>
+        <button id="file-claim" type="button">File claim</button>
+        <a id="portal-link" href="http://localhost:8090" target="_blank" rel="noopener">Open claim portal</a>
+      </div>
+    </section>
     <div id="legend">
       <span><i class="swatch present"></i>present</span>
       <span><i class="swatch moved"></i>moved</span>
-      <span><i class="swatch stolen"></i>stolen</span>
+      <span><i class="swatch stolen"></i>missing</span>
     </div>
     <div id="nav" role="group" aria-label="Move the camera">
       <div class="pad">

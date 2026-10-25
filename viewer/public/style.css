@@ -21,7 +21,7 @@ body { display: grid; grid-template-columns: 1fr 380px; overflow: hidden; }
 #stage { position: relative; min-width: 0; }
 /* #scene is its own stacking context, so no tag (even a hovered one) can draw over the overlays below */
 #scene { position: absolute; inset: 0; z-index: 0; }
-#title, #legend, #fidelity, #catch, #nav { z-index: 1; }
+#title, #legend, #fidelity, #catch, #after, #nav { z-index: 1; }
 #scene canvas { display: block; touch-action: none; cursor: grab; }
 #scene canvas:active { cursor: grabbing; }
 .labels { position: absolute; inset: 0; pointer-events: none; }
@@ -140,6 +140,30 @@ dialog video { width: 100%; border-radius: 8px; background: #000; }
   body { grid-template-columns: 1fr; grid-template-rows: 60vh 40vh; }
   #activity { border-left: 0; border-top: 1px solid var(--line); }
 }
+
+/* ---------- after the loss ---------- */
+#after { position: absolute; top: 112px; right: 20px; width: 300px; max-height: calc(100% - 272px); overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+#after .views { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+#after .views button { background: none; border: 0; color: var(--muted); padding: 7px; font: inherit; font-size: 13px; cursor: pointer; }
+#after .views button + button { border-left: 1px solid var(--line); }
+#after .views button.on { background: #222833; color: var(--text); font-weight: 600; }
+#after .views button:disabled { opacity: 0.4; cursor: not-allowed; }
+#after .upload { display: block; text-align: center; padding: 8px; border: 1px dashed var(--muted); border-radius: 8px; font-size: 13px; cursor: pointer; }
+#after .upload:hover { border-color: var(--text); }
+#after-status { margin: 0; font-size: 12px; color: var(--muted); }
+#after-status:empty { display: none; }
+#stolen h3 { margin: 0 0 6px; font-size: 13px; color: var(--stolen); text-transform: uppercase; letter-spacing: 0.05em; }
+#stolen h3 span { color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
+#stolen-list { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+#stolen-list button { display: flex; justify-content: space-between; gap: 10px; width: 100%; background: none; border: 0; padding: 4px 0; color: var(--text); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+#stolen-list button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#stolen-list button b { color: var(--stolen); white-space: nowrap; }
+#stolen-list img { width: 100%; border-radius: 6px; border: 1px solid var(--line); cursor: zoom-in; display: block; }
+#file-claim { width: 100%; background: var(--stolen); color: #fff; border: 0; border-radius: 8px; padding: 9px; font: inherit; font-weight: 600; cursor: pointer; }
+#file-claim:disabled { opacity: 0.6; cursor: progress; }
+#portal-link { display: block; text-align: center; margin-top: 6px; font-size: 12px; color: var(--present); }
+@media (max-width: 860px) { #after { position: static; width: auto; max-height: none; margin: 8px; } }
 
 /* ---------- camera pad ---------- */
 #nav { position: absolute; right: 20px; bottom: 18px; display: flex; gap: 8px; align-items: stretch; user-select: none; }
