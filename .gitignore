@@ -16,3 +16,5 @@ out/*
 !out/sandbox_demo/
 out/sandbox_demo/frames/
 out/sandbox_demo/.sandbox_env.json
+!out/final2/
+out/final2/frames/

@@ -1,0 +1,881 @@
+{
+  "rooms": [
+    {
+      "id": "lobby",
+      "walls": [
+        {
+          "from": [
+            0.0,
+            0.0
+          ],
+          "to": [
+            5.5,
+            0.0
+          ],
+          "height": 4.5
+        },
+        {
+          "from": [
+            5.5,
+            0.0
+          ],
+          "to": [
+            5.5,
+            14.0
+          ],
+          "height": 4.5
+        },
+        {
+          "from": [
+            5.5,
+            14.0
+          ],
+          "to": [
+            0.0,
+            14.0
+          ],
+          "height": 4.5
+        },
+        {
+          "from": [
+            0.0,
+            14.0
+          ],
+          "to": [
+            0.0,
+            0.0
+          ],
+          "height": 4.5
+        }
+      ],
+      "openings": [
+        {
+          "type": "window",
+          "wall": 3,
+          "offset": 0.0,
+          "width": 14.0
+        },
+        {
+          "type": "door",
+          "wall": 3,
+          "offset": 9.5,
+          "width": 2.0
+        },
+        {
+          "type": "door",
+          "wall": 1,
+          "offset": 8.0,
+          "width": 1.0
+        }
+      ]
+    }
+  ],
+  "keyframes": [
+    {
+      "t": 3.0,
+      "position": {
+        "x": 0.6,
+        "y": 1.5,
+        "z": 12.8
+      },
+      "look_at": {
+        "x": 3.0,
+        "y": 1.5,
+        "z": 2.0
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 10.0,
+      "position": {
+        "x": 2.8,
+        "y": 1.6,
+        "z": 10.5
+      },
+      "look_at": {
+        "x": 4.5,
+        "y": 0.8,
+        "z": 10.6
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 25.0,
+      "position": {
+        "x": 3.2,
+        "y": 1.5,
+        "z": 4.5
+      },
+      "look_at": {
+        "x": 5.2,
+        "y": 1.0,
+        "z": 3.5
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 39.0,
+      "position": {
+        "x": 3.5,
+        "y": 1.5,
+        "z": 5.2
+      },
+      "look_at": {
+        "x": 2.0,
+        "y": 1.0,
+        "z": 0.8
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 55.0,
+      "position": {
+        "x": 3.0,
+        "y": 1.5,
+        "z": 1.8
+      },
+      "look_at": {
+        "x": 5.0,
+        "y": 1.0,
+        "z": 3.5
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 75.0,
+      "position": {
+        "x": 2.3,
+        "y": 1.2,
+        "z": 2.0
+      },
+      "look_at": {
+        "x": 2.3,
+        "y": 0.6,
+        "z": 0.5
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 95.0,
+      "position": {
+        "x": 1.7,
+        "y": 1.5,
+        "z": 1.0
+      },
+      "look_at": {
+        "x": -0.2,
+        "y": 0.5,
+        "z": 3.8
+      },
+      "fov": 60.0
+    },
+    {
+      "t": 115.0,
+      "position": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 11.5
+      },
+      "look_at": {
+        "x": 3.5,
+        "y": 1.5,
+        "z": 5.0
+      },
+      "fov": 60.0
+    }
+  ],
+  "items": [
+    {
+      "id": "item_001",
+      "label": "black Purell automatic hand sanitizer dispenser on floor stand",
+      "anchor": {
+        "x": 4.2,
+        "y": 0.65,
+        "z": 11.0
+      },
+      "size": {
+        "w": 0.35,
+        "h": 1.3,
+        "d": 0.35
+      },
+      "seen_at": [
+        6.0,
+        7.0,
+        113.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_002",
+      "label": "tall green dracaena floor plant in gray cylindrical planter",
+      "anchor": {
+        "x": 4.8,
+        "y": 0.9,
+        "z": 10.3
+      },
+      "size": {
+        "w": 0.8,
+        "h": 1.8,
+        "d": 0.8
+      },
+      "seen_at": [
+        7.0,
+        8.0,
+        9.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_003",
+      "label": "white rectangular plastic trash can",
+      "anchor": {
+        "x": 3.9,
+        "y": 0.3,
+        "z": 10.3
+      },
+      "size": {
+        "w": 0.35,
+        "h": 0.6,
+        "d": 0.25
+      },
+      "seen_at": [
+        6.0,
+        10.0,
+        115.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_004",
+      "label": "small leafy plant in gray cylindrical pot on white faux fur mat",
+      "anchor": {
+        "x": 3.9,
+        "y": 1.25,
+        "z": 9.9
+      },
+      "size": {
+        "w": 0.45,
+        "h": 0.5,
+        "d": 0.45
+      },
+      "seen_at": [
+        8.0,
+        11.0,
+        12.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_005",
+      "label": "wooden desk phone/intercom unit",
+      "anchor": {
+        "x": 4.15,
+        "y": 1.03,
+        "z": 10.1
+      },
+      "size": {
+        "w": 0.15,
+        "h": 0.06,
+        "d": 0.2
+      },
+      "seen_at": [
+        11.0,
+        12.0,
+        13.0
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "item_006",
+      "label": "sticker-covered laptop on reception counter",
+      "anchor": {
+        "x": 3.6,
+        "y": 1.12,
+        "z": 8.4
+      },
+      "size": {
+        "w": 0.35,
+        "h": 0.03,
+        "d": 0.25
+      },
+      "seen_at": [
+        16.0,
+        17.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_007",
+      "label": "gray mesh ergonomic office chair",
+      "anchor": {
+        "x": 4.3,
+        "y": 0.5,
+        "z": 8.3
+      },
+      "size": {
+        "w": 0.65,
+        "h": 1.0,
+        "d": 0.65
+      },
+      "seen_at": [
+        15.0,
+        16.0,
+        116.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_008",
+      "label": "gray ergonomic office chair",
+      "anchor": {
+        "x": 4.3,
+        "y": 0.5,
+        "z": 6.8
+      },
+      "size": {
+        "w": 0.65,
+        "h": 1.0,
+        "d": 0.65
+      },
+      "seen_at": [
+        3.0,
+        5.0,
+        116.0
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "item_009",
+      "label": "silver Apple iMac desktop computer",
+      "anchor": {
+        "x": 3.5,
+        "y": 1.35,
+        "z": 6.0
+      },
+      "size": {
+        "w": 0.55,
+        "h": 0.45,
+        "d": 0.2
+      },
+      "seen_at": [
+        19.0,
+        20.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_010",
+      "label": "white floor-standing tablet kiosk stand with tablet",
+      "anchor": {
+        "x": 2.0,
+        "y": 0.62,
+        "z": 4.2
+      },
+      "size": {
+        "w": 0.4,
+        "h": 1.3,
+        "d": 0.4
+      },
+      "seen_at": [
+        19.0,
+        20.0,
+        39.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_011",
+      "label": "black compact folding electric bike",
+      "anchor": {
+        "x": 3.6,
+        "y": 0.5,
+        "z": 3.6
+      },
+      "size": {
+        "w": 0.6,
+        "h": 1.0,
+        "d": 1.3
+      },
+      "seen_at": [
+        21.0,
+        23.0,
+        38.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_012",
+      "label": "white and black bicycle helmet",
+      "anchor": {
+        "x": 3.6,
+        "y": 0.85,
+        "z": 3.2
+      },
+      "size": {
+        "w": 0.25,
+        "h": 0.2,
+        "d": 0.3
+      },
+      "seen_at": [
+        24.0,
+        38.0,
+        55.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_013",
+      "label": "black road bicycle",
+      "anchor": {
+        "x": 5.1,
+        "y": 0.5,
+        "z": 3.5
+      },
+      "size": {
+        "w": 0.5,
+        "h": 1.0,
+        "d": 1.7
+      },
+      "seen_at": [
+        23.0,
+        25.0,
+        54.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_014",
+      "label": "black electric longboard skateboard",
+      "anchor": {
+        "x": 5.2,
+        "y": 0.45,
+        "z": 2.3
+      },
+      "size": {
+        "w": 0.3,
+        "h": 0.9,
+        "d": 0.2
+      },
+      "seen_at": [
+        26.0,
+        45.0,
+        54.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_015",
+      "label": "light wood decorative wall ladder",
+      "anchor": {
+        "x": 5.2,
+        "y": 1.75,
+        "z": 1.7
+      },
+      "size": {
+        "w": 0.15,
+        "h": 3.5,
+        "d": 0.45
+      },
+      "seen_at": [
+        27.0,
+        45.0,
+        54.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_016",
+      "label": "fiddle leaf fig tree in gray cylindrical planter",
+      "anchor": {
+        "x": 4.9,
+        "y": 0.85,
+        "z": 0.8
+      },
+      "size": {
+        "w": 0.8,
+        "h": 1.7,
+        "d": 0.8
+      },
+      "seen_at": [
+        36.0,
+        45.0,
+        66.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_017",
+      "label": "black Fluid electric kick scooter",
+      "anchor": {
+        "x": 4.3,
+        "y": 0.55,
+        "z": 1.4
+      },
+      "size": {
+        "w": 0.45,
+        "h": 1.1,
+        "d": 1.0
+      },
+      "seen_at": [
+        44.0,
+        66.0,
+        67.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_018",
+      "label": "black folded electric kick scooter",
+      "anchor": {
+        "x": 4.0,
+        "y": 0.22,
+        "z": 1.5
+      },
+      "size": {
+        "w": 0.45,
+        "h": 0.5,
+        "d": 1.0
+      },
+      "seen_at": [
+        45.0,
+        67.0,
+        68.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_019",
+      "label": "black Fluid electric kick scooter",
+      "anchor": {
+        "x": 2.7,
+        "y": 0.55,
+        "z": 2.0
+      },
+      "size": {
+        "w": 0.5,
+        "h": 1.1,
+        "d": 1.1
+      },
+      "seen_at": [
+        38.0,
+        50.0,
+        60.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_020",
+      "label": "cream upholstered rounded low lounge chair",
+      "anchor": {
+        "x": 3.2,
+        "y": 0.4,
+        "z": 0.8
+      },
+      "size": {
+        "w": 0.95,
+        "h": 0.8,
+        "d": 0.9
+      },
+      "seen_at": [
+        52.0,
+        60.0,
+        73.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_021",
+      "label": "cream upholstered rounded low lounge chair",
+      "anchor": {
+        "x": 1.4,
+        "y": 0.4,
+        "z": 0.8
+      },
+      "size": {
+        "w": 0.95,
+        "h": 0.8,
+        "d": 0.9
+      },
+      "seen_at": [
+        50.0,
+        73.0,
+        88.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_022",
+      "label": "round light-wood pedestal low coffee table",
+      "anchor": {
+        "x": 2.3,
+        "y": 0.22,
+        "z": 0.8
+      },
+      "size": {
+        "w": 0.75,
+        "h": 0.45,
+        "d": 0.75
+      },
+      "seen_at": [
+        73.0,
+        74.0,
+        81.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_023",
+      "label": "space gray Apple MacBook laptop",
+      "anchor": {
+        "x": 2.3,
+        "y": 0.47,
+        "z": 1.0
+      },
+      "size": {
+        "w": 0.32,
+        "h": 0.02,
+        "d": 0.22
+      },
+      "seen_at": [
+        74.0,
+        81.0,
+        82.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_024",
+      "label": "large floral arrangement in cream ceramic vase",
+      "anchor": {
+        "x": 2.25,
+        "y": 0.65,
+        "z": 0.7
+      },
+      "size": {
+        "w": 0.5,
+        "h": 0.4,
+        "d": 0.4
+      },
+      "seen_at": [
+        76.0,
+        77.0,
+        83.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_025",
+      "label": "large hardcover coffee table book",
+      "anchor": {
+        "x": 2.3,
+        "y": 0.48,
+        "z": 0.75
+      },
+      "size": {
+        "w": 0.35,
+        "h": 0.06,
+        "d": 0.28
+      },
+      "seen_at": [
+        76.0,
+        77.0,
+        79.0
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "item_026",
+      "label": "fiddle leaf fig tree in gray cylindrical planter",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85,
+        "z": 0.8
+      },
+      "size": {
+        "w": 0.8,
+        "h": 1.7,
+        "d": 0.8
+      },
+      "seen_at": [
+        49.0,
+        88.0,
+        91.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_027",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 1.8
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        92.0,
+        93.0,
+        94.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_028",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.65,
+        "y": 0.32,
+        "z": 2.3
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        92.0,
+        93.0,
+        94.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_029",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 3.5
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        93.0,
+        94.0,
+        96.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_030",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 4.7
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        94.0,
+        96.0,
+        98.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_031",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 5.7
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        95.0,
+        97.0,
+        99.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_032",
+      "label": "natural wood 4-legged bar stool",
+      "anchor": {
+        "x": 0.45,
+        "y": 0.32,
+        "z": 6.5
+      },
+      "size": {
+        "w": 0.4,
+        "h": 0.65,
+        "d": 0.4
+      },
+      "seen_at": [
+        95.0,
+        97.0,
+        100.0
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "item_033",
+      "label": "black countertop QR scanner stand",
+      "anchor": {
+        "x": 3.8,
+        "y": 1.1,
+        "z": 9.2
+      },
+      "size": {
+        "w": 0.12,
+        "h": 0.18,
+        "d": 0.12
+      },
+      "seen_at": [
+        3.0
+      ],
+      "confidence": 0.7
+    },
+    {
+      "id": "item_034",
+      "label": "black countertop QR scanner stand",
+      "anchor": {
+        "x": 3.9,
+        "y": 1.1,
+        "z": 9.5
+      },
+      "size": {
+        "w": 0.12,
+        "h": 0.18,
+        "d": 0.12
+      },
+      "seen_at": [
+        3.0
+      ],
+      "confidence": 0.7
+    },
+    {
+      "id": "item_035",
+      "label": "small white ribbed ceramic vase",
+      "anchor": {
+        "x": 2.42,
+        "y": 0.55,
+        "z": 0.75
+      },
+      "size": {
+        "w": 0.08,
+        "h": 0.1,
+        "d": 0.08
+      },
+      "seen_at": [
+        75.0
+      ],
+      "confidence": 0.7
+    }
+  ]
+}
