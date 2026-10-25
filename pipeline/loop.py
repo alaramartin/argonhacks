@@ -1,11 +1,13 @@
 """Loop 1: render the scene from each keyframe, compare with the real frame, fix, repeat."""
 
 import json
+import math
 from pathlib import Path
 
 import argon
 import frames
 from events import emit
+from fidelity import _tokens
 from models import Critique, CritiqueList, Item, Keyframe, Scene, Size
 from reconstruct import CONVENTIONS
 from render import render, side_by_side
@@ -25,13 +27,16 @@ Here is the current scene (JSON) and one REAL | RENDER pair per keyframe.
 Report only real, material errors in the inventory, as critiques:
 - fix "add": a belonging clearly visible in REAL with no box in RENDER. Give `label`, `anchor`, `size`, target "new".
 - fix "remove": a box in RENDER for something that is not in REAL at all. Target its id.
-- fix "move" / "resize": a box clearly in the wrong place (wrong wall, wrong side of another item) or badly wrong
-  size (off by more than ~50%). Give the corrected `anchor` / `size`.
+- fix "move" / "resize": a box clearly in the wrong place (wrong wall, wrong side of another item, off by more than
+  ~0.5 m) or badly wrong size (any dimension off by more than ~50%; a thin pole or stand drawn as a thick block
+  counts). Give the corrected `anchor` / `size`. Geometry errors matter as much as missing items.
 - fix "relabel": the box is the right object but the label is wrong in kind or color. Give the new `label`.
 - fix "camera": the whole RENDER is clearly from the wrong viewpoint (most items shifted the same way).
   Give corrected `position` and `look_at`. When the camera is off, fix it instead of moving every item.
 
 Rules:
+- Built-ins are deliberately NOT modeled: counters, built-in cabinets and shelving, radiators, outlets, fixed
+  lighting. Never add them, even though they show in REAL and not in RENDER.
 - Before calling an item missing, check other keyframes and the scene JSON: it may already exist, seen from elsewhere.
 - Ignore small position errors, lighting, texture, and things outside the frame.
 - Each problem once, even if visible in several pairs. Use the keyframe index where it's clearest.
@@ -49,6 +54,25 @@ def _scene_for_prompt(scene: Scene) -> str:
         "items": [i.model_dump(include={"id", "label", "anchor", "size"}) for i in scene.items],
     }
     return json.dumps(slim, indent=1)
+
+
+DUPLICATE_PAD = 1.2
+DUPLICATE_MIN_DIST = 0.25
+
+
+def find_duplicate(scene: Scene, label: str, anchor) -> Item | None:
+    """An existing item that is probably the same object: shares a label word and the new center falls inside its
+    (slightly padded) box. Identical items side by side don't overlap, so they're kept."""
+    words = _tokens(label)
+    for item in scene.items:
+        if not words & _tokens(item.label):
+            continue
+        a, s = item.anchor, item.size
+        inside = (abs(anchor.x - a.x) <= s.w * DUPLICATE_PAD / 2 and abs(anchor.y - a.y) <= s.h * DUPLICATE_PAD / 2
+                  and abs(anchor.z - a.z) <= s.d * DUPLICATE_PAD / 2)
+        if inside or math.dist((a.x, a.y, a.z), (anchor.x, anchor.y, anchor.z)) < DUPLICATE_MIN_DIST:
+            return item
+    return None
 
 
 def _apply(scene: Scene, c: Critique) -> str | None:
@@ -123,6 +147,10 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
             pair = str(pairs[c.keyframe]) if 0 <= c.keyframe < len(pairs) else None
             emit("loop", f"Loop iter {it}: {c.problem}{where}", "warn",
                  fix=c.fix, target=c.target, keyframe=c.keyframe, pair=pair)
+            if c.fix == "add" and c.anchor and c.label and (dup := find_duplicate(scene, c.label, c.anchor)):
+                emit("loop", f"Loop iter {it}: already have {dup.id} {dup.label} there, not adding a duplicate", "info",
+                     duplicate_of=dup.id)
+                continue
             result = _apply(scene, c)
             if result:
                 applied += 1

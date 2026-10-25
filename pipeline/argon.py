@@ -75,12 +75,13 @@ def image_part(path: str | Path) -> Image.Image:
     return Image.open(path)
 
 
-def ask(contents: list, schema: type[T], system: str | None = None, retries: int = 3) -> T:
+def ask(contents: list, schema: type[T], system: str | None = None, thinking: str = "medium", retries: int = 3) -> T:
+    # Argon ignores temperature/top_p and warns on them; thinking_level is its only knob.
     config = types.GenerateContentConfig(
         response_mime_type="application/json",
         response_schema=schema,
         system_instruction=system,
-        temperature=0.2,
+        thinking_config=types.ThinkingConfig(thinking_level=thinking),
     )
     last: Exception | None = None
     for attempt in range(retries):
