@@ -81,7 +81,14 @@ def cmd_run(args) -> None:
         if args.keyframes:  # compare only these viewpoints; every item stays in the scene
             picks = [int(k) for k in args.keyframes.split(",")]
             scene = scene.model_copy(update={"keyframes": [full_keyframes[k] for k in picks]})
-        scene, iterations = loop.run(scene, args.video, out, args.max_iter, sandbox=sb)
+        def save_iteration(current: Scene) -> None:  # the viewer reloads scene.json, so each round shows up in 3D
+            snapshot = current.model_copy(deep=True)
+            if args.keyframes:
+                fixed = dict(zip(picks, snapshot.keyframes))
+                snapshot.keyframes = [fixed.get(k, kf) for k, kf in enumerate(full_keyframes)]
+            _save(snapshot, out / "scene.json")
+
+        scene, iterations = loop.run(scene, args.video, out, args.max_iter, sandbox=sb, on_iteration=save_iteration)
         if args.keyframes:  # put the untouched viewpoints back, keeping any camera fixes the loop made
             fixed = dict(zip(picks, scene.keyframes))
             scene.keyframes = [fixed.get(k, kf) for k, kf in enumerate(full_keyframes)]

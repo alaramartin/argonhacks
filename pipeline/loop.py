@@ -211,7 +211,8 @@ def _critique_sandbox(sb, scene: Scene, video: str | Path, pair_dir: Path, it: i
 
 
 def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: int = MAX_ITERATIONS,
-        sandbox=None) -> tuple[Scene, int]:
+        sandbox=None, on_iteration=None) -> tuple[Scene, int]:
+    """on_iteration(scene), if given, runs after each iteration's fixes, so a viewer can watch the scene change."""
     out_dir = Path(out_dir)
     pair_dir = out_dir / "loop"
     pair_dir.mkdir(parents=True, exist_ok=True)
@@ -260,6 +261,9 @@ def run(scene: Scene, video: str | Path, out_dir: str | Path, max_iterations: in
                 emit("loop", f"Loop iter {it}: fix → {result}", "ok", fix=c.fix, target=c.target)
             else:
                 emit("loop", f"Loop iter {it}: couldn't apply {c.fix} on {c.target}, skipped", "info")
+        if on_iteration is not None and applied:
+            on_iteration(scene)
+            emit("loop", f"Loop iter {it}: scene updated, {len(scene.items)} items", "ok")
         if applied == 0:
             emit("loop", f"Loop iter {it}: no applicable fixes, stopping", "info")
             break
