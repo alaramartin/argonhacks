@@ -8,6 +8,8 @@ Every stage writes its scene to --out, so a later stage can be rerun with --from
 """
 
 import argparse
+import os
+import shutil
 import json
 from pathlib import Path
 
@@ -101,6 +103,35 @@ def cmd_score(args) -> None:
     print((out / "fidelity.json").read_text())
 
 
+def cmd_publish(args) -> None:
+    """Promote a finished run to out/, where the viewer reads it. Prices B already wrote are kept."""
+    src, dst = Path(args.run).resolve(), REPO / "out"
+    if src == dst:
+        return
+    prev_prices = {}
+    if (dst / "scene.json").exists():
+        prev = json.loads((dst / "scene.json").read_text())
+        prev_prices = {i["label"]: i["price"] for i in prev.get("items", []) if i.get("price")}
+    scene = json.loads((src / "scene.json").read_text())
+    kept = 0
+    for item in scene["items"]:
+        if "price" not in item and item["label"] in prev_prices:
+            item["price"] = prev_prices[item["label"]]
+            kept += 1
+    (dst / "scene.json").write_text(json.dumps(scene, indent=2))
+    for name in ("scene.single_pass.json", "fidelity.json"):
+        if (src / name).exists():
+            shutil.copy(src / name, dst / name)
+    for d in ("loop", "frames"):
+        if (src / d).exists():
+            shutil.rmtree(dst / d, ignore_errors=True)
+            shutil.copytree(src / d, dst / d)
+    old_prefix = os.path.relpath(src, REPO) + "/"
+    lines = (src / "events.jsonl").read_text().replace(old_prefix, "out/")
+    (dst / "events.jsonl").write_text(lines)
+    print(f"published {src.name} → out/: {len(scene['items'])} items, {kept} prices carried over")
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -124,6 +155,10 @@ def main() -> None:
     sc.add_argument("--gt", default=str(REPO / "fixtures" / "ground_truth.json"))
     sc.add_argument("--out", default=str(REPO / "out"))
     sc.set_defaults(fn=cmd_score)
+
+    pb = sub.add_parser("publish")
+    pb.add_argument("run", help="run directory, e.g. ../out/final")
+    pb.set_defaults(fn=cmd_publish)
 
     args = p.parse_args()
     if getattr(args, "gt", None) and not Path(args.gt).exists():

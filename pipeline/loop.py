@@ -3,6 +3,7 @@
 import json
 import math
 import os
+import time
 from pathlib import Path
 
 import argon
@@ -14,6 +15,7 @@ from render_pairs import render_pairs
 
 MAX_ITERATIONS = 4
 REPO = Path(__file__).resolve().parent.parent
+RUN_TAG = time.strftime("%H%M%S")
 
 SYSTEM = f"""\
 You check a 3D room reconstruction against the real video, one viewpoint at a time.
@@ -140,12 +142,12 @@ SANDBOX_TASK = """\
 You are inside a Linux sandbox. Our files are in `pol/` under your starting directory (find it with `ls` if needed).
 
 Step 1. Setup (skip what's already done): `pip install --break-system-packages -q pillow numpy pydantic`.
-Step 2. Render: `cd pol && python3 render_pairs.py scene.json video.mp4 pairs iter{it}_`
-        This writes pairs/iter{it}_kf<k>.jpg: REAL frame on the left, RENDER of the current scene on the right.
-Step 3. Open and look at EVERY pair image pol/pairs/iter{it}_kf*.jpg yourself. Only if something is genuinely
+Step 2. Render: `cd pol && python3 render_pairs.py scene.json video.mp4 pairs {tag}_`
+        This writes pairs/{tag}_kf<k>.jpg: REAL frame on the left, RENDER of the current scene on the right.
+Step 3. Open and look at EVERY pair image pol/pairs/{tag}_kf*.jpg yourself. Only if something is genuinely
         unclear, extract an extra frame from pol/video.mp4 with ffmpeg: at most 4 extra frames in total. Be quick;
         this runs while people watch.
-Step 4. Write your critiques to pol/critiques_iter{it}.json as {{"critiques": [...]}} matching this JSON schema:
+Step 4. Write your critiques to pol/critiques_{tag}.json as {{"critiques": [...]}} matching this JSON schema:
 {schema}
 Step 5. Reply with just the number of critiques.
 
@@ -159,15 +161,16 @@ What to look for:
 def _critique_sandbox(sb, scene: Scene, video: str | Path, pair_dir: Path, it: int) -> tuple[list[Critique], list[Path]]:
     sb.upload_text(json.dumps(scene.dump()), "pol/scene.json")
     emit("loop", f"Loop iter {it}: Argon in the sandbox is rendering {len(scene.keyframes)} viewpoints and checking them against the video")
-    task = SANDBOX_TASK.format(it=it, schema=json.dumps(CritiqueList.model_json_schema()), system=SYSTEM,
+    tag = f"{RUN_TAG}_iter{it}"  # unique per run: the environment can be reused across runs
+    task = SANDBOX_TASK.format(tag=tag, schema=json.dumps(CritiqueList.model_json_schema()), system=SYSTEM,
                                prompt=PROMPT + _scene_for_prompt(scene))
     sb.run(task, f"Loop iter {it}")
-    critiques = CritiqueList.model_validate_json(sb.download(f"pol/critiques_iter{it}.json")).critiques
+    critiques = CritiqueList.model_validate_json(sb.download(f"pol/critiques_{tag}.json")).critiques
     pairs = []
     for k in range(len(scene.keyframes)):
         path = pair_dir / f"iter{it}_kf{k}.jpg"
         try:
-            path.write_bytes(sb.download(f"pol/pairs/iter{it}_kf{k}.jpg"))
+            path.write_bytes(sb.download(f"pol/pairs/{tag}_kf{k}.jpg"))
         except Exception:  # the viewer still needs the image; render the same pair locally
             render_pairs(scene.model_copy(update={"keyframes": [scene.keyframes[k]]}), video, pair_dir, f"iter{it}_tmp_")
             (pair_dir / f"iter{it}_tmp_kf0.jpg").rename(path)
